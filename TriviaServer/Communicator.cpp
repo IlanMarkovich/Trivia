@@ -4,6 +4,8 @@
 #include <string>
 #include <iostream>
 
+#include "LoginRequestHandler.h"
+
 using std::string;
 
 // PUBLIC METHODS
@@ -48,15 +50,18 @@ void Communicator::bindAndListen()
 	{
 		// this accepts the client and create a specific socket from server to this client
 		// the process will not continue until a client connects to the server
-		SOCKET clientSocket = accept(_serverSocket, NULL, NULL);
+		SOCKET client = accept(_serverSocket, NULL, NULL);
 
-		if (clientSocket == INVALID_SOCKET)
+		if (client == INVALID_SOCKET)
 		{
 			throw std::exception(__FUNCTION__);
 		}
 
+		LoginRequestHandler* loginHandler = new LoginRequestHandler;
+		_clients[client] = loginHandler;
+
 		// Create thread for handling the client
-		std::thread clientThread(&Communicator::handleNewClient, this, clientSocket);
+		std::thread clientThread(&Communicator::handleNewClient, this, client);
 		clientThread.detach();
 	}
 }

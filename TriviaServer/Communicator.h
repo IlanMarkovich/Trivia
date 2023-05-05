@@ -1,6 +1,8 @@
 #pragma once
 
 #include <WinSock2.h>
+#pragma comment(lib, "Ws2_32.lib")
+
 #include <Windows.h>
 #include <map>
 
