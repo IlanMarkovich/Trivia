@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\User\Documents\Magshimim C\CPP2\trivia\TriviaServer\json-develop\json-develop\include\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Documents\Magshimim C\CPP2\trivia\TriviaServer\json-develop\json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -119,7 +119,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\User\Documents\Magshimim C\CPP2\trivia\TriviaServer\json-develop\json-develop\include\nlohmann;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\User\Documents\Magshimim C\CPP2\trivia\TriviaServer\json-develop\json-develop\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
     <ClCompile Include="IRequestHandler.cpp" />
+    <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="LoginRequestHandler.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="Source.cpp" />
@@ -139,6 +140,7 @@
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="IRequestHandler.h" />
+    <ClInclude Include="JsonResponsePacketSerializer.h" />
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="Server.h" />
     <ClInclude Include="WSAInitializer.h" />
