@@ -6,10 +6,15 @@
 
 #include "IRequestHandler.h"
 
+#define PORT 7777
+
 using std::map;
 
 class Communicator
 {
+public:
+	void startHandleRequests();
+
 private:
 	// FIELDS
 	SOCKET _serverSocket;
@@ -18,8 +23,5 @@ private:
 	// METHODS
 	void bindAndListen();
 	void handleNewClient(SOCKET client);
-
-public:
-	void startHandleRequests();
 };
 
