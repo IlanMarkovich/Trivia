@@ -86,6 +86,7 @@ void Communicator::handleNewClient(SOCKET client)
 		std::cerr << s;
 	}
 
+	data[message.size()] = '\0';
 	std::cout << "Message got from client: " << data << std::endl;;
 
 	delete[] data;
