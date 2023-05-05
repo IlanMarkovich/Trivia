@@ -2,6 +2,12 @@
 
 #include "Communicator.h"
 
+#include <string>
+
+#define EXIT_COMMAND "EXIT"
+
+using std::string;
+
 class Server
 {
 public:
@@ -12,5 +18,9 @@ public:
 	void run();
 
 private:
+	// FIELD
 	Communicator _communicator;
+
+	// METHOD
+	void handleCommand(string input);
 };
