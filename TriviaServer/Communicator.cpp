@@ -127,12 +127,25 @@ void Communicator::handleNewClient(SOCKET client)
 		return;
 	}
 
+	// Convert the buffer, and create the RequestInfo struct
 	vector<unsigned char> buffer(recvData, recvData + requestLength);
 	RequestInfo info = { id, requestLength, buffer};
 
+	// If the request is relevent, handle the request and send a response
 	if (_clients[client]->isRequestRelevant(info))
 	{
 		RequestResult result = _clients[client]->handleRequest(info);
+		_clients[client] = result.newHandler;
+
+		vector<unsigned char> buffer = result.response;
+		string message(buffer.begin(), buffer.end());
+
+		socketResult = send(client, message.c_str(), message.size(), 0);
+
+		if (socketResult == INVALID_SOCKET)
+		{
+			std::cerr << "Failed to send a message to a client!" << std::endl;
+		}
 	}
 
 	delete[] recvData;
