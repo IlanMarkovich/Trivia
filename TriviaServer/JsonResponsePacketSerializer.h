@@ -2,6 +2,10 @@
 
 #include <string>
 #include <vector>
+#include <functional>
+
+#include <nlohmann/json.hpp>
+using json = nlohmann::json;
 
 using std::string;
 using std::vector;
@@ -24,7 +28,7 @@ struct SignupResponse
 class JsonResponsePacketSerializer
 {
 private:
-	static vector<unsigned char> createBuffer(unsigned char code, string data);
+	static vector<unsigned char> createBuffer(std::function<json()> serRes, unsigned char code);
 
 public:
 	static vector<unsigned char> serializeResponse(ErrorResponse response);
