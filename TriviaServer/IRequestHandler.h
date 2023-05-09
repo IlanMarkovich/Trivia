@@ -5,9 +5,14 @@
 
 using std::vector;
 
+enum RequestType
+{
+	LOGIN, SIGNUP
+};
+
 struct RequestInfo
 {
-	unsigned int id;
+	RequestType id;
 	time_t receivalTime;
 	vector<unsigned char> buffer;
 };

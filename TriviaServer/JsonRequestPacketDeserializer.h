@@ -3,19 +3,21 @@
 #include <string>
 #include <vector>
 
-#include "IRequestHandler.h"
-
 using std::string;
 using std::vector;
 
 struct LoginRequest
 {
+	LoginRequest(string u, string p);
+
 	string username;
 	string password;
 };
 
 struct SignupRequest
 {
+	SignupRequest(string u, string p, string e);
+
 	string username;
 	string password;
 	string email;
@@ -24,6 +26,6 @@ struct SignupRequest
 class JsonRequestPacketDeserializer
 {
 public:
-	LoginRequest deserializeLoginRequest(RequestInfo info);
-	SignupRequest deserializeSignupRequest(RequestInfo info);
+	LoginRequest deserializeLoginRequest(vector<unsigned char> buffer);
+	SignupRequest deserializeSignupRequest(vector<unsigned char> buffer);
 };
