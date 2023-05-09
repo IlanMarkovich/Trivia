@@ -9,6 +9,7 @@
 #include "IRequestHandler.h"
 
 #define PORT 7777
+#define CODE_LEN_SIZE 5
 
 using std::map;
 

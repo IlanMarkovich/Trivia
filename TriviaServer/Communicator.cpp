@@ -3,6 +3,7 @@
 #include <thread>
 #include <string>
 #include <iostream>
+#include <ctime>
 
 #include "LoginRequestHandler.h"
 
@@ -68,27 +69,72 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET client)
 {
-	string message = "Hello"; // Test message
-	int res = send(client, message.c_str(), message.size(), 0);
+	//string message = "Hello"; // Test message
+	//int res = send(client, message.c_str(), message.size(), 0);
 
-	if (res == INVALID_SOCKET)
+	//if (res == INVALID_SOCKET)
+	//{
+	//	std::cerr << "Error while sending message to client";
+	//}
+
+	//char* data = new char[message.size() + 1];
+	//res = recv(client, data, message.size() + 1, 0);
+
+	//if (res == INVALID_SOCKET)
+	//{
+	//	std::string s = "Error while recieving from socket: ";
+	//	s += std::to_string(client);
+	//	std::cerr << s;
+	//}
+
+	//data[message.size()] = '\0';
+	//std::cout << "Message got from client: " << data << std::endl;;
+
+	//delete[] data;
+	//closesocket(client);
+
+	char* recvData = new char[CODE_LEN_SIZE];
+	int socketResult = recv(client, recvData, CODE_LEN_SIZE, 0);
+
+	if (socketResult == INVALID_SOCKET)
 	{
-		std::cerr << "Error while sending message to client";
+		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
+		return;
 	}
 
-	char* data = new char[message.size() + 1];
-	res = recv(client, data, message.size() + 1, 0);
+	// Get time of receival
+	time_t receivalTime;
+	time(&receivalTime);
 
-	if (res == INVALID_SOCKET)
+	// Get type of request
+	RequestType id = (RequestType)recvData[0];
+
+	// Get request content length
+	int requestLength = 0;
+	requestLength |= recvData[1];
+	requestLength |= (recvData[2] << 8);
+	requestLength |= (recvData[3] << 16);
+	requestLength |= (recvData[4] << 24);
+
+	// Get request content
+	delete[] recvData;
+	recvData = new char[requestLength];
+	socketResult = recv(client, recvData, requestLength, 0);
+
+	if (socketResult == INVALID_SOCKET)
 	{
-		std::string s = "Error while recieving from socket: ";
-		s += std::to_string(client);
-		std::cerr << s;
+		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
+		return;
 	}
 
-	data[message.size()] = '\0';
-	std::cout << "Message got from client: " << data << std::endl;;
+	vector<unsigned char> buffer(recvData, recvData + requestLength);
+	RequestInfo info = { id, requestLength, buffer};
 
-	delete[] data;
+	if (_clients[client]->isRequestRelevant(info))
+	{
+		RequestResult result = _clients[client]->handleRequest(info);
+	}
+
+	delete[] recvData;
 	closesocket(client);
 }
