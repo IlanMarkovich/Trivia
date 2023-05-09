@@ -1,5 +1,8 @@
 #include "LoginRequestHandler.h"
 
+// TODO: remove temp include
+#include <iostream>
+
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
     return info.id == LOGIN;
@@ -7,7 +10,12 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    // TODO: Implement Login Request Handler
+    LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+    
+    std::cout << "username: " << request.username << ", password: " << request.password << std::endl;
 
-    return RequestResult();
+    LoginResponse response = { 1 };
+    vector<unsigned char> buffer = JsonResponsePacketSerializer::serializeResponse(response);
+
+    return { buffer, nullptr };
 }

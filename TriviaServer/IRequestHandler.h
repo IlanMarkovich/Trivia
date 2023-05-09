@@ -3,6 +3,9 @@
 #include <ctime>
 #include <vector>
 
+#include "JsonResponsePacketSerializer.h"
+#include "JsonRequestPacketDeserializer.h"
+
 using std::vector;
 
 enum RequestType
