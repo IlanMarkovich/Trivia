@@ -8,6 +8,8 @@
 
 using std::vector;
 
+class IRequestHandler;
+
 enum RequestType
 {
 	LOGIN, SIGNUP

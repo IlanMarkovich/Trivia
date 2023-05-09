@@ -107,14 +107,10 @@ void Communicator::handleNewClient(SOCKET client)
 	time(&receivalTime);
 
 	// Get type of request
-	RequestType id = (RequestType)recvData[0];
+	RequestType id = (RequestType)(recvData[0] - '0');
 
 	// Get request content length
-	int requestLength = 0;
-	requestLength |= recvData[1];
-	requestLength |= (recvData[2] << 8);
-	requestLength |= (recvData[3] << 16);
-	requestLength |= (recvData[4] << 24);
+	int requestLength = atoi(recvData + 1);
 
 	// Get request content
 	delete[] recvData;

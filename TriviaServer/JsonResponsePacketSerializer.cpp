@@ -7,21 +7,10 @@ vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<j
     vector<unsigned char> buffer = { code };
 
     string data = serRes().dump();
-    int len = data.size();
 
-    while (len != 0)
-    {
-        // Enter the byte to the buffer
-        buffer.push_back(len & 0xFF);
+    string len = std::to_string(data.size());
+    buffer.insert(buffer.end(), len.begin(), len.end());
 
-        // Shift the variable 8 bits (1 byte)
-        len >>= 8;
-    }
-
-    // Reverse the length (so it will be the original value)
-    std::reverse(buffer.begin() + 1, buffer.end());
-    
-    // Insert the data of the response
     buffer.insert(buffer.end(), data.begin(), data.end());
 
     return buffer;

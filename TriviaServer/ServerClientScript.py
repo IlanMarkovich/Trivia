@@ -28,12 +28,12 @@ def main():
         input()
         return
 
-    response = sock.recv(5).decode()
-    print(response)
+    code = '0'
+    message = '{ "username": "gamer123", "password" : "pass123" }'
+    size = str(len(message)).zfill(4)
+    request = code + size + message 
 
-    if response == "Hello":
-        sock.sendall(response.encode())
-
+    sock.sendall(request.encode())
     sock.close()
 
 
