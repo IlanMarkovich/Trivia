@@ -83,12 +83,7 @@ void Communicator::handleNewClient(SOCKET client)
 	time(&receivalTime);
 
 	// Get type of request
-	int id = 0;
-
-	for (int i = 0; i < CODE_SIZE; i++)
-	{
-		id |= static_cast<int>(recvData[i]) << (8 * (CODE_SIZE - 1 - i));
-	}
+	int id = (int)recvData[0];
 
 	// Get request content length
 	delete[] recvData;

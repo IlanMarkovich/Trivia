@@ -4,13 +4,16 @@
 
 vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<json()> serRes, int code)
 {
-    vector<unsigned char> buffer = { code };
+    vector<unsigned char> buffer = { (unsigned char)code };
 
     string data = serRes().dump();
 
-    string len = std::to_string(data.size());
-    buffer.insert(buffer.end(), len.begin(), len.end());
+    for (int i = 0; i < LEN_SIZE; i++)
+    {
+        buffer.push_back(static_cast<unsigned char>(data.size() >> (8 * (LEN_SIZE - 1 - i))));
+    }
 
+    buffer.insert(buffer.end(), data.begin(), data.end());
     return buffer;
 }
 

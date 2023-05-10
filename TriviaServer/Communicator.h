@@ -9,9 +9,8 @@
 #include "IRequestHandler.h"
 
 #define PORT 7777
-#define CODE_SIZE 4
-#define LEN_SIZE 16
-#define CODE_LEN_SIZE 5
+#define CODE_SIZE 1
+#define LEN_SIZE 4
 
 using std::map;
 
