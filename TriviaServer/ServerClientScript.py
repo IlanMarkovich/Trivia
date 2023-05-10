@@ -29,7 +29,7 @@ def main():
         return
 
     code = '0'
-    message = '{ "username": "gamer123", "password" : "pass123" }'
+    message = '{"username": "gamer123","password": "pass123"}'
     size = str(len(message)).zfill(4)
     request = code + size + message 
 

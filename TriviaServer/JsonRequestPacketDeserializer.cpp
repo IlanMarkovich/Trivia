@@ -7,14 +7,14 @@ using json = nlohmann::json;
 
 LoginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(vector<unsigned char> buffer)
 {
-	json j = buffer;
+	json j = json::parse(buffer);
 
 	return { j["username"].get<string>(), j["password"].get<string>() };
 }
 
 SignupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(vector<unsigned char> buffer)
 {
-	json j = buffer;
+	json j = json::parse(buffer);
 
 	return { j["username"].get<string>(), j["password"].get<string>(), j["email"].get<string>() };
 }
