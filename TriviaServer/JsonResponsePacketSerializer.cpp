@@ -2,7 +2,7 @@
 
 // PRIVATE METHODS
 
-vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<json()> serRes, unsigned char code)
+vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<json()> serRes, int code)
 {
     vector<unsigned char> buffer = { code };
 
@@ -10,8 +10,6 @@ vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<j
 
     string len = std::to_string(data.size());
     buffer.insert(buffer.end(), len.begin(), len.end());
-
-    buffer.insert(buffer.end(), data.begin(), data.end());
 
     return buffer;
 }

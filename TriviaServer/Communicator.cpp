@@ -69,32 +69,8 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET client)
 {
-	//string message = "Hello"; // Test message
-	//int res = send(client, message.c_str(), message.size(), 0);
-
-	//if (res == INVALID_SOCKET)
-	//{
-	//	std::cerr << "Error while sending message to client";
-	//}
-
-	//char* data = new char[message.size() + 1];
-	//res = recv(client, data, message.size() + 1, 0);
-
-	//if (res == INVALID_SOCKET)
-	//{
-	//	std::string s = "Error while recieving from socket: ";
-	//	s += std::to_string(client);
-	//	std::cerr << s;
-	//}
-
-	//data[message.size()] = '\0';
-	//std::cout << "Message got from client: " << data << std::endl;;
-
-	//delete[] data;
-	//closesocket(client);
-
-	char* recvData = new char[CODE_LEN_SIZE];
-	int socketResult = recv(client, recvData, CODE_LEN_SIZE, 0);
+	char* recvData = new char[CODE_SIZE];
+	int socketResult = recv(client, recvData, CODE_SIZE, 0);
 
 	if (socketResult == INVALID_SOCKET)
 	{
@@ -107,10 +83,30 @@ void Communicator::handleNewClient(SOCKET client)
 	time(&receivalTime);
 
 	// Get type of request
-	RequestType id = (RequestType)(recvData[0] - '0');
+	int id = 0;
+
+	for (int i = 0; i < CODE_SIZE; i++)
+	{
+		id |= static_cast<int>(recvData[i]) << (8 * (CODE_SIZE - 1 - i));
+	}
 
 	// Get request content length
-	int requestLength = atoi(recvData + 1);
+	delete[] recvData;
+	recvData = new char[LEN_SIZE];
+	socketResult = recv(client, recvData, LEN_SIZE, 0);
+
+	if (socketResult == INVALID_SOCKET)
+	{
+		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
+		return;
+	}
+
+	int requestLength = 0;
+
+	for (int i = 0; i < LEN_SIZE; i++)
+	{
+		requestLength |= static_cast<int>(recvData[i]) << (8 * (LEN_SIZE - 1 - i));
+	}
 
 	// Get request content
 	delete[] recvData;
@@ -125,7 +121,7 @@ void Communicator::handleNewClient(SOCKET client)
 
 	// Convert the buffer, and create the RequestInfo struct
 	vector<unsigned char> buffer(recvData, recvData + requestLength);
-	RequestInfo info = { id, requestLength, buffer};
+	RequestInfo info = { (RequestType)id, requestLength, buffer};
 
 	// If the request is relevent, handle the request and send a response
 	if (_clients[client]->isRequestRelevant(info))

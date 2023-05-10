@@ -28,7 +28,7 @@ struct SignupResponse
 class JsonResponsePacketSerializer
 {
 private:
-	static vector<unsigned char> createBuffer(std::function<json()> serRes, unsigned char code);
+	static vector<unsigned char> createBuffer(std::function<json()> serRes, int code);
 
 public:
 	static vector<unsigned char> serializeResponse(ErrorResponse response);
