@@ -7,7 +7,6 @@
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
 
-#define CODE_SIZE 1
 #define LEN_SIZE 4
 
 using std::string;

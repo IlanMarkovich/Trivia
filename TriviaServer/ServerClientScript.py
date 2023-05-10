@@ -1,4 +1,5 @@
 import socket
+import struct
 
 IP = 'localhost'
 PORT = 7777
@@ -28,12 +29,19 @@ def main():
         input()
         return
 
-    code = '0'
-    message = '{"username": "gamer123","password": "pass123"}'
-    size = str(len(message)).zfill(4)
+    code = '\0'
+    message = '{"username": "testi6425624","password": "pass123"}'
+    
+    # Convert the length of `message` (int -> str)
+    # which contains characters that represent the int as bytes
+    packed_value = struct.pack('>I', len(message))
+    size = packed_value.decode('ascii')
+
     request = code + size + message 
 
     sock.sendall(request.encode())
+    print(sock.recv(1024).decode())
+
     sock.close()
 
 
