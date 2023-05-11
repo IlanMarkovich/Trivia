@@ -29,8 +29,8 @@ def main():
         input()
         return
 
-    code = '\0'
-    message = '{"username": "testi6425624","password": "pass123"}'
+    code = '\1'
+    message = '{"username": "testi6425624","password": "pass123", "email": "ilan@gmail.com"}'
     
     # Convert the length of `message` (int -> str)
     # which contains characters that represent the int as bytes
