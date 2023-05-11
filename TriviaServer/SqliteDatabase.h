@@ -16,4 +16,23 @@ public:
 
 private:
 	sqlite3* _db;
+
+	/// <summary>
+	/// Query the database, queries that doesn't recieve a value, ex. INSERT, DELETE, UPDATE
+	/// </summary>
+	/// <param name="query - ">The query that will be sent to the DB</param>
+	void tableQuery(string query) const;
+
+	/// <summary>
+	/// Query the database, getting data from it
+	/// </summary>
+	/// <param name="query - ">The query that will be sent to the DB</param>
+	/// <param name="callback - ">The function that transforms the data, from a DB data to the program's data</param>
+	/// <param name="data - ">A pointer the where the data will be saved after the query</param>
+	void selectQuery(string query, int(*callback)(void*, int, char**, char**), void* data) const;
+
+	// Callback functions
+
+	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);
+	friend int intResultCallback(void* data, int argc, char** argv, char** cols);
 };
