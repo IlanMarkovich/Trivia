@@ -3,6 +3,28 @@
 #include <iostream>
 #include <io.h>
 
+// Callback functions
+
+int intResultCallback(void* data, int argc, char** argv, char** cols)
+{
+    if (argv[0] == NULL)
+        return -1;
+
+    int* ptr = (int*)data;
+    *ptr = atoi(argv[0]);
+    return 0;
+}
+
+int stringResultCallback(void* data, int argc, char** argv, char** cols)
+{
+    if (argv[0] == NULL)
+        return -1;
+
+    string* ptr = (string*)data;
+    *ptr = (string)argv[0];
+    return 0;
+}
+
 // PUBLIC METHODS
 
 bool SqliteDatabase::open()
@@ -91,26 +113,4 @@ void SqliteDatabase::selectQuery(string query, int(*callback)(void*, int, char**
     {
         std::cerr << errMsg << std::endl;
     }
-}
-
-// Callback functions
-
-int intResultCallback(void* data, int argc, char** argv, char** cols)
-{
-    if (argv[0] == NULL)
-        return -1;
-
-    int* ptr = (int*)data;
-    *ptr = atoi(argv[0]);
-    return 0;
-}
-
-int stringResultCallback(void* data, int argc, char** argv, char** cols)
-{
-    if (argv[0] == NULL)
-        return -1;
-
-    string* ptr = (string*)data;
-    *ptr = (string)argv[0];
-    return 0;
 }
