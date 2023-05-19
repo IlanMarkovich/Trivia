@@ -3,7 +3,7 @@
 #include "IDatabase.h"
 #include "sqlite3.h"
 
-#define DATABASE_NAME "triviaDB"
+#define DATABASE_NAME "triviaDB.sqlite"
 
 class SqliteDatabase : public IDatabase
 {

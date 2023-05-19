@@ -42,7 +42,7 @@ bool SqliteDatabase::open()
     // There is no existing database, so we need to create a new one
     if (file_exists != 0)
     {
-        string tableQuery = "create table users(name text primary key not null, password text not null, email text not null);";
+        string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
         char* errMsg = nullptr;
         int queryResult = sqlite3_exec(_db, tableQuery.c_str(), nullptr, nullptr, &errMsg);
 
@@ -66,7 +66,7 @@ bool SqliteDatabase::close()
 
 int SqliteDatabase::doesUserExist(string username)
 {
-    string query = "select count(*) from users where username=" + username + ";";
+    string query = "select count(*) from users where username=\"" + username + "\";";
     int result = 0;
     
     selectQuery(query, intResultCallback, &result);
@@ -75,7 +75,7 @@ int SqliteDatabase::doesUserExist(string username)
 
 int SqliteDatabase::doesPasswordMatch(string username, string password)
 {
-    string query = "select password from users where username=" + username + ";";
+    string query = "select password from users where username=\"" + username + "\";";
     string result;
 
     selectQuery(query, stringResultCallback, &result);

@@ -144,17 +144,17 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 		return { ERR, 0, vector<unsigned char>() };
 	}
 
-	delete[] recvData;
-
 	// Convert the buffer, and return the RequestInfo struct
 	vector<unsigned char> buffer(recvData, recvData + requestLength);
+	delete[] recvData;
+
 	return { (RequestType)id, requestLength, buffer };
 }
 
 void Communicator::sendResponse(SOCKET client, RequestInfo info)
 {
 	// If the request is not relevent, don't send a response
-	if (_clients[client]->isRequestRelevant(info))
+	if (!_clients[client]->isRequestRelevant(info))
 	{
 		return;
 	}
