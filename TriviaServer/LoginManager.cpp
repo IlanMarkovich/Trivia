@@ -33,5 +33,7 @@ bool LoginManager::login(string username, string password)
 void LoginManager::logout(string username)
 {
 	// This removes the user from the logged user list, by username.
-	_loggedUsers.erase(std::find(_loggedUsers.begin(), _loggedUsers.end(), [username](LoggedUser user) {return user.getUsername() == username; }));
+	_loggedUsers.erase(std::remove_if(_loggedUsers.begin(), _loggedUsers.end(), [username](const LoggedUser& user) {
+		return user.getUsername() == username;
+		}), _loggedUsers.end());
 }

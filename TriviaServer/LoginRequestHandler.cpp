@@ -1,5 +1,11 @@
 #include "LoginRequestHandler.h"
 
+// C'tor
+
+LoginRequestHandler::LoginRequestHandler(RequestHandlerFactory& handlerFactory) : _handlerFactory(handlerFactory)
+{
+}
+
 // PUBLIC METHODS
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)

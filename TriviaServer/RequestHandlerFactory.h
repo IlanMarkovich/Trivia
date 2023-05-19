@@ -16,6 +16,6 @@ public:
 	// C'tor
 	RequestHandlerFactory(IDatabase* database);
 
-	LoginRequestHandler* createLoginRequestHandler() const;
-	LoginManager& getLoginManager() const;
+	LoginRequestHandler* createLoginRequestHandler();
+	LoginManager& getLoginManager();
 };

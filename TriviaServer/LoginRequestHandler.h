@@ -8,6 +8,9 @@ class RequestHandlerFactory;
 class LoginRequestHandler : public IRequestHandler
 {
 public:
+	// C'tor
+	LoginRequestHandler(RequestHandlerFactory& handlerFactory);
+
 	virtual bool isRequestRelevant(RequestInfo info) override;
 	virtual RequestResult handleRequest(RequestInfo info) override;
 
