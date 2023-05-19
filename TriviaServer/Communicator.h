@@ -29,5 +29,8 @@ private:
 	// METHODS
 	void bindAndListen();
 	void handleNewClient(SOCKET client);
+
+	RequestInfo recieveRequest(SOCKET client);
+	void sendResponse(SOCKET client, RequestInfo info);
 };
 

@@ -70,6 +70,24 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET client)
 {
+	try
+	{
+		while(true)
+		{
+			RequestInfo info = recieveRequest(client);
+			sendResponse(client, info);
+		}
+	}
+	catch (...)
+	{
+		std::cout << "Client " << client << " disconnected!" << std::endl << "Enter command:" << std::endl;
+	}
+
+	closesocket(client);
+}
+
+RequestInfo Communicator::recieveRequest(SOCKET client)
+{
 	char* recvData = new char[CODE_SIZE];
 	int socketResult = recv(client, recvData, CODE_SIZE, 0);
 
@@ -116,27 +134,31 @@ void Communicator::handleNewClient(SOCKET client)
 		return;
 	}
 
-	// Convert the buffer, and create the RequestInfo struct
-	vector<unsigned char> buffer(recvData, recvData + requestLength);
-	RequestInfo info = { (RequestType)id, requestLength, buffer};
+	delete[] recvData;
 
-	// If the request is relevent, handle the request and send a response
+	// Convert the buffer, and return the RequestInfo struct
+	vector<unsigned char> buffer(recvData, recvData + requestLength);
+	return { (RequestType)id, requestLength, buffer };
+}
+
+void Communicator::sendResponse(SOCKET client, RequestInfo info)
+{
+	// If the request is not relevent, don't send a response
 	if (_clients[client]->isRequestRelevant(info))
 	{
-		RequestResult result = _clients[client]->handleRequest(info);
-		_clients[client] = result.newHandler;
-
-		vector<unsigned char> buffer = result.response;
-		string message(buffer.begin(), buffer.end());
-
-		socketResult = send(client, message.c_str(), message.size(), 0);
-
-		if (socketResult == INVALID_SOCKET)
-		{
-			std::cerr << "Failed to send a message to a client!" << std::endl;
-		}
+		return;
 	}
 
-	delete[] recvData;
-	closesocket(client);
+	RequestResult result = _clients[client]->handleRequest(info);
+	_clients[client] = result.newHandler;
+
+	vector<unsigned char> buffer = result.response;
+	string message(buffer.begin(), buffer.end());
+
+	int socketResult = send(client, message.c_str(), message.size(), 0);
+
+	if (socketResult == INVALID_SOCKET)
+	{
+		std::cerr << "Failed to send a message to a client!" << std::endl;
+	}
 }

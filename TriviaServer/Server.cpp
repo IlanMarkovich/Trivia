@@ -20,7 +20,7 @@ void Server::run()
 	// Endless loop for getting input from server admin
 	do
 	{
-		std::cout << "Enter command: ";
+		std::cout << "Enter command:" << std::endl;
 		std::cin >> input;
 
 		handleCommand(input);
