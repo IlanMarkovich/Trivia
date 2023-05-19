@@ -6,18 +6,28 @@ LoginManager::LoginManager(IDatabase* database) : _database(database)
 {
 }
 
-void LoginManager::signup(string username, string password, string email) const
+bool LoginManager::signup(string username, string password, string email) const
 {
-	_database->addNewUser(username, password, email);
+	// Add the new user only if that user doesn't exist
+	if (!_database->doesUserExist(username))
+	{
+		_database->addNewUser(username, password, email);
+		return true;
+	}
+
+	return false;
 }
 
-void LoginManager::login(string username, string password)
+bool LoginManager::login(string username, string password)
 {
 	// If the user exists and the password is correct, add this user to the logged users
 	if (_database->doesUserExist(username) && _database->doesPasswordMatch(username, password))
 	{
 		_loggedUsers.push_back(LoggedUser(username));
+		return true;
 	}
+
+	return false;
 }
 
 void LoginManager::logout(string username)

@@ -17,17 +17,17 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 RequestResult LoginRequestHandler::login(RequestInfo info) const
 {
     LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
-    _handlerFactory.getLoginManager().login(request.username, request.password);
+    bool databaseResult = _handlerFactory.getLoginManager().login(request.username, request.password);
 
-    LoginResponse response = { 1 };
+    LoginResponse response = { databaseResult };
     return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
 }
 
 RequestResult LoginRequestHandler::signup(RequestInfo info) const
 {
     SignupRequest request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
-    _handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
+    bool databaseResult = _handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
 
-    SignupResponse response = { 1 };
+    SignupResponse response = { databaseResult };
     return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
 }
