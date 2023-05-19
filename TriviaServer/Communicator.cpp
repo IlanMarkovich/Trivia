@@ -58,7 +58,8 @@ void Communicator::bindAndListen()
 			throw std::exception(__FUNCTION__);
 		}
 
-		LoginRequestHandler* loginHandler = new LoginRequestHandler;
+		// Set the login request handler as the first request handler for the user's requests
+		LoginRequestHandler* loginHandler = _handlerFactory.createLoginRequestHandler();
 		_clients[client] = loginHandler;
 
 		// Create thread for handling the client
@@ -98,6 +99,7 @@ void Communicator::handleNewClient(SOCKET client)
 
 	int requestLength = 0;
 
+	// Convert requsetLength from bytes to int
 	for (int i = 0; i < LEN_SIZE; i++)
 	{
 		requestLength |= static_cast<int>(recvData[i]) << (8 * (LEN_SIZE - 1 - i));

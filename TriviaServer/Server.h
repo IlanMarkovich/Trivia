@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Communicator.h"
+#include "IDatabase.h"
+#include "RequestHandlerFactory.h"
 
 #include <string>
 
@@ -18,8 +20,10 @@ public:
 	void run();
 
 private:
-	// FIELD
+	// FIELDS
 	Communicator _communicator;
+	IDatabase* _database;
+	RequestHandlerFactory _handlerFactory;
 
 	// METHOD
 	void handleCommand(string input);

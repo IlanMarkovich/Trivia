@@ -7,6 +7,7 @@
 #include <map>
 
 #include "IRequestHandler.h"
+#include "RequestHandlerFactory.h"
 
 #define PORT 7777
 #define CODE_SIZE 1
@@ -23,6 +24,7 @@ private:
 	// FIELDS
 	SOCKET _serverSocket;
 	map<SOCKET, IRequestHandler*> _clients;
+	RequestHandlerFactory _handlerFactory;
 
 	// METHODS
 	void bindAndListen();
