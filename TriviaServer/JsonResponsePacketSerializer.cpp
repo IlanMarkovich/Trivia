@@ -21,15 +21,15 @@ vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<j
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(ErrorResponse response)
 {
-    return createBuffer([response]() {json j; j["message"] = response.message; return j; }, '1');
+    return createBuffer([response]() {json j; j["message"] = response.message; return j; }, 1);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LoginResponse response)
 {
-    return createBuffer([response]() {json j; j["status"] = response.status; return j; }, '1');
+    return createBuffer([response]() {json j; j["status"] = response.status; return j; }, 1);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SignupResponse response)
 {
-    return createBuffer([response]() {json j; j["status"] = response.status; return j; }, '1');
+    return createBuffer([response]() {json j; j["status"] = response.status; return j; }, 1);
 }

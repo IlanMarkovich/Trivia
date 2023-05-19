@@ -1,7 +1,6 @@
 #include "LoginRequestHandler.h"
 
-// TODO: remove temp include
-#include <iostream>
+// PUBLIC METHODS
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 {
@@ -10,19 +9,25 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
 
 RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    if (info.id == LOGIN)
-    {
-        LoginRequest login_request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
-        std::cout << "username: " << login_request.username << ", password: " << login_request.password << std::endl;
-    }
-    else
-    {
-        SignupRequest signup_request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
-        std::cout << "username: " << signup_request.username << ", password: " << signup_request.password << ", email: " << signup_request.email << std::endl;
-    }
+    return info.id == LOGIN ? login(info) : signup(info);
+}
+
+// PRIVATE METHODS
+
+RequestResult LoginRequestHandler::login(RequestInfo info) const
+{
+    LoginRequest request = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+    _handlerFactory.getLoginManager().login(request.username, request.password);
 
     LoginResponse response = { 1 };
-    vector<unsigned char> buffer = JsonResponsePacketSerializer::serializeResponse(response);
+    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
+}
 
-    return { buffer, nullptr };
+RequestResult LoginRequestHandler::signup(RequestInfo info) const
+{
+    SignupRequest request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
+    _handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
+
+    SignupResponse response = { 1 };
+    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
 }

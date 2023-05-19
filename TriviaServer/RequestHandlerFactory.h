@@ -4,6 +4,8 @@
 #include "IDatabase.h"
 #include "LoginRequestHandler.h"
 
+class LoginRequestHandler;
+
 class RequestHandlerFactory
 {
 private:
