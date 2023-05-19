@@ -9,6 +9,12 @@
 
 using std::string;
 
+// C'tor
+
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : _handlerFactory(handlerFactory)
+{
+}
+
 // PUBLIC METHODS
 
 void Communicator::startHandleRequests()
@@ -75,7 +81,11 @@ void Communicator::handleNewClient(SOCKET client)
 		while(true)
 		{
 			RequestInfo info = recieveRequest(client);
-			sendResponse(client, info);
+
+			if (info.id != ERR)
+			{
+				sendResponse(client, info);
+			}
 		}
 	}
 	catch (...)
@@ -94,7 +104,7 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return;
+		return {ERR, 0, vector<unsigned char>()};
 	}
 
 	// Get time of receival
@@ -112,7 +122,7 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return;
+		return { ERR, 0, vector<unsigned char>() };
 	}
 
 	int requestLength = 0;
@@ -131,7 +141,7 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return;
+		return { ERR, 0, vector<unsigned char>() };
 	}
 
 	delete[] recvData;

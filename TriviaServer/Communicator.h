@@ -18,13 +18,16 @@ using std::map;
 class Communicator
 {
 public:
+	// C'tor
+	Communicator(RequestHandlerFactory& handlerFactory);
+
 	void startHandleRequests();
 
 private:
 	// FIELDS
 	SOCKET _serverSocket;
 	map<SOCKET, IRequestHandler*> _clients;
-	RequestHandlerFactory _handlerFactory;
+	RequestHandlerFactory& _handlerFactory;
 
 	// METHODS
 	void bindAndListen();

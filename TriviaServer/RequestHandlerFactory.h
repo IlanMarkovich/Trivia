@@ -9,10 +9,13 @@ class LoginRequestHandler;
 class RequestHandlerFactory
 {
 private:
-	LoginManager _loginManger;
+	LoginManager _loginManager;
 	IDatabase* _database;
 
 public:
+	// C'tor
+	RequestHandlerFactory(IDatabase* database);
+
 	LoginRequestHandler* createLoginRequestHandler() const;
 	LoginManager& getLoginManager() const;
 };
