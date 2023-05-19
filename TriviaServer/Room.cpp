@@ -5,6 +5,11 @@
 
 // C'tor
 
+Room::Room()
+{
+	_metadata = {0, "", 0, 0, 0, false};
+}
+
 Room::Room(RoomData metadata) : _metadata(metadata)
 {
 }

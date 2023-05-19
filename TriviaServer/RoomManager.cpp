@@ -1,7 +1,5 @@
 #include "RoomManager.h"
 
-#include <algorithm>
-
 void RoomManager::createRoom(const LoggedUser& user, const RoomData metadata)
 {
 	Room room(metadata);

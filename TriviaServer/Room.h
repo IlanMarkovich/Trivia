@@ -26,6 +26,7 @@ private:
 
 public:
 	// C'tor
+	Room();
 	Room(RoomData metadata);
 
 	void addUser(const LoggedUser& user);
