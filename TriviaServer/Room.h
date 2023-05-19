@@ -31,4 +31,5 @@ public:
 	void addUser(const LoggedUser& user);
 	void removeUser(const LoggedUser& user);
 	vector<string> getAllUsers() const;
+	RoomData getData() const;
 };

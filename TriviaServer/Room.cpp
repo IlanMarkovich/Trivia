@@ -32,3 +32,8 @@ vector<string> Room::getAllUsers() const
 
 	return allUsers;
 }
+
+RoomData Room::getData() const
+{
+	return _metadata;
+}
