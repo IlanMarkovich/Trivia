@@ -159,11 +159,22 @@ vector<Question> SqliteDatabase::getQuestions(int numOfQuestions)
 
 float SqliteDatabase::getPlayerAverageAnswerTime(string username)
 {
-    string query = "select avgAnswerTime from statistics where username=\"" + username + "\";";
-    float result = 0;
+    return getResultFromStatistics("avgAnswerTime", username);
+}
 
-    selectQuery(query, floatResultCallback, &result);
-    return result;
+int SqliteDatabase::getNumOfCorrectAnswers(string username)
+{
+    return (int)getResultFromStatistics("correctAnswers", username);
+}
+
+int SqliteDatabase::getNumOfTotalAnswers(string username)
+{
+    return (int)getResultFromStatistics("totalAnswers", username);
+}
+
+int SqliteDatabase::getNumOfPlayerGames(string username)
+{
+    return (int)getResultFromStatistics("playerGames", username);
 }
 
 // PRIVATE METHODS
@@ -205,4 +216,13 @@ void SqliteDatabase::insertQuestions(string* queryptr) const
     query += "(\"Which country claims ownership of the disputed state Kosovo?\", \"Serbia\", \"Croatia\", \"Albania\", \"Macedonia\");";
 
     queryptr->operator+=(query);
+}
+
+float SqliteDatabase::getResultFromStatistics(string stat, string username) const
+{
+    string query = "select " + stat + " from statistics where username=\"" + username + "\";";
+    float result = 0;
+
+    selectQuery(query, floatResultCallback, &result);
+    return result;
 }

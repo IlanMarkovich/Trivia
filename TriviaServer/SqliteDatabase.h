@@ -46,6 +46,13 @@ private:
 	/// The questions insertion will be added to that query</param>
 	void insertQuestions(string* queryPtr) const;
 
+	/// <summary>
+	/// Get certain data from the statistics table
+	/// </summary>
+	/// <param name="stat - ">The statistic that its result is required</param>
+	/// <param name="username - ">The username which the result belongs to</param>
+	float getResultFromStatistics(string stat, string username) const;
+
 	// Callback functions
 
 	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);
