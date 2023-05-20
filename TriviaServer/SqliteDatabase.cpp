@@ -51,7 +51,6 @@ int questionCallback(void* data, int argc, char** argv, char** cols)
     questionsVec->push_back(question);
 
     return 0;
-
 }
 
 // PUBLIC METHODS

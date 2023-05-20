@@ -15,6 +15,12 @@ public:
 	virtual int doesPasswordMatch(string username, string password) override;
 	virtual int addNewUser(string username, string password, string email) override;
 	virtual vector<Question> getQuestions(int numOfQuestions) override;
+	virtual float getPlayerAverageAnswerTime(string username) override;
+	virtual int getNumOfCorrectAnswers(string username) override;
+	virtual int getNumOfTotalAnswers(string username) override;
+	virtual int getNumOfPlayerGames(string username) override;
+	virtual int getPlayerScore(string username) override;
+	virtual vector<string> getHighScores() override;
 
 private:
 	sqlite3* _db;
@@ -44,5 +50,6 @@ private:
 
 	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int intResultCallback(void* data, int argc, char** argv, char** cols);
+	friend int floatResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int questionCallback(void* data, int argc, char** argv, char** cols);
 };
