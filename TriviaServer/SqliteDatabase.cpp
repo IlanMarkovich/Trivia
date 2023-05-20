@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <io.h>
+#include <stdlib.h>
 
 // Callback functions
 
@@ -72,7 +73,7 @@ bool SqliteDatabase::open()
     {
         string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
 
-        tableQuery += "create table questions(id int primary key not null autoincrement, question text not null, answer1 text not null, ";
+        tableQuery += "create table questions(id integer primary key autoincrement not null, question text not null, answer1 text not null, ";
         tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null);";
 
         insertQuestions(&tableQuery);
@@ -125,12 +126,22 @@ int SqliteDatabase::addNewUser(string username, string password, string email)
     return 1;
 }
 
-vector<Question> SqliteDatabase::getQuestions()
+vector<Question> SqliteDatabase::getQuestions(int numOfQuestions)
 {
     string query = "select * from questions;";
     vector<Question> questions;
-
     selectQuery(query, questionCallback, &questions);
+
+    if (numOfQuestions < questions.size())
+    {
+        // Removes questions from the vector to much the number of questions required
+        for (int i = 0; i < questions.capacity() - numOfQuestions; i++)
+        {
+            int randIndex = rand() % questions.size();
+            questions.erase(questions.begin() + randIndex);
+        }
+    }
+
     return questions;
 }
 
@@ -160,7 +171,7 @@ void SqliteDatabase::selectQuery(string query, int(*callback)(void*, int, char**
 
 void SqliteDatabase::insertQuestions(string* queryptr) const
 {
-    string query = "insert into questions (question, answer1, answer2, answer3, answer4, correct) values";
+    string query = "insert into questions (question, answer1, answer2, answer3, answer4) values";
     query += "(\"In which city, is the Big Nickel located in Canada?\", \"Sudbury, Ontario\", \"Halifax, Nova Scotia\", \"Victoria, British Columbia\", \"Calgary, Alberta\"),";
     query += "(\"What year is on the flag of the US state Wisconsin?\", \"1848\", \"1634\", \"1783\", \"1901\"),";
     query += "(\"How many countries border Kyrgyzstan?\", \"4\", \"3\", \"1\", \"6\"),";

@@ -14,7 +14,7 @@ public:
 	virtual int doesUserExist(string username) override;
 	virtual int doesPasswordMatch(string username, string password) override;
 	virtual int addNewUser(string username, string password, string email) override;
-	virtual vector<Question> getQuestions() override;
+	virtual vector<Question> getQuestions(int numOfQuestions) override;
 
 private:
 	sqlite3* _db;
