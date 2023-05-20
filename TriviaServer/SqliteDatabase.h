@@ -21,6 +21,7 @@ public:
 	virtual int getNumOfPlayerGames(string username) override;
 	virtual int getPlayerScore(string username) override;
 	virtual vector<string> getHighScores() override;
+	virtual void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames) override;
 
 private:
 	sqlite3* _db;
@@ -56,6 +57,7 @@ private:
 	// Callback functions
 
 	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);
+	friend int stringsResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int intResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int floatResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int questionCallback(void* data, int argc, char** argv, char** cols);

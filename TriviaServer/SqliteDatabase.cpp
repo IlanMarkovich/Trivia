@@ -16,6 +16,16 @@ int stringResultCallback(void* data, int argc, char** argv, char** cols)
     return 0;
 }
 
+int stringsResultCallback(void* data, int argc, char** argv, char** cols)
+{
+    if (argv[0] == NULL)
+        return -1;
+
+    vector<string>* ptr = (vector<string>*)data;
+    ptr->push_back(string(argv[0]));
+    return 0;
+}
+
 int intResultCallback(void* data, int argc, char** argv, char** cols)
 {
     if (argv[0] == NULL)
@@ -83,7 +93,7 @@ bool SqliteDatabase::open()
         string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
 
         tableQuery += "create table statistics(username text primary key not null, avgAnswerTime float not null, correctAnswers integer not null, ";
-        tableQuery += "totalAnswers integer not null, playerGames integer not null);";
+        tableQuery += "totalAnswers integer not null, playerGames integer not null, score integer not null);";
 
         tableQuery += "create table questions(question text primary key not null, answer1 text not null, ";
         tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null);";
@@ -175,6 +185,58 @@ int SqliteDatabase::getNumOfTotalAnswers(string username)
 int SqliteDatabase::getNumOfPlayerGames(string username)
 {
     return (int)getResultFromStatistics("playerGames", username);
+}
+
+int SqliteDatabase::getPlayerScore(string username)
+{
+    return (int)getResultFromStatistics("score", username);
+}
+
+vector<string> SqliteDatabase::getHighScores()
+{
+    string query = "select username from statistics order by score desc limit 5;";
+    vector<string> players;
+
+    selectQuery(query, stringsResultCallback, &players);
+    return players;
+}
+
+void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames)
+{
+    string query = "select count(*) from statistics where username=\"" + username + "\";";
+    int isUserInTable = 0;
+    selectQuery(query, intResultCallback, &isUserInTable);
+
+    // If the user already has statistics, update the existing ones
+    if (isUserInTable)
+    {
+        // Calculates the new average answer time
+        avgAnswerTime = (avgAnswerTime * totalAnswers + getPlayerAverageAnswerTime(username) * getNumOfTotalAnswers(username)) / (totalAnswers + getNumOfTotalAnswers(username));
+
+        totalAnswers += getNumOfTotalAnswers(username);
+        correctAnswers += getNumOfCorrectAnswers(username);
+        totalAnswers += getNumOfTotalAnswers(username);
+        playerGames += getNumOfPlayerGames(username);
+        
+        // score formula
+        int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
+
+        query = "update statistics set avgAnswerTime=" + std::to_string(avgAnswerTime) + ", correctAnswers=" + std::to_string(correctAnswers);
+        query += ", totalAnswers=" + std::to_string(totalAnswers) + ", playerGames" + std::to_string(playerGames);
+        query += ", score=" + std::to_string(score) + " where username=\"" + username + "\";";
+    }
+    // If the user doesn't have statistics, insert those values to a new record in the database table
+    else
+    {
+        // score formula
+        int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
+
+        query = "insert into statistics (username, avgAnswerTime, correctAnswers, totalAnswers, playerGames, score)";
+        query += "values (\"" + username + "\", " + std::to_string(avgAnswerTime) + ", " + std::to_string(correctAnswers) + ", ";
+        query += std::to_string(totalAnswers) + ", " + std::to_string(playerGames) + ", " + std::to_string(score) + ");";
+    }
+
+    tableQuery(query);
 }
 
 // PRIVATE METHODS
