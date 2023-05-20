@@ -1,5 +1,6 @@
 import socket
 import struct
+import time
 
 IP = 'localhost'
 PORT = 7777
@@ -30,7 +31,7 @@ def main():
         return
 
     code = '\1'
-    message = '{"username": "testi6425624","password": "pass123", "email": "ilan@gmail.com"}'
+    message = '{"username": "testi64254","password": "pass123", "email": "maili"}'
     
     # Convert the length of `message` (int -> str)
     # which contains characters that represent the int as bytes

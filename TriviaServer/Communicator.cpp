@@ -9,6 +9,12 @@
 
 using std::string;
 
+// C'tor
+
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : _handlerFactory(handlerFactory)
+{
+}
+
 // PUBLIC METHODS
 
 void Communicator::startHandleRequests()
@@ -58,7 +64,8 @@ void Communicator::bindAndListen()
 			throw std::exception(__FUNCTION__);
 		}
 
-		LoginRequestHandler* loginHandler = new LoginRequestHandler;
+		// Set the login request handler as the first request handler for the user's requests
+		LoginRequestHandler* loginHandler = _handlerFactory.createLoginRequestHandler();
 		_clients[client] = loginHandler;
 
 		// Create thread for handling the client
@@ -69,13 +76,35 @@ void Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET client)
 {
+	try
+	{
+		while(true)
+		{
+			RequestInfo info = recieveRequest(client);
+
+			if (info.id != ERR)
+			{
+				sendResponse(client, info);
+			}
+		}
+	}
+	catch (...)
+	{
+		std::cout << "Client " << client << " disconnected!" << std::endl << "Enter command:" << std::endl;
+	}
+
+	closesocket(client);
+}
+
+RequestInfo Communicator::recieveRequest(SOCKET client)
+{
 	char* recvData = new char[CODE_SIZE];
 	int socketResult = recv(client, recvData, CODE_SIZE, 0);
 
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return;
+		return {ERR, 0, vector<unsigned char>()};
 	}
 
 	// Get time of receival
@@ -93,11 +122,12 @@ void Communicator::handleNewClient(SOCKET client)
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return;
+		return { ERR, 0, vector<unsigned char>() };
 	}
 
 	int requestLength = 0;
 
+	// Convert requsetLength from bytes to int
 	for (int i = 0; i < LEN_SIZE; i++)
 	{
 		requestLength |= static_cast<int>(recvData[i]) << (8 * (LEN_SIZE - 1 - i));
@@ -111,30 +141,35 @@ void Communicator::handleNewClient(SOCKET client)
 	if (socketResult == INVALID_SOCKET)
 	{
 		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
+		return { ERR, 0, vector<unsigned char>() };
+	}
+
+	// Convert the buffer, and return the RequestInfo struct
+	vector<unsigned char> buffer(recvData, recvData + requestLength);
+	delete[] recvData;
+
+	return { (RequestType)id, requestLength, buffer };
+}
+
+void Communicator::sendResponse(SOCKET client, RequestInfo info)
+{
+	// If the request is not relevent, don't send a response
+	if (!_clients[client]->isRequestRelevant(info))
+	{
 		return;
 	}
 
-	// Convert the buffer, and create the RequestInfo struct
-	vector<unsigned char> buffer(recvData, recvData + requestLength);
-	RequestInfo info = { (RequestType)id, requestLength, buffer};
+	RequestResult result = _clients[client]->handleRequest(info);
+	delete _clients[client];
+	_clients[client] = result.newHandler;
 
-	// If the request is relevent, handle the request and send a response
-	if (_clients[client]->isRequestRelevant(info))
+	vector<unsigned char> buffer = result.response;
+	string message(buffer.begin(), buffer.end());
+
+	int socketResult = send(client, message.c_str(), message.size(), 0);
+
+	if (socketResult == INVALID_SOCKET)
 	{
-		RequestResult result = _clients[client]->handleRequest(info);
-		_clients[client] = result.newHandler;
-
-		vector<unsigned char> buffer = result.response;
-		string message(buffer.begin(), buffer.end());
-
-		socketResult = send(client, message.c_str(), message.size(), 0);
-
-		if (socketResult == INVALID_SOCKET)
-		{
-			std::cerr << "Failed to send a message to a client!" << std::endl;
-		}
+		std::cerr << "Failed to send a message to a client!" << std::endl;
 	}
-
-	delete[] recvData;
-	closesocket(client);
 }

@@ -12,7 +12,7 @@ class IRequestHandler;
 
 enum RequestType
 {
-	LOGIN, SIGNUP
+	ERR = -1, LOGIN, SIGNUP
 };
 
 struct RequestInfo
