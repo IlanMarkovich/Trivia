@@ -13,4 +13,5 @@ public:
 
 	vector<string> getHighScores() const;
 	vector<string> getUserStatistics(string username) const;
+	void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames);
 };
