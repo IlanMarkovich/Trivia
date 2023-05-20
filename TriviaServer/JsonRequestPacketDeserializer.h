@@ -19,9 +19,30 @@ struct SignupRequest
 	string email;
 };
 
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct JoinRoomRequset
+{
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionsCount;
+	unsigned int answerTimeout;
+};
+
 class JsonRequestPacketDeserializer
 {
 public:
 	static LoginRequest deserializeLoginRequest(vector<unsigned char> buffer);
 	static SignupRequest deserializeSignupRequest(vector<unsigned char> buffer);
+	static GetPlayersInRoomRequest deserializeGetPlayersRequest(vector<unsigned char> buffer);
+	static JoinRoomRequset deserializeJoinRoomRequest(vector<unsigned char> buffer);
+	static CreateRoomRequest deserializeCreateRoomRequest(vector<unsigned char> buffer);
 };
