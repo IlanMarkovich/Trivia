@@ -31,5 +31,5 @@ public:
 
 	// METHODS
 	LoginRequestHandler* createLoginRequestHandler();
-	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
+	MenuRequestHandler* createMenuRequestHandler(string username);
 };

@@ -102,5 +102,40 @@ RequestResult MenuRequestHandler::getHighScores(RequestInfo info)
 RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 {
 	JoinRoomRequset request = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
-	Room room = _roomManager.getRoom(request.roomId);
+	bool success = true;
+
+	try
+	{
+		Room& room = _roomManager.getRoom(request.roomId);
+		room.addUser(_loginManager[_username]);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	JoinRoomResponse response = {success};
+
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::createRoom(RequestInfo info)
+{
+	CreateRoomRequest request = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
+	bool success = true;
+
+	try
+	{
+		// If there are no rooms give the id 1, else set it to the id of the last room + 1
+		int roomId = _roomManager.getRooms().empty() ? 1 : (_roomManager.getRooms().end() - 1)->id + 1;
+		RoomData data = { roomId, request.roomName, request.maxUsers, request.questionsCount, request.answerTimeout, false };
+		_roomManager.createRoom(_loginManager[_username], data);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	CreateRoomResponse response = { success };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }

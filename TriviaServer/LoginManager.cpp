@@ -41,3 +41,10 @@ void LoginManager::logout(string username)
 		return user.getUsername() == username;
 		}));
 }
+
+LoggedUser& LoginManager::operator[](string username)
+{
+	return *(std::find_if(_loggedUsers.begin(), _loggedUsers.end(), [username](const LoggedUser& user) {
+		return user.getUsername() == username;
+		}));
+}

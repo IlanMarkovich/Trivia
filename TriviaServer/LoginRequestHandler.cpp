@@ -26,7 +26,7 @@ RequestResult LoginRequestHandler::login(RequestInfo info) const
     bool databaseResult = _handlerFactory.getLoginManager().login(request.username, request.password);
 
     LoginResponse response = { databaseResult };
-    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
+    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr};
 }
 
 RequestResult LoginRequestHandler::signup(RequestInfo info) const
