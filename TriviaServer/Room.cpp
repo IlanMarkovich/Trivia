@@ -42,3 +42,16 @@ RoomData Room::getData() const
 {
 	return _metadata;
 }
+
+string Room::roomDataVecToString(const vector<RoomData>& vec)
+{
+	string str;
+
+	for (const RoomData& data : vec)
+	{
+		str += data.name + '\n';
+	}
+
+	str.erase(str.end() - 1);
+	return str;
+}
