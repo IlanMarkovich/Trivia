@@ -22,7 +22,17 @@ int intResultCallback(void* data, int argc, char** argv, char** cols)
         return -1;
 
     int* ptr = (int*)data;
-    *ptr = atoi(argv[0]);
+    *ptr = std::stoi(argv[0]);
+    return 0;
+}
+
+int floatResultCallback(void* data, int argc, char** argv, char** cols)
+{
+    if (argv[0] == NULL)
+        return -1;
+
+    float* ptr = (float*)data;
+    *ptr = std::atof(argv[0]);
     return 0;
 }
 
@@ -72,7 +82,10 @@ bool SqliteDatabase::open()
     {
         string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
 
-        tableQuery += "create table questions(id integer primary key autoincrement not null, question text not null, answer1 text not null, ";
+        tableQuery += "create table statistics(username text primary key not null, avgAnswerTime float not null, correctAnswers integer not null, ";
+        tableQuery += "totalAnswers integer not null, playerGames integer not null);";
+
+        tableQuery += "create table questions(question text primary key not null, answer1 text not null, ";
         tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null);";
 
         insertQuestions(&tableQuery);
@@ -142,6 +155,15 @@ vector<Question> SqliteDatabase::getQuestions(int numOfQuestions)
     }
 
     return questions;
+}
+
+float SqliteDatabase::getPlayerAverageAnswerTime(string username)
+{
+    string query = "select avgAnswerTime from statistics where username=\"" + username + "\";";
+    float result = 0;
+
+    selectQuery(query, floatResultCallback, &result);
+    return result;
 }
 
 // PRIVATE METHODS
