@@ -33,6 +33,13 @@ private:
 	/// <param name="data - ">A pointer the where the data will be saved after the query</param>
 	void selectQuery(string query, int(*callback)(void*, int, char**, char**), void* data) const;
 
+	/// <summary>
+	/// Adds the questions to the questions table (questions are constant)
+	/// </summary>
+	/// <param name="queryPtr - ">The query that will be sent to the database when created.
+	/// The questions insertion will be added to that query</param>
+	void insertQuestions(string* queryPtr) const;
+
 	// Callback functions
 
 	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);

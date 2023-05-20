@@ -30,7 +30,6 @@ int questionCallback(void* data, int argc, char** argv, char** cols)
     vector<Question>* questionsVec = (vector<Question>*)data;
     string text;
     vector<string> answers(NUM_ANSWERS);
-    int correctAnswer = 0;
 
     for (int i = 0; i < argc; i++)
     {
@@ -45,13 +44,9 @@ int questionCallback(void* data, int argc, char** argv, char** cols)
         {
             text = argv[i];
         }
-        else if(cols[i] == "correct")
-        {
-            correctAnswer = argv[i][0] - '0';
-        }
     }
 
-    Question question = { text, answers, correctAnswer };
+    Question question = { text, answers};
     questionsVec->push_back(question);
 
     return 0;
@@ -76,8 +71,11 @@ bool SqliteDatabase::open()
     if (file_exists != 0)
     {
         string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
-        tableQuery += "create table questions(id int primary key not null, question text not null, answer1 text not null, ";
-        tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null, correct int not null);";
+
+        tableQuery += "create table questions(id int primary key not null autoincrement, question text not null, answer1 text not null, ";
+        tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null);";
+
+        insertQuestions(&tableQuery);
 
         char* errMsg = nullptr;
         int queryResult = sqlite3_exec(_db, tableQuery.c_str(), nullptr, nullptr, &errMsg);
@@ -158,4 +156,21 @@ void SqliteDatabase::selectQuery(string query, int(*callback)(void*, int, char**
     {
         std::cerr << errMsg << std::endl;
     }
+}
+
+void SqliteDatabase::insertQuestions(string* queryptr) const
+{
+    string query = "insert into questions (question, answer1, answer2, answer3, answer4, correct) values";
+    query += "(\"In which city, is the Big Nickel located in Canada?\", \"Sudbury, Ontario\", \"Halifax, Nova Scotia\", \"Victoria, British Columbia\", \"Calgary, Alberta\"),";
+    query += "(\"What year is on the flag of the US state Wisconsin?\", \"1848\", \"1634\", \"1783\", \"1901\"),";
+    query += "(\"How many countries border Kyrgyzstan?\", \"4\", \"3\", \"1\", \"6\"),";
+    query += "(\"Which island is located near Wales?\", \"Anglesey\", \"Barry\", \"Bardsey\", \"Caldey\"),";
+    query += "(\"What is Canada's largest island?\", \"Baffin Island\", \"Prince Edward Island\", \"Vancouver Island\", \"Newfoundland\"),";
+    query += "(\"What is the land connecting North America and South America?\", \"Isthmus of Panama\", \"Isthmus of Suez\", \"Urals\", \"Australasia\"),";
+    query += "(\"The Andaman and Nicobar Islands in South East Asia are controlled by which country?\", \"India\", \"Vietnam\", \"Thailand\", \"Indonesia\"),";
+    query += "(\"Which is the world's longest river?\", \"Nile\", \"Missouri\", \"Amazon\", \"Yangtze\"),";
+    query += "(\"What mountain range lines the border between Spain and France?\", \"Pyrenees\", \"Alps\", \"Carpathians\", \"Urals\"),";
+    query += "(\"Which country claims ownership of the disputed state Kosovo?\", \"Serbia\", \"Croatia\", \"Albania\", \"Macedonia\");";
+
+    queryptr->operator+=(query);
 }

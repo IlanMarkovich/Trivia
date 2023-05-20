@@ -10,7 +10,6 @@ struct Question
 {
 	string text;
 	vector<string> answers;
-	unsigned int correctAnswer;
 };
 
 class IDatabase
