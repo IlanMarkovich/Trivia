@@ -32,5 +32,5 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 
 MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user)
 {
-	return new MenuRequestHandler(*this, user);
+	return new MenuRequestHandler(*this, _loginManager, _roomManager, _statisticsManager, user.getUsername());
 }

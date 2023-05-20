@@ -9,7 +9,8 @@ class MenuRequestHandler : public IRequestHandler
 {
 private:
 	// FIELDS
-	LoggedUser _user;
+	string _username;
+	LoginManager& _loginManager;
 	RoomManager& _roomManager;
 	StatisticsManager& _statisticsManager;
 	RequestHandlerFactory& _handlerFactory;
@@ -25,7 +26,7 @@ private:
 
 public:
 	// C'tor
-	MenuRequestHandler(RequestHandlerFactory& handlerFactory, RoomManager& roomManager, StatisticsManager& statisticsManager, const LoggedUser& user);
+	MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoginManager& loginManager, RoomManager& roomManager, StatisticsManager& statisticsManager, string username);
 
 	virtual bool isRequestRelevant(RequestInfo info) override;
 	virtual RequestResult handleRequest(RequestInfo info) override;

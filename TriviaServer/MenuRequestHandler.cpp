@@ -2,8 +2,8 @@
 
 // C'tor
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, RoomManager& roomManager, StatisticsManager& statisticsManager, const LoggedUser& user)
-	: _handlerFactory(handlerFactory), _user(user), _roomManager(roomManager), _statisticsManager(statisticsManager)
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoginManager& loginManager, RoomManager& roomManager, StatisticsManager& statisticsManager, string username)
+	: _handlerFactory(handlerFactory), _username(username), _roomManager(roomManager), _statisticsManager(statisticsManager), _loginManager(loginManager)
 {
 }
 
@@ -50,3 +50,57 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 }
 
 // PRIVATE METHODS
+
+RequestResult MenuRequestHandler::signout(RequestInfo info)
+{
+	bool success = true;
+
+	try
+	{
+		_loginManager.logout(_username);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	LogoutResponse response = { success };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::getRooms(RequestInfo info)
+{
+	GetRoomResponse response = { _roomManager.getRooms().size() > 0, _roomManager.getRooms()};
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
+{
+	GetPlayersInRoomRequest request = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
+	Room room = _roomManager.getRoom(request.roomId);
+
+	GetPlayersInRoomResponse response = { room.getAllUsers().size() > 0, room.getAllUsers() };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::getPersonalStat(RequestInfo info)
+{
+	vector<string> statistics = _statisticsManager.getUserStatistics(_username);
+
+	GetPersonalStatResponse response = { !statistics.empty(), statistics };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::getHighScores(RequestInfo info)
+{
+	vector<string> highScores = _statisticsManager.getHighScores();
+
+	GetHighScoresResponse response = { !highScores.empty(), highScores };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
+{
+	JoinRoomRequset request = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
+	Room room = _roomManager.getRoom(request.roomId);
+}

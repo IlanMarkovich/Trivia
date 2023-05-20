@@ -15,6 +15,12 @@ vector<string> StatisticsManager::getHighScores() const
 
 vector<string> StatisticsManager::getUserStatistics(string username) const
 {
+    // If there is no score to that player it means there is no need to return the statistics
+    if (_database->getPlayerScore(username) == 0)
+    {
+        return vector<string>();
+    }
+
     vector<string> statistics = {
         "Average Answer Time: " + std::to_string(_database->getPlayerAverageAnswerTime(username)),
         "Number Of Correct Answers: " + std::to_string(_database->getNumOfCorrectAnswers(username)),
