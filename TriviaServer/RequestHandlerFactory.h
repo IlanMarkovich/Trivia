@@ -10,6 +10,7 @@
 #include "StatisticsManager.h"
 
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
