@@ -36,7 +36,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeStatusAndStrVecResp
         json j;
 
         std::stringstream strStream;
-        std::ostream_iterator<string> iter(strStream, "\n");
+        std::ostream_iterator<string> iter(strStream, ", ");
         std::copy(vec.begin(), vec.end(), iter);
         j["players"] = strStream.str();
 

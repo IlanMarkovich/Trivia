@@ -49,9 +49,9 @@ string Room::roomDataVecToString(const vector<RoomData>& vec)
 
 	for (const RoomData& data : vec)
 	{
-		str += data.name + '\n';
+		str += std::to_string(data.id) + ", ";
 	}
 
-	str.erase(str.end() - 1);
+	str.erase(str.end() - 2, str.end() - 1);
 	return str;
 }
