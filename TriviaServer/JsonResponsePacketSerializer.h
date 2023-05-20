@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Room.h"
+
 #include <string>
 #include <vector>
 #include <functional>
@@ -27,13 +29,61 @@ struct SignupResponse
 	unsigned int status;
 };
 
+struct LogoutResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomResponse
+{
+	unsigned int status;
+	vector<RoomData> rooms;
+};
+
+struct GetPlayersInRoomResponse
+{
+	unsigned int status;
+	vector<string> players;
+};
+
+struct GetHighScoresResponse
+{
+	unsigned int status;
+	vector<string> statistics;
+};
+
+struct GetPersonalStatResponse
+{
+	unsigned int status;
+	vector<string> statistics;
+};
+
+struct JoinRoomResponse
+{
+	unsigned int status;
+};
+
+struct CreateRoomResponse
+{
+	unsigned int status;
+};
+
 class JsonResponsePacketSerializer
 {
 private:
-	static vector<unsigned char> createBuffer(std::function<json()> serRes, int code);
+	static vector<unsigned char> createBuffer(std::function<json()> serRes);
+	static vector<unsigned char> serializeOnlyStatusResponse(unsigned int status);
+	static vector<unsigned char> serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec);
 
 public:
 	static vector<unsigned char> serializeResponse(ErrorResponse response);
 	static vector<unsigned char> serializeResponse(LoginResponse response);
 	static vector<unsigned char> serializeResponse(SignupResponse response);
+	static vector<unsigned char> serializeResponse(LogoutResponse response);
+	static vector<unsigned char> serializeResponse(GetRoomResponse response);
+	static vector<unsigned char> serializeResponse(GetPlayersInRoomResponse response);
+	static vector<unsigned char> serializeResponse(GetHighScoresResponse response);
+	static vector<unsigned char> serializeResponse(GetPersonalStatResponse response);
+	static vector<unsigned char> serializeResponse(JoinRoomResponse response);
+	static vector<unsigned char> serializeResponse(CreateRoomResponse response);
 };

@@ -13,4 +13,5 @@ public:
 	LoggedUser(string username);
 
 	string getUsername() const;
+	bool operator==(const LoggedUser& other);
 };
