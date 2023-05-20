@@ -26,14 +26,14 @@ RequestResult LoginRequestHandler::login(RequestInfo info) const
     bool databaseResult = _handlerFactory.getLoginManager().login(request.username, request.password);
 
     LoginResponse response = { databaseResult };
-    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr};
+    return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createMenuRequestHandler(request.username) };
 }
 
-RequestResult LoginRequestHandler::signup(RequestInfo info) const
+RequestResult LoginRequestHandler::signup(RequestInfo info)
 {
     SignupRequest request = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
     bool databaseResult = _handlerFactory.getLoginManager().signup(request.username, request.password, request.email);
 
     SignupResponse response = { databaseResult };
-    return { JsonResponsePacketSerializer::serializeResponse(response), nullptr };
+    return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }

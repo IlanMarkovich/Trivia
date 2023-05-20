@@ -20,5 +20,5 @@ private:
 
 	// METHODS
 	RequestResult login(RequestInfo info) const;
-	RequestResult signup(RequestInfo info) const;
+	RequestResult signup(RequestInfo info);
 };

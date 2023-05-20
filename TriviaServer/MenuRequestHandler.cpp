@@ -2,8 +2,8 @@
 
 // C'tor
 
-MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, LoginManager& loginManager, RoomManager& roomManager, StatisticsManager& statisticsManager, string username)
-	: _handlerFactory(handlerFactory), _username(username), _roomManager(roomManager), _statisticsManager(statisticsManager), _loginManager(loginManager)
+MenuRequestHandler::MenuRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user)
+	: _handlerFactory(handlerFactory), _user(user)
 {
 }
 
@@ -57,7 +57,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 
 	try
 	{
-		_loginManager.logout(_username);
+		_handlerFactory.getLoginManager().logout(_user.getUsername());
 	}
 	catch (std::exception& e)
 	{
@@ -70,14 +70,14 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 {
-	GetRoomResponse response = { _roomManager.getRooms().size() > 0, _roomManager.getRooms()};
+	GetRoomResponse response = { _handlerFactory.getRoomManager().getRooms().size() > 0, _handlerFactory.getRoomManager().getRooms()};
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }
 
 RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 {
 	GetPlayersInRoomRequest request = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
-	Room room = _roomManager.getRoom(request.roomId);
+	Room room = _handlerFactory.getRoomManager().getRoom(request.roomId);
 
 	GetPlayersInRoomResponse response = { room.getAllUsers().size() > 0, room.getAllUsers() };
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
@@ -85,7 +85,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 
 RequestResult MenuRequestHandler::getPersonalStat(RequestInfo info)
 {
-	vector<string> statistics = _statisticsManager.getUserStatistics(_username);
+	vector<string> statistics = _handlerFactory.getStatisticsManager().getUserStatistics(_user.getUsername());
 
 	GetPersonalStatResponse response = { !statistics.empty(), statistics };
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
@@ -93,7 +93,7 @@ RequestResult MenuRequestHandler::getPersonalStat(RequestInfo info)
 
 RequestResult MenuRequestHandler::getHighScores(RequestInfo info)
 {
-	vector<string> highScores = _statisticsManager.getHighScores();
+	vector<string> highScores = _handlerFactory.getStatisticsManager().getHighScores();
 
 	GetHighScoresResponse response = { !highScores.empty(), highScores };
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
@@ -106,8 +106,8 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 
 	try
 	{
-		Room& room = _roomManager.getRoom(request.roomId);
-		room.addUser(_loginManager[_username]);
+		Room& room = _handlerFactory.getRoomManager().getRoom(request.roomId);
+		room.addUser(_user);
 	}
 	catch (std::exception& e)
 	{
@@ -127,9 +127,10 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	try
 	{
 		// If there are no rooms give the id 1, else set it to the id of the last room + 1
-		int roomId = _roomManager.getRooms().empty() ? 1 : (_roomManager.getRooms().end() - 1)->id + 1;
+		int roomId = _handlerFactory.getRoomManager().getRooms().empty() ? 1 : (_handlerFactory.getRoomManager().getRooms().end() - 1)->id + 1;
+
 		RoomData data = { roomId, request.roomName, request.maxUsers, request.questionsCount, request.answerTimeout, false };
-		_roomManager.createRoom(_loginManager[_username], data);
+		_handlerFactory.getRoomManager().createRoom(_user, data);
 	}
 	catch (std::exception& e)
 	{
