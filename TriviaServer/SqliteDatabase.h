@@ -4,6 +4,7 @@
 #include "sqlite3.h"
 
 #define DATABASE_NAME "triviaDB.sqlite"
+#define NUM_ANSWERS 4
 
 class SqliteDatabase : public IDatabase
 {
@@ -13,6 +14,7 @@ public:
 	virtual int doesUserExist(string username) override;
 	virtual int doesPasswordMatch(string username, string password) override;
 	virtual int addNewUser(string username, string password, string email) override;
+	virtual vector<Question> getQuestions() override;
 
 private:
 	sqlite3* _db;
@@ -35,4 +37,5 @@ private:
 
 	friend int stringResultCallback(void* data, int argc, char** argv, char** cols);
 	friend int intResultCallback(void* data, int argc, char** argv, char** cols);
+	friend int questionCallback(void* data, int argc, char** argv, char** cols);
 };

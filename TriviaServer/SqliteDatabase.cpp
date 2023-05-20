@@ -5,6 +5,16 @@
 
 // Callback functions
 
+int stringResultCallback(void* data, int argc, char** argv, char** cols)
+{
+    if (argv[0] == NULL)
+        return -1;
+
+    string* ptr = (string*)data;
+    *ptr = (string)argv[0];
+    return 0;
+}
+
 int intResultCallback(void* data, int argc, char** argv, char** cols)
 {
     if (argv[0] == NULL)
@@ -15,14 +25,37 @@ int intResultCallback(void* data, int argc, char** argv, char** cols)
     return 0;
 }
 
-int stringResultCallback(void* data, int argc, char** argv, char** cols)
+int questionCallback(void* data, int argc, char** argv, char** cols)
 {
-    if (argv[0] == NULL)
-        return -1;
+    vector<Question>* questionsVec = (vector<Question>*)data;
+    string text;
+    vector<string> answers(NUM_ANSWERS);
+    int correctAnswer = 0;
 
-    string* ptr = (string*)data;
-    *ptr = (string)argv[0];
+    for (int i = 0; i < argc; i++)
+    {
+        if (string(cols[i]).find("answer") != string::npos)
+        {
+            // if col == "answer1", `index` will contain the last number - 1 to acess the correct item in the array `answers`
+            string col = cols[i];
+            int index = col[col.size() - 1] - '0' - 1;
+            answers[index] = argv[i];
+        }
+        else if (cols[i] == "question")
+        {
+            text = argv[i];
+        }
+        else if(cols[i] == "correct")
+        {
+            correctAnswer = argv[i][0] - '0';
+        }
+    }
+
+    Question question = { text, answers, correctAnswer };
+    questionsVec->push_back(question);
+
     return 0;
+
 }
 
 // PUBLIC METHODS
@@ -43,6 +76,9 @@ bool SqliteDatabase::open()
     if (file_exists != 0)
     {
         string tableQuery = "create table users(username text primary key not null, password text not null, email text not null);";
+        tableQuery += "create table questions(id int primary key not null, question text not null, answer1 text not null, ";
+        tableQuery += "answer2 text not null, answer3 text not null, answer4 text not null, correct int not null);";
+
         char* errMsg = nullptr;
         int queryResult = sqlite3_exec(_db, tableQuery.c_str(), nullptr, nullptr, &errMsg);
 
@@ -89,6 +125,15 @@ int SqliteDatabase::addNewUser(string username, string password, string email)
 
     tableQuery(query);
     return 1;
+}
+
+vector<Question> SqliteDatabase::getQuestions()
+{
+    string query = "select * from questions;";
+    vector<Question> questions;
+
+    selectQuery(query, questionCallback, &questions);
+    return questions;
 }
 
 // PRIVATE METHODS
