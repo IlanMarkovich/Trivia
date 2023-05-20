@@ -93,6 +93,9 @@ void Communicator::handleNewClient(SOCKET client)
 		std::cout << "Client " << client << " disconnected!" << std::endl << "Enter command:" << std::endl;
 	}
 
+	delete _clients[client];
+	_clients.erase(client);
+
 	closesocket(client);
 }
 
@@ -148,7 +151,7 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	vector<unsigned char> buffer(recvData, recvData + requestLength);
 	delete[] recvData;
 
-	return { (RequestType)id, requestLength, buffer };
+	return { (RequestType)id, receivalTime, buffer };
 }
 
 void Communicator::sendResponse(SOCKET client, RequestInfo info)
