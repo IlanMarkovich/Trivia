@@ -12,7 +12,7 @@ class IRequestHandler;
 
 enum RequestType
 {
-	ERR = -1, LOGIN, SIGNUP
+	ERR = -1, LOGIN, SIGNUP, SIGNOUT, GET_ROOMS, GET_PLAYRES_IN_ROOM, GET_PERSONAL_STAT, GET_HIGH_SCORES, JOIN_ROOM, CREATE_ROOM
 };
 
 struct RequestInfo
