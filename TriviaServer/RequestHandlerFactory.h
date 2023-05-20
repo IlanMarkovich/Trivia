@@ -1,21 +1,34 @@
 #pragma once
 
-#include "LoginManager.h"
 #include "IDatabase.h"
+
 #include "LoginRequestHandler.h"
+#include "MenuRequestHandler.h"
+
+#include "LoginManager.h"
+#include "RoomManager.h"
+#include "StatisticsManager.h"
 
 class LoginRequestHandler;
 
 class RequestHandlerFactory
 {
 private:
-	LoginManager _loginManager;
 	IDatabase* _database;
+	LoginManager _loginManager;
+	RoomManager _roomManager;
+	StatisticsManager _statisticsManager;
 
 public:
 	// C'tor
 	RequestHandlerFactory(IDatabase* database);
 
-	LoginRequestHandler* createLoginRequestHandler();
+	// GETTERS
 	LoginManager& getLoginManager();
+	RoomManager& getRoomManager();
+	StatisticsManager& getStatisticsManager();
+
+	// METHODS
+	LoginRequestHandler* createLoginRequestHandler();
+	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 };
