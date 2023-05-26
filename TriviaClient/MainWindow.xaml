@@ -1,0 +1,22 @@
+﻿<Window x:Class="TriviaClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TriviaClient"
+        mc:Ignorable="d"
+        Title="Trivia"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
+    
+    <Canvas Name="background_canvas">
+        <Image Name="background_image" Source="Assets/menu-background.png" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform x:Name="zoomTransform" ScaleX="1" ScaleY="1"/>
+                    <TranslateTransform x:Name="translateTransform"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+    </Canvas>
+</Window>
