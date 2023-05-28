@@ -97,5 +97,8 @@
   <ItemGroup>
     <Resource Include="Assets\menu-background.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\GEO_trivia_logo.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

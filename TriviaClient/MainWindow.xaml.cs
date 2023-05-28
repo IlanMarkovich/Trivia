@@ -31,8 +31,8 @@ namespace TriviaClient
         private DispatcherTimer timer;
         private Random rand;
 
-        private int velX, velY;
-        private int posX, posY;
+        private double velX, velY;
+        private double posX, posY;
 
         public MainWindow()
         {
@@ -43,8 +43,8 @@ namespace TriviaClient
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            velX = rand.Next(0, 2) == 0 ? -1 : 1;
-            velY = rand.Next(0, 2) == 0 ? -1 : 1;
+            velX = rand.Next(0, 2) == 0 ? -.5 : .5;
+            velY = rand.Next(0, 2) == 0 ? -.5 : .5;
 
             posX = rand.Next(0, (int)(background_canvas.ActualWidth * 1.25)) * -1;
             posY = rand.Next(0, (int)(background_canvas.ActualHeight * 1.25)) * -1;
