@@ -32,5 +32,5 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 
 MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string username)
 {
-	return new MenuRequestHandler(*this, _loginManager, _roomManager, _statisticsManager, username);
+	return new MenuRequestHandler(*this, _loginManager[username]);
 }

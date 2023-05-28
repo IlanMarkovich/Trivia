@@ -16,11 +16,14 @@ namespace TriviaClient
         private double velX, velY;
         private double posX, posY;
 
+        private Client client;
+
         public MainWindow()
         {
             InitializeComponent();
 
             rand = new Random();
+            client = new Client();
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -33,10 +36,21 @@ namespace TriviaClient
             posX = rand.Next(0, (int)(background_canvas.ActualWidth * 1.25)) * -1;
             posY = rand.Next(0, (int)(background_canvas.ActualHeight * 1.25)) * -1;
 
-            await AnimateBackgroundAsync();
+            AnimateBackgroundAsync();
+
+            await client.Connect();
+
+            if (!client.IsConnected())
+            {
+                Application.Current.Shutdown();
+            }
+
+            connecting_gif.Visibility = Visibility.Hidden;
+            logo_image.Visibility = Visibility.Visible;
+            welcome_menu_sp.Visibility = Visibility.Visible;
         }
 
-        private async Task AnimateBackgroundAsync()
+        private async void AnimateBackgroundAsync()
         {
             while (true)
             {
@@ -99,6 +113,7 @@ namespace TriviaClient
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
+            client.Disconnect();
             Application.Current.Shutdown();
         }
     }
