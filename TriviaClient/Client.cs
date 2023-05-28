@@ -27,7 +27,7 @@ namespace TriviaClient
             connection = new TcpClient();
         }
 
-        public async Task Connect()
+        public async Task ConnectAsync()
         {
             int tries = MAX_TRIES;
 
@@ -38,7 +38,7 @@ namespace TriviaClient
                     await connection.ConnectAsync(IPAddress.Parse("127.0.0.1"), PORT);
                     break;
                 }
-                catch (Exception e) 
+                catch (Exception)
                 {
                     tries--;
                 }

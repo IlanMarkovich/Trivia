@@ -19,8 +19,14 @@
             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="Width" Value="500"/>
                 <Setter Property="Height" Value="125"/>
-                <Setter Property="FontSize" Value="70"/>
             </Style>
+
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}">
+                <Setter Property="Width" Value="600"/>
+                <Setter Property="Height" Value="70"/>
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -38,11 +44,34 @@
 
         <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
 
-        <StackPanel Visibility="Hidden" Name="welcome_menu_sp" Orientation="Vertical" Grid.Row="1">
-            <Button Name="login_btn" Content="Log In" Margin="0, 0, 0, 20"/>
-            <Button Name="signup_btn" Content="Sign Up" Margin="0, 0, 0, 20"/>
+        <StackPanel Visibility="Hidden" Name="welcome_menu" Orientation="Vertical" Grid.Row="1">
+            <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
+            <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20"/>
             <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
         </StackPanel>
+
+        <Grid Visibility="Hidden" Name="login_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Username: "/>
+            <TextBox Grid.Column="1"/>
+
+            <TextBlock Text="Password: " Grid.Row="2"/>
+            <TextBox Grid.Row="2" Grid.Column="1"/>
+
+            <Button Name="login_btn" Content="Log In" Grid.Row="4" Grid.ColumnSpan="2"/>
+        </Grid>
     </Grid>
 
 </Window>

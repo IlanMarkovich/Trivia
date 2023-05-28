@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:TriviaClient">
 
     <Style TargetType="Button" x:Key="ButtonStyle">
         <!-- PROPERTIRES -->
@@ -9,6 +10,7 @@
         <Setter Property="Background" Value="Black"/>
         <Setter Property="FontFamily" Value="Berlin Sans FB"/>
         <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="FontSize" Value="70"/>
 
         <!-- DELETE MOUSE HOVER EFFECT -->
         <Setter Property="Template">
@@ -46,6 +48,22 @@
                 </Trigger.ExitActions>
             </Trigger>
         </Style.Triggers>
+    </Style>
+
+    <Style TargetType="TextBox" x:Key="TextboxStyle">
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="FontFamily" Value="Berlin Sans FB"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="FontSize" Value="70"/>
+    </Style>
+
+    <Style TargetType="TextBlock" x:Key="TextblockStyle">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="Berlin Sans FB"/>
+        <Setter Property="FontSize" Value="70"/>
     </Style>
     
 </ResourceDictionary>

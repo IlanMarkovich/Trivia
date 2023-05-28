@@ -17,6 +17,7 @@ namespace TriviaClient
         private double posX, posY;
 
         private Client client;
+        private UIElement currentMenu;
 
         public MainWindow()
         {
@@ -24,21 +25,23 @@ namespace TriviaClient
 
             rand = new Random();
             client = new Client();
+
+            currentMenu = welcome_menu;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
             SetSizes();
 
+            // Background Animation variable initializations
             velX = rand.Next(0, 2) == 0 ? -0.5 : 0.5;
             velY = rand.Next(0, 2) == 0 ? -0.5 : 0.5;
-
             posX = rand.Next(0, (int)(background_canvas.ActualWidth * 1.25)) * -1;
             posY = rand.Next(0, (int)(background_canvas.ActualHeight * 1.25)) * -1;
 
             AnimateBackgroundAsync();
 
-            await client.Connect();
+            await client.ConnectAsync();
 
             if (!client.IsConnected())
             {
@@ -47,7 +50,7 @@ namespace TriviaClient
 
             connecting_gif.Visibility = Visibility.Hidden;
             logo_image.Visibility = Visibility.Visible;
-            welcome_menu_sp.Visibility = Visibility.Visible;
+            welcome_menu.Visibility = Visibility.Visible;
         }
 
         private async void AnimateBackgroundAsync()
@@ -72,6 +75,7 @@ namespace TriviaClient
 
         private void SetSizes()
         {
+            // Calculates the current sizes for elements based on screen resolution
             double screenWidth = SystemParameters.PrimaryScreenWidth;
             double screenHeight = SystemParameters.PrimaryScreenHeight;
 
@@ -81,7 +85,7 @@ namespace TriviaClient
             logo_image.Width = screenWidth / 1.92;
             logo_image.Height = screenHeight / 2.16;
 
-            List<Button> buttons = GetChildButtons(mainGrid);
+            List<Button> buttons = GetChildComponents<Button>(mainGrid);
 
             foreach (Button button in buttons)
             {
@@ -90,25 +94,36 @@ namespace TriviaClient
             }
         }
 
-        private List<Button> GetChildButtons(DependencyObject parent)
+        private List<T> GetChildComponents<T>(DependencyObject parent)
         {
-            List<Button> buttons = new List<Button>();
+            List<T> lst = new List<T>();
 
             for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
             {
                 DependencyObject child = VisualTreeHelper.GetChild(parent, i);
 
-                if (child is Button button)
+                if (child is T button)
                 {
-                    buttons.Add(button);
+                    lst.Add(button);
                 }
                 else
                 {
-                    buttons.AddRange(GetChildButtons(child));
+                    lst.AddRange(GetChildComponents<T>(child));
                 }
             }
 
-            return buttons;
+            return lst;
+        }
+
+        private void Menu_btn_Click(object sender, RoutedEventArgs e)
+        {
+            string currentMenuName = (sender as Button).Name.Replace("_btn", "");
+            UIElement menu = mainGrid.Children.Cast<UIElement>().ToList().First(x => (x as FrameworkElement).Name == currentMenuName);
+
+            currentMenu.Visibility = Visibility.Hidden;
+            menu.Visibility = Visibility.Visible;
+
+            currentMenu = menu;
         }
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
