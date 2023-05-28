@@ -7,6 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace TriviaClient
 {
@@ -128,8 +129,25 @@ namespace TriviaClient
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
+            client.Send(RequestType.SIGNOUT);
             client.Disconnect();
+
             Application.Current.Shutdown();
+        }
+
+        private void login_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if(login_username.Text == String.Empty || login_password.Text == String.Empty)
+            {
+                login_invalid_txt.Visibility = Visibility.Visible;
+                return;
+            }
+
+            LoginUser user = new LoginUser(login_username.Text, login_password.Text);
+            client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
+
+            string response = client.Recieve();
+            Status status = JsonConvert.DeserializeObject<Status>(response);
         }
     }
 }

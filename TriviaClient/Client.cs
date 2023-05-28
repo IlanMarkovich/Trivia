@@ -61,6 +61,11 @@ namespace TriviaClient
                 connection.Close();
         }
 
+        public void Send(RequestType type)
+        {
+            Send(type, "");
+        }
+
         public void Send(RequestType type, string data)
         {
             List<byte> buffer = new List<byte>();
@@ -85,6 +90,12 @@ namespace TriviaClient
 
             byte[] lengthArr = new byte[4];
             Array.Copy(buffer, 1, lengthArr, 0, 4);
+
+            if(BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(lengthArr);
+            }
+
             int length = BitConverter.ToInt32(lengthArr, 0);
 
             byte[] data = new byte[length];
