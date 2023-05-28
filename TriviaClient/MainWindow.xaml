@@ -9,6 +9,20 @@
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
 
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="Width" Value="500"/>
+                <Setter Property="Height" Value="125"/>
+                <Setter Property="FontSize" Value="70"/>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid>
         <Canvas Name="background_canvas">
             <Image Name="background_image" Source="Assets/menu-background.png"/>
@@ -17,9 +31,9 @@
         <Image Source="Assets/GEO_trivia_logo.png" Width="1000" Height="1000" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, 120, 0, 0"/>
 
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,375,0,0" Orientation="Vertical">
-            <Button Content="Log In" BorderBrush="White" BorderThickness="2" Foreground="White" Background="Black" FontSize="70" FontFamily="Berlin Sans FB" Width="500" Height="125" Opacity="0.7" Margin="0, 0, 0, 20"/>
-            <Button Content="Sign Up" BorderBrush="White" BorderThickness="2" Foreground="White" Background="Black" FontSize="70" FontFamily="Berlin Sans FB" Width="500" Height="125" Opacity="0.7" Margin="0, 0, 0, 20"/>
-            <Button Content="Quit" BorderBrush="White" BorderThickness="2" Foreground="White" Background="red" FontSize="70" FontFamily="Berlin Sans FB" Width="500" Height="125" Opacity="0.7"/>
+            <Button Content="Log In" Margin="0, 0, 0, 20"/>
+            <Button Content="Sign Up" Margin="0, 0, 0, 20"/>
+            <Button Content="Quit" Background="red"/>
         </StackPanel>
     </Grid>
 </Window>
