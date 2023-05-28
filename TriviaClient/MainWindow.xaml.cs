@@ -16,9 +16,6 @@ namespace TriviaClient
         private double velX, velY;
         private double posX, posY;
 
-        public static double buttonWidth { get; set; }
-        public static double buttonHeight { get; set; }
-
         public MainWindow()
         {
             InitializeComponent();
@@ -63,6 +60,9 @@ namespace TriviaClient
         {
             double screenWidth = SystemParameters.PrimaryScreenWidth;
             double screenHeight = SystemParameters.PrimaryScreenHeight;
+
+            connecting_gif.Width = screenWidth / 3.84;
+            connecting_gif.Height = screenHeight / 10.8;
 
             logo_image.Width = screenWidth / 1.92;
             logo_image.Height = screenHeight / 2.16;

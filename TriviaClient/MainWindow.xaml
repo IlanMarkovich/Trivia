@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TriviaClient"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
         Title="Trivia"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
@@ -33,9 +34,11 @@
             <Image Name="background_image" Source="Assets/menu-background.png"/>
         </Canvas>
 
-        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
+        <Image Name="connecting_gif" gif:AnimationBehavior.SourceUri="Assets/Connecting.gif" Grid.RowSpan="2" Width="500" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <StackPanel Name="welcome_menu_sp" Orientation="Vertical" Grid.Row="1">
+        <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
+
+        <StackPanel Visibility="Hidden" Name="welcome_menu_sp" Orientation="Vertical" Grid.Row="1">
             <Button Name="login_btn" Content="Log In" Margin="0, 0, 0, 20"/>
             <Button Name="signup_btn" Content="Sign Up" Margin="0, 0, 0, 20"/>
             <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
