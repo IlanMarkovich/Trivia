@@ -53,12 +53,14 @@
             </Button>
         </StackPanel>
 
+        <!-- WELCOME MENU -->
         <StackPanel Visibility="Hidden" Name="welcome_menu" Orientation="Vertical" Grid.Row="1">
             <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
-            <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20"/>
+            <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
             <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
         </StackPanel>
 
+        <!-- LOGIN MENU -->
         <Grid Visibility="Hidden" Name="login_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -40, 0, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -81,12 +83,46 @@
 
                 <StackPanel Orientation="Horizontal">
                     <Button Name="login_btn" Content="Log In" Click="login_btn_Click"/>
-                    <Button Name="welcome_menu_back1" Content="Back" Click="Back_Click"/>
+                    <Button Name="welcome_menu_back1" Content="Back" Click="welcome_menu_back1_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <!-- SIGN UP MENU -->
+        <Grid Visibility="Hidden" Name="signup_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -75, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Username: " FontSize="50"/>
+            <TextBox Name="signup_username" Grid.Row="1"/>
+
+            <TextBlock Text="Password: " Grid.Row="3" FontSize="50"/>
+            <PasswordBox Name="signup_password"  Grid.Row="4"/>
+
+            <TextBlock Text="Email: " Grid.Row="6" FontSize="50"/>
+            <TextBox Name="signup_email" Grid.Row="7"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="8">
+                <TextBlock Name="signup_invalid_txt" Visibility="Hidden" Text="*One or more fields are invalid!" Foreground="red" FontSize="50" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="signup_btn" Content="Sign up" Click="signup_btn_Click"/>
+                    <Button Name="welcome_menu_back2" Content="Back" Click="welcome_menu_back2_Click"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
 
-        <StackPanel Visibility="Hidden" Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
+        <!-- MAIN MENU -->
+        <StackPanel Visibility="Hidden" Name="main_menu" IsVisibleChanged="main_menu_IsVisibleChanged" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
             <Button Content="Create Room" Margin="0,0,0,20"/>
             <Button Content="Join Room" Margin="0,0,0,20"/>
             <Button Content="Statistics" Margin="0,0,0,20"/>

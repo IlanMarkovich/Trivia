@@ -27,4 +27,18 @@ namespace TriviaClient
             this.status = status;
         }
     }
+
+    internal class SignupUser
+    {
+        public string username { get; set; }
+        public string password { get; set; }
+        public string email { get; set; }
+
+        public SignupUser(string username, string password, string email)
+        {
+            this.username = username;
+            this.password = password;
+            this.email = email;
+        }
+    }
 }

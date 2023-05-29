@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Threading;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Runtime.InteropServices;
 
 namespace TriviaClient
 {
@@ -98,6 +99,8 @@ namespace TriviaClient
             }
         }
 
+        // GENERAL FUNCTIONS
+
         private void ChangeMenu(string currentMenuName)
         {
             UIElement menu = mainGrid.Children.Cast<UIElement>().ToList().First(x => (x as FrameworkElement).Name == currentMenuName);
@@ -113,21 +116,7 @@ namespace TriviaClient
             ChangeMenu((sender as Button).Name.Replace("_btn", ""));
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            string buttonName = (sender as Button).Name;
-            string menuName = "";
-
-            foreach(char c in buttonName)
-            {
-                if (menuName.Contains("menu"))
-                    break;
-
-                menuName += c;
-            }
-
-            ChangeMenu(menuName);
-        }
+        // WELCOME MENU FUNCTIONS
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -135,14 +124,7 @@ namespace TriviaClient
             Application.Current.Shutdown();
         }
 
-        private void logout_uibtn_Click(object sender, RoutedEventArgs e)
-        {
-            client.Send(RequestType.SIGNOUT);
-            client.Recieve();
-            username_sp.Visibility = Visibility.Hidden;
-
-            ChangeMenu("welcome_menu");
-        }
+        // LOGIN MENU FUNCTIONS
 
         private void login_btn_Click(object sender, RoutedEventArgs e)
         {
@@ -160,7 +142,7 @@ namespace TriviaClient
 
             if (status.status == 0)
             {
-                ErrorWindow window = new ErrorWindow("Login Error", "Login information is incorrect!");
+                ErrorWindow window = new ErrorWindow("Login Error", "Login unsuccessful! (incorrect information or already logged in)");
                 window.ShowDialog();
             }
             else
@@ -172,10 +154,86 @@ namespace TriviaClient
             }
         }
 
+        private void welcome_menu_back1_Click(object sender, RoutedEventArgs e)
+        {
+            login_username.Text = "";
+            login_password.Password = "";
+            login_invalid_txt.Visibility = Visibility.Hidden;
+
+            ChangeMenu("welcome_menu");
+        }
+
+        // SIGNUP MENU FUNCTIONS
+
+        private void signup_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if(signup_username.Text == String.Empty || signup_password.Password == String.Empty || signup_email.Text == String.Empty)
+            {
+                signup_invalid_txt.Visibility = Visibility.Visible;
+                return;
+            }
+
+            SignupUser user = new SignupUser(signup_username.Text, signup_password.Password, signup_email.Text);
+            client.Send(RequestType.SIGNUP, JsonConvert.SerializeObject(user, Formatting.Indented));
+
+            string response = client.Recieve();
+            Status status = JsonConvert.DeserializeObject<Status>(response);
+
+            if(status.status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Signup Error", "User already exists!");
+                window.ShowDialog();
+            }
+            else
+            {
+                login_username.Text = signup_username.Text;
+                login_password.Password = signup_password.Password;
+
+                login_btn_Click(sender, e);
+            }
+        }
+
+        private void welcome_menu_back2_Click(object sender, RoutedEventArgs e)
+        {
+            signup_username.Text = "";
+            signup_password.Password = "";
+            signup_email.Text = "";
+            signup_invalid_txt.Visibility = Visibility.Hidden;
+
+            ChangeMenu("welcome_menu");
+        }
+
+        // MAIN MENU FUNCTIONS
+
+        private void main_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            // Clear previous menu's data
+            if(main_menu.Visibility == Visibility.Visible)
+            {
+                login_username.Text = "";
+                login_password.Password = "";
+                login_invalid_txt.Visibility = Visibility.Hidden;
+
+                signup_username.Text = "";
+                signup_password.Password = "";
+                signup_email.Text = "";
+                signup_invalid_txt.Visibility = Visibility.Hidden;
+            }
+        }
+
         private void quit_user_btn_Click(object sender, RoutedEventArgs e)
         {
             client.Send(RequestType.SIGNOUT);
             quit_btn_Click(sender, e);
+        }
+
+        private void logout_uibtn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.SIGNOUT);
+            client.Recieve();
+            username_sp.Visibility = Visibility.Hidden;
+
+            ChangeMenu("welcome_menu");
         }
     }
 }
