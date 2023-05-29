@@ -86,34 +86,13 @@ namespace TriviaClient
             logo_image.Width = screenWidth / 1.92;
             logo_image.Height = screenHeight / 2.16;
 
-            List<Button> buttons = GetChildComponents<Button>(mainGrid);
+            List<Button> buttons = Utils.GetChildComponents<Button>(mainGrid);
 
             foreach (Button button in buttons)
             {
                 button.Width = screenWidth / 3.84;
                 button.Height = screenHeight / 8.64;
             }
-        }
-
-        private List<T> GetChildComponents<T>(DependencyObject parent)
-        {
-            List<T> lst = new List<T>();
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(parent); i++)
-            {
-                DependencyObject child = VisualTreeHelper.GetChild(parent, i);
-
-                if (child is T button)
-                {
-                    lst.Add(button);
-                }
-                else
-                {
-                    lst.AddRange(GetChildComponents<T>(child));
-                }
-            }
-
-            return lst;
         }
 
         private void Menu_btn_Click(object sender, RoutedEventArgs e)

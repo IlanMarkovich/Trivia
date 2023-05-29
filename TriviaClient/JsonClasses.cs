@@ -17,4 +17,14 @@ namespace TriviaClient
             this.password = password;
         }
     }
+
+    internal class Status
+    {
+        public int status { get; set; }
+
+        public Status(int status)
+        {
+            this.status = status;
+        }
+    }
 }
