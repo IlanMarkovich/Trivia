@@ -6,20 +6,38 @@
         xmlns:local="clr-namespace:TriviaClient"
         mc:Ignorable="d"
         WindowStyle="None" ResizeMode="NoResize"  BorderThickness="2" BorderBrush="Gray"
-        Height="500" Width="1200" WindowStartupLocation="CenterScreen">
+        Height="360" Width="640" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Style.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-            
+
             <Style TargetType="TextBlock">
-                <Setter Property="FontFamily" Value="Berlin Sans FB"/>
                 <Setter Property="Foreground" Value="White"/>
             </Style>
 
-            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+            <Style TargetType="Button">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                                <ContentPresenter HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Opacity" Value="0.8"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -27,13 +45,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="title" Text="Error" FontWeight="DemiBold" FontSize="120"/>
+        <TextBlock Name="title" Text="Error" FontSize="25" FontWeight="SemiBold"/>
 
-        <TextBlock Name="error_detail" Text="This is an error" FontSize="70" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1"/>
+        <Button Name="close_btn" BorderThickness="0" Click="close_btn_Click" Background="Black" HorizontalAlignment="Right" Margin="0,0,4,0">
+            <Button.Content>
+                <Image Source="Assets/x-fill-white.png" Width="30"/>
+            </Button.Content>
+        </Button>
 
-        <Button Name="close_btn" BorderThickness="0" Content="Close" Grid.Row="2" Click="close_btn_Click"/>
+        <Separator VerticalAlignment="Top" Grid.Row="1"/>
+
+        <TextBlock Name="error_detail" Text="This is an error" FontFamily="Baskerville Old Face" FontSize="35" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="2" TextWrapping="WrapWithOverflow"/>
     </Grid>
 </Window>

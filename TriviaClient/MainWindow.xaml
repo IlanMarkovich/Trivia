@@ -77,9 +77,12 @@
             </StackPanel>
         </Grid>
 
-        <Grid Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            
-        </Grid>
+        <StackPanel Visibility="Hidden" Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
+            <Button Content="Create Room" Margin="0,0,0,20"/>
+            <Button Content="Join Room" Margin="0,0,0,20"/>
+            <Button Content="Statistics" Margin="0,0,0,20"/>
+            <Button Content="Quit" Background="Red"/>
+        </StackPanel>
     </Grid>
 
 </Window>

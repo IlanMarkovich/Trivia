@@ -124,5 +124,22 @@
   <ItemGroup>
     <Resource Include="Assets\Connecting.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\arrows-in-fill.png" />
+    <Resource Include="Assets\arrows-out-fill.png" />
+    <Resource Include="Assets\gear-fill.png" />
+    <Resource Include="Assets\music-note-simple-fill.png" />
+    <Resource Include="Assets\music-notes-simple-fill.png" />
+    <Resource Include="Assets\speaker-simple-high-fill.png" />
+    <Resource Include="Assets\speaker-simple-low-fill.png" />
+    <Resource Include="Assets\speaker-simple-none-fill.png" />
+    <Resource Include="Assets\speaker-simple-x-fill.png" />
+    <Resource Include="Assets\toggle-left-fill.png" />
+    <Resource Include="Assets\toggle-right-fill.png" />
+    <Resource Include="Assets\x-fill.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\x-fill-white.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
