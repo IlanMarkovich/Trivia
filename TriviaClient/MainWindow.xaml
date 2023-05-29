@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:TriviaClient"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d"
-        Title="Trivia"
         WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
         WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
 
@@ -22,11 +21,12 @@
             </Style>
 
             <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}">
-                <Setter Property="Width" Value="600"/>
+                <Setter Property="Width" Value="1000"/>
                 <Setter Property="Height" Value="80"/>
             </Style>
 
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="PasswordBox" BasedOn="{StaticResource PasswordboxStyle}"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -50,30 +50,35 @@
             <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
         </StackPanel>
 
-        <Grid Visibility="Hidden" Name="login_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
+        <Grid Visibility="Hidden" Name="login_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -40, 0, 0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+           
+            <TextBlock Text="Username: " FontSize="50"/>
+            <TextBox Name="login_username" Grid.Row="1"/>
 
-            <TextBlock Text="Username: "/>
-            <TextBox Name="login_username" Grid.Column="1"/>
+            <TextBlock Text="Password: " Grid.Row="3" FontSize="50"/>
+            <PasswordBox Name="login_password"  Grid.Row="4"/>
 
-            <TextBlock Text="Password: " Grid.Row="2"/>
-            <TextBox Name="login_password" Grid.Row="2" Grid.Column="1"/>
-
-            <StackPanel Orientation="Vertical" Grid.Row="4" Grid.ColumnSpan="2">
+            <StackPanel Orientation="Vertical" Grid.Row="6">
                 <TextBlock Name="login_invalid_txt" Visibility="Hidden" Text="*One or more fields are invalid!" Foreground="red" FontSize="50" FontWeight="DemiBold" HorizontalAlignment="Center"/>
-                <Button Name="login_btn" Content="Log In" Click="login_btn_Click"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="login_btn" Content="Log In" Click="login_btn_Click"/>
+                    <Button Name="welcome_menu_back1" Content="Back" Click="Back_Click"/>
+                </StackPanel>
             </StackPanel>
+        </Grid>
+
+        <Grid Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top">
+            
         </Grid>
     </Grid>
 

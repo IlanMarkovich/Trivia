@@ -95,9 +95,8 @@ namespace TriviaClient
             }
         }
 
-        private void Menu_btn_Click(object sender, RoutedEventArgs e)
+        private void ChangeMenu(string currentMenuName)
         {
-            string currentMenuName = (sender as Button).Name.Replace("_btn", "");
             UIElement menu = mainGrid.Children.Cast<UIElement>().ToList().First(x => (x as FrameworkElement).Name == currentMenuName);
 
             currentMenu.Visibility = Visibility.Hidden;
@@ -106,32 +105,55 @@ namespace TriviaClient
             currentMenu = menu;
         }
 
+        private void Menu_btn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeMenu((sender as Button).Name.Replace("_btn", ""));
+        }
+
+        private void Back_Click(object sender, RoutedEventArgs e)
+        {
+            string buttonName = (sender as Button).Name;
+            string menuName = "";
+
+            foreach(char c in buttonName)
+            {
+                if (menuName.Contains("menu"))
+                    break;
+
+                menuName += c;
+            }
+
+            ChangeMenu(menuName);
+        }
+
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
-            client.Send(RequestType.SIGNOUT);
             client.Disconnect();
-
             Application.Current.Shutdown();
         }
 
         private void login_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(login_username.Text == String.Empty || login_password.Text == String.Empty)
+            if(login_username.Text == String.Empty || login_password.Password == String.Empty)
             {
                 login_invalid_txt.Visibility = Visibility.Visible;
                 return;
             }
 
-            LoginUser user = new LoginUser(login_username.Text, login_password.Text);
+            LoginUser user = new LoginUser(login_username.Text, login_password.Password);
             client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
 
             string response = client.Recieve();
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
-            if(status.status == 0)
+            if (status.status == 0)
             {
-                ErrorWindow window = new ErrorWindow("Login Error", "The username or password are incorrect!");
+                ErrorWindow window = new ErrorWindow("Login Error", "Login information is incorrect!");
                 window.ShowDialog();
+            }
+            else
+            {
+                ChangeMenu("main_menu");
             }
         }
     }

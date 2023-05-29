@@ -60,6 +60,16 @@
         <Setter Property="FontSize" Value="70"/>
     </Style>
 
+    <Style TargetType="PasswordBox" x:Key="PasswordboxStyle">
+        <Setter Property="BorderBrush" Value="White"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="FontFamily" Value="Berlin Sans FB"/>
+        <Setter Property="Opacity" Value="0.7"/>
+        <Setter Property="FontSize" Value="70"/>
+    </Style>
+
     <Style TargetType="TextBlock" x:Key="TextblockStyle">
         <Setter Property="Foreground" Value="Black"/>
         <Setter Property="FontFamily" Value="Berlin Sans FB"/>

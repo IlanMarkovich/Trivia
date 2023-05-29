@@ -68,8 +68,10 @@ namespace TriviaClient
 
         public void Send(RequestType type, string data)
         {
-            List<byte> buffer = new List<byte>();
-            buffer.Add((byte)type);
+            List<byte> buffer = new List<byte>
+            {
+                (byte)type
+            };
 
             byte[] length = new byte[4];
             length[0] = (byte)(data.Length >> 24);
