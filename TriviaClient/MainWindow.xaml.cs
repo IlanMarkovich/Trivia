@@ -127,6 +127,12 @@ namespace TriviaClient
 
             string response = client.Recieve();
             Status status = JsonConvert.DeserializeObject<Status>(response);
+
+            if(status.status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Login Error", "The username or password are incorrect!");
+                window.ShowDialog();
+            }
         }
     }
 }

@@ -163,8 +163,12 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info)
 	}
 
 	RequestResult result = _clients[client]->handleRequest(info);
-	delete _clients[client];
-	_clients[client] = result.newHandler;
+	
+	if (_clients[client] != result.newHandler)
+	{
+		delete _clients[client];
+		_clients[client] = result.newHandler;
+	}
 
 	vector<unsigned char> buffer = result.response;
 	string message(buffer.begin(), buffer.end());
