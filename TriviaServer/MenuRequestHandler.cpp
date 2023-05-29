@@ -65,7 +65,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 	}
 
 	LogoutResponse response = { success };
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createLoginRequestHandler() };
 }
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo info)

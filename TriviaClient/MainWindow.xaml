@@ -44,6 +44,15 @@
 
         <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
 
+        <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+            <TextBlock Name="username_txt" Text="username"/>
+            <Button Name="logout_uibtn" Style="{StaticResource UI-ButtonStyle}" Click="logout_uibtn_Click">
+                <Button.Content>
+                    <Image Source="Assets/sign-out-fill.png"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
         <StackPanel Visibility="Hidden" Name="welcome_menu" Orientation="Vertical" Grid.Row="1">
             <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
             <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20"/>
@@ -77,11 +86,11 @@
             </StackPanel>
         </Grid>
 
-        <StackPanel Visibility="Hidden" Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical">
+        <StackPanel Visibility="Hidden" Name="main_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
             <Button Content="Create Room" Margin="0,0,0,20"/>
             <Button Content="Join Room" Margin="0,0,0,20"/>
             <Button Content="Statistics" Margin="0,0,0,20"/>
-            <Button Content="Quit" Background="Red"/>
+            <Button Name="quit_user_btn" Content="Quit" Background="Red" Click="quit_user_btn_Click"/>
         </StackPanel>
     </Grid>
 

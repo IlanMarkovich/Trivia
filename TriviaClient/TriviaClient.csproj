@@ -141,5 +141,8 @@
   <ItemGroup>
     <Resource Include="Assets\x-fill-white.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\sign-out-fill.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

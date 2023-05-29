@@ -90,8 +90,11 @@ namespace TriviaClient
 
             foreach (Button button in buttons)
             {
-                button.Width = screenWidth / 3.84;
-                button.Height = screenHeight / 8.64;
+                if(!button.Name.Contains("ui"))
+                {
+                    button.Width = screenWidth / 3.84;
+                    button.Height = screenHeight / 8.64;
+                }
             }
         }
 
@@ -132,6 +135,15 @@ namespace TriviaClient
             Application.Current.Shutdown();
         }
 
+        private void logout_uibtn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.SIGNOUT);
+            client.Recieve();
+            username_sp.Visibility = Visibility.Hidden;
+
+            ChangeMenu("welcome_menu");
+        }
+
         private void login_btn_Click(object sender, RoutedEventArgs e)
         {
             if(login_username.Text == String.Empty || login_password.Password == String.Empty)
@@ -153,8 +165,17 @@ namespace TriviaClient
             }
             else
             {
+                username_txt.Text = login_username.Text + " ";
+                username_sp.Visibility = Visibility.Visible;
+
                 ChangeMenu("main_menu");
             }
+        }
+
+        private void quit_user_btn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.SIGNOUT);
+            quit_btn_Click(sender, e);
         }
     }
 }

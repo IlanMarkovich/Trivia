@@ -86,6 +86,10 @@ void Communicator::handleNewClient(SOCKET client)
 			{
 				sendResponse(client, info);
 			}
+			else
+			{
+				throw std::exception("Disconnected because of an error");
+			}
 		}
 	}
 	catch (...)
@@ -136,20 +140,25 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 		requestLength |= static_cast<int>(recvData[i]) << (8 * (LEN_SIZE - 1 - i));
 	}
 
-	// Get request content
-	delete[] recvData;
-	recvData = new char[requestLength];
-	socketResult = recv(client, recvData, requestLength, 0);
+	vector<unsigned char> buffer;
 
-	if (socketResult == INVALID_SOCKET)
+	// Get request content, if there is content to get
+	if (requestLength > 0)
 	{
-		std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
-		return { ERR, 0, vector<unsigned char>() };
-	}
+		delete[] recvData;
+		recvData = new char[requestLength];
+		socketResult = recv(client, recvData, requestLength, 0);
 
-	// Convert the buffer, and return the RequestInfo struct
-	vector<unsigned char> buffer(recvData, recvData + requestLength);
-	delete[] recvData;
+		if (socketResult == INVALID_SOCKET)
+		{
+			std::cerr << "Client socket error: " << std::to_string(client) << std::endl;
+			return { ERR, 0, vector<unsigned char>() };
+		}
+
+		// Convert the buffer, and return the RequestInfo struct
+		buffer = vector<unsigned char>(recvData, recvData + requestLength);
+		delete[] recvData;
+	}
 
 	return { (RequestType)id, receivalTime, buffer };
 }
