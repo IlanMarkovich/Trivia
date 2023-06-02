@@ -27,6 +27,7 @@
 
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
             <Style TargetType="PasswordBox" BasedOn="{StaticResource PasswordboxStyle}"/>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ComboboxStyle}"/>
         </ResourceDictionary>
     </Window.Resources>
 
@@ -44,6 +45,7 @@
 
         <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
 
+        <!-- USERNAME AND LOGOUT STACK PANEL -->
         <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
             <TextBlock Name="username_txt" Text="username"/>
             <Button Name="logout_uibtn" Style="{StaticResource UI-ButtonStyle}" Click="logout_uibtn_Click">
@@ -54,7 +56,7 @@
         </StackPanel>
 
         <!-- WELCOME MENU -->
-        <StackPanel Visibility="Hidden" Name="welcome_menu" Orientation="Vertical" Grid.Row="1">
+        <StackPanel Visibility="Hidden" IsVisibleChanged="welcome_menu_IsVisibleChanged" Name="welcome_menu" Orientation="Vertical" Grid.Row="1">
             <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
             <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
             <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
@@ -123,11 +125,55 @@
 
         <!-- MAIN MENU -->
         <StackPanel Visibility="Hidden" Name="main_menu" IsVisibleChanged="main_menu_IsVisibleChanged" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
-            <Button Content="Create Room" Margin="0,0,0,20"/>
+            <Button Name="create_room_menu_btn" Content="Create Room" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
             <Button Content="Join Room" Margin="0,0,0,20"/>
             <Button Content="Statistics" Margin="0,0,0,20"/>
             <Button Name="quit_user_btn" Content="Quit" Background="Red" Click="quit_user_btn_Click"/>
         </StackPanel>
+
+        <!-- CREATE ROOM -->
+        <Grid Visibility="Hidden" Name="create_room_menu" IsVisibleChanged="create_room_menu_IsVisibleChanged" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Create Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBlock Text="Room Name: "/>
+                <TextBox Name="create_room_name_txt" Height="80"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4">
+                <TextBlock Text="Time For Question: " />
+                <ComboBox Name="create_room_choose_time_cb" Width="840" Height="80" Opacity="0.7"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="6">
+                <TextBlock Text="Number Of Players: "/>
+                <ComboBox Name="create_room_max_players_cb" Width="810" Height="80" Opacity="0.7" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="8">
+                <TextBlock Text="Number Of Questions: "/>
+                <ComboBox Name="create_room_questions_count_cb" Width="745" Height="80" Opacity="0.7" />
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="10">
+                <Button Name="create_room_btn" Content="Create Room" Click="create_room_btn_Click"/>
+                <Button Name="main_menu_back1" Content="Back"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 
 </Window>

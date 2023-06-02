@@ -124,6 +124,11 @@ namespace TriviaClient
             Application.Current.Shutdown();
         }
 
+        private void welcome_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            logo_image.Visibility = Visibility.Visible;
+        }
+
         // LOGIN MENU FUNCTIONS
 
         private void login_btn_Click(object sender, RoutedEventArgs e)
@@ -221,6 +226,12 @@ namespace TriviaClient
             }
         }
 
+        private void Main_menu_change_btn_Click(object sender, RoutedEventArgs e)
+        {
+            logo_image.Visibility = Visibility.Hidden;
+            ChangeMenu((sender as Button).Name.Replace("_btn", ""));
+        }
+
         private void quit_user_btn_Click(object sender, RoutedEventArgs e)
         {
             client.Send(RequestType.SIGNOUT);
@@ -234,6 +245,52 @@ namespace TriviaClient
             username_sp.Visibility = Visibility.Hidden;
 
             ChangeMenu("welcome_menu");
+        }
+
+        // CREATE ROOM MENU FUNCTIONS
+
+        private void create_room_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            for(int time = 30; time <= 180; time += 30)
+            {
+                create_room_choose_time_cb.Items.Add($"{time} seconds");
+            }
+
+            for(int players = 2; players <= 20; players++)
+            {
+                create_room_max_players_cb.Items.Add($"{players} players");
+            }
+
+            for(int questions = 5; questions <= 10; questions++)
+            {
+                create_room_questions_count_cb.Items.Add($"{questions} questions");
+            }
+        }
+
+        private void create_room_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if(create_room_name_txt.Text == String.Empty || create_room_choose_time_cb.Text == String.Empty || create_room_max_players_cb.Text == String.Empty || create_room_questions_count_cb.Text == String.Empty)
+            {
+                ErrorWindow window = new ErrorWindow("Create Room Error", "One or more of the fields are invalid!");
+                window.ShowDialog();
+                return;
+            }
+
+            int maxUsers = int.Parse(create_room_max_players_cb.Text.Replace(" players", ""));
+            int questionsCount = int.Parse(create_room_questions_count_cb.Text.Replace(" questions", ""));
+            int answerTimeout = int.Parse(create_room_choose_time_cb.Text.Replace(" seconds", ""));
+
+            CreateRoom room = new CreateRoom(create_room_name_txt.Text, maxUsers, questionsCount, answerTimeout);
+            client.Send(RequestType.CREATE_ROOM, JsonConvert.SerializeObject(room, Formatting.Indented));
+
+            string response = client.Recieve();
+            int status = ((Status)JsonConvert.DeserializeObject<Status>(response)).status;
+
+            if(status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Create Room Error", "Something went wrong while creating this room.");
+                window.ShowDialog();
+            }
         }
     }
 }

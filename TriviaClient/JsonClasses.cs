@@ -41,4 +41,20 @@ namespace TriviaClient
             this.email = email;
         }
     }
+
+    internal class CreateRoom
+    {
+        public string roomName { get; set; }
+        public int maxUsers { get; set; }
+        public int questionsCount { get; set; }
+        public int answerTimeout { get; set; }
+
+        public CreateRoom(string roomName, int maxUsers, int questionsCount, int answerTimeout)
+        {
+            this.roomName = roomName;
+            this.maxUsers = maxUsers;
+            this.questionsCount = questionsCount;
+            this.answerTimeout = answerTimeout;
+        }
+    }
 }
