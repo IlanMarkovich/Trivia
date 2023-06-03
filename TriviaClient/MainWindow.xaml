@@ -17,7 +17,7 @@
 
             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="Width" Value="500"/>
-                <Setter Property="Height" Value="125"/>
+                <Setter Property="Height" Value="100"/>
             </Style>
 
             <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}">
@@ -43,7 +43,7 @@
 
         <Image Name="connecting_gif" gif:AnimationBehavior.SourceUri="Assets/Connecting.gif" Grid.RowSpan="2" Width="500" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500"/>
+        <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="400"/>
 
         <!-- USERNAME AND LOGOUT STACK PANEL -->
         <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
