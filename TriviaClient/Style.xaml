@@ -168,45 +168,46 @@
                 <ControlTemplate TargetType="ComboBox">
                     <Grid>
                         <ToggleButton 
-         Name="ToggleButton" 
-         Template="{StaticResource ComboBoxToggleButton}" 
-         Grid.Column="2" 
-         Focusable="false"
-         IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
-         ClickMode="Press">
+                        Name="ToggleButton" 
+                        Template="{StaticResource ComboBoxToggleButton}" 
+                        Grid.Column="2" 
+                        Focusable="false"
+                        IsChecked="{Binding Path=IsDropDownOpen,Mode=TwoWay,RelativeSource={RelativeSource TemplatedParent}}"
+                        ClickMode="Press">
                         </ToggleButton>
                         <ContentPresenter
-        Name="ContentSite"
-        IsHitTestVisible="False" 
-        Margin="3,3,23,3"
-        VerticalAlignment="Center"
-        HorizontalAlignment="Left" />
+                        Name="ContentSite"
+                        IsHitTestVisible="False" 
+                        Margin="3,3,23,3"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Left"
+                        Content="{TemplateBinding SelectedItem}" />
                         <TextBox x:Name="PART_EditableTextBox"
-         Style="{x:Null}"
-         Template="{StaticResource ComboBoxTextBox}" 
-         HorizontalAlignment="Left" 
-         VerticalAlignment="Center" 
-         Margin="3,3,23,3"
-         Focusable="True" 
-         Background="Transparent"
-         Visibility="Hidden"
-         IsReadOnly="{TemplateBinding IsReadOnly}"/>
+                        Style="{x:Null}"
+                        Template="{StaticResource ComboBoxTextBox}" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Margin="3,3,23,3"
+                        Focusable="True" 
+                        Background="Transparent"
+                        Visibility="Hidden"
+                        IsReadOnly="{TemplateBinding IsReadOnly}"/>
                         <Popup 
-        Name="Popup"
-        Placement="Bottom"
-        IsOpen="{TemplateBinding IsDropDownOpen}"
-        AllowsTransparency="True" 
-        Focusable="False"
-        PopupAnimation="Slide">
+                        Name="Popup"
+                        Placement="Bottom"
+                        IsOpen="{TemplateBinding IsDropDownOpen}"
+                        AllowsTransparency="True" 
+                        Focusable="False"
+                        PopupAnimation="Slide">
                             <Grid 
-          Name="DropDown"
-          SnapsToDevicePixels="True"                
-          MinWidth="{TemplateBinding ActualWidth}"
-          MaxHeight="{TemplateBinding MaxDropDownHeight}">
+                            Name="DropDown"
+                            SnapsToDevicePixels="True"                
+                            MinWidth="{TemplateBinding ActualWidth}"
+                            MaxHeight="{TemplateBinding MaxDropDownHeight}">
                                 <Border 
-            x:Name="DropDownBorder"
-            Background="{StaticResource WindowBackgroundBrush}"
-            BorderThickness="1"/>
+                                x:Name="DropDownBorder"
+                                Background="{StaticResource WindowBackgroundBrush}"
+                                BorderThickness="1"/>
                                 <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
                                     <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
                                 </ScrollViewer>
@@ -220,7 +221,7 @@
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="FontFamily" Value="Berlin Sans FB"/>
         <Setter Property="FontSize" Value="70"/>
-
     </Style>
+
 
 </ResourceDictionary>

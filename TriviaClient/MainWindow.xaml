@@ -156,17 +156,17 @@
 
             <StackPanel Orientation="Horizontal" Grid.Row="4">
                 <TextBlock Text="Time For Question: " />
-                <ComboBox Name="create_room_choose_time_cb" Width="840" Height="80" Opacity="0.7"/>
+                <ComboBox Name="create_room_choose_time_cb" Width="840" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="6">
                 <TextBlock Text="Number Of Players: "/>
-                <ComboBox Name="create_room_max_players_cb" Width="810" Height="80" Opacity="0.7" />
+                <ComboBox Name="create_room_max_players_cb" Width="810" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Grid.Row="8">
                 <TextBlock Text="Number Of Questions: "/>
-                <ComboBox Name="create_room_questions_count_cb" Width="745" Height="80" Opacity="0.7" />
+                <ComboBox Name="create_room_questions_count_cb" Width="745" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="10">

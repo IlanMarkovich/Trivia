@@ -33,8 +33,6 @@ namespace TriviaClient
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            SetSizes();
-
             // Background Animation variable initializations
             velX = rand.Next(0, 2) == 0 ? -0.5 : 0.5;
             velY = rand.Next(0, 2) == 0 ? -0.5 : 0.5;
@@ -75,30 +73,6 @@ namespace TriviaClient
             }
         }
 
-        private void SetSizes()
-        {
-            // Calculates the current sizes for elements based on screen resolution
-            double screenWidth = SystemParameters.PrimaryScreenWidth;
-            double screenHeight = SystemParameters.PrimaryScreenHeight;
-
-            connecting_gif.Width = screenWidth / 3.84;
-            connecting_gif.Height = screenHeight / 10.8;
-
-            logo_image.Width = screenWidth / 1.92;
-            logo_image.Height = screenHeight / 2.16;
-
-            List<Button> buttons = Utils.GetChildComponents<Button>(mainGrid);
-
-            foreach (Button button in buttons)
-            {
-                if(!button.Name.Contains("ui"))
-                {
-                    button.Width = screenWidth / 3.84;
-                    button.Height = screenHeight / 8.64;
-                }
-            }
-        }
-
         // GENERAL FUNCTIONS
 
         private void ChangeMenu(string currentMenuName)
@@ -114,6 +88,11 @@ namespace TriviaClient
         private void Menu_btn_Click(object sender, RoutedEventArgs e)
         {
             ChangeMenu((sender as Button).Name.Replace("_btn", ""));
+        }
+
+        private void Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            (sender as ComboBox).Text = (string)(sender as ComboBox).SelectedItem;
         }
 
         // WELCOME MENU FUNCTIONS
