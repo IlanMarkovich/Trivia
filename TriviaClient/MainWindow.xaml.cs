@@ -250,9 +250,17 @@ namespace TriviaClient
 
         // CREATE ROOM MENU FUNCTIONS
 
+        private void create_room_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            create_room_name_txt.Text = String.Empty;
+            create_room_max_players_cb.SelectedIndex = -1;
+            create_room_questions_count_cb.SelectedIndex = -1;
+            create_room_choose_time_cb.SelectedIndex = -1;
+        }
+
         private void create_room_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(create_room_name_txt.Text == String.Empty || create_room_choose_time_cb.Text == String.Empty || create_room_max_players_cb.Text == String.Empty || create_room_questions_count_cb.Text == String.Empty)
+            if(create_room_name_txt.Text == String.Empty || create_room_name_txt.Text.Length > 25 || create_room_choose_time_cb.Text == String.Empty || create_room_max_players_cb.Text == String.Empty || create_room_questions_count_cb.Text == String.Empty)
             {
                 ErrorWindow window = new ErrorWindow("Create Room Error", "One or more of the fields are invalid!");
                 window.ShowDialog();
@@ -317,6 +325,74 @@ namespace TriviaClient
             else
             {
                 // Switch to the room
+            }
+        }
+
+        // STATISTICS FUNCTIONS
+
+        private void statistics_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(statistics.Visibility == Visibility.Visible)
+            {
+                personal_stat_btn_Click(null, null);
+            }
+        }
+
+        private void personal_stat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            personal_stat_txt.Visibility = Visibility.Visible;
+            high_score_players_list_view.Visibility = Visibility.Hidden;
+            personal_stat_btn.IsEnabled = false;
+            highscore_stat_btn.IsEnabled = true;
+        }
+
+        private void personal_stat_txt_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (personal_stat_txt.Visibility == Visibility.Hidden)
+                return;
+
+            client.Send(RequestType.GET_PERSONAL_STAT);
+
+            string response = client.Recieve();
+            PersonalStatistics stat = JsonConvert.DeserializeObject<PersonalStatistics>(response);
+
+            if(stat.status == 0)
+            {
+                ErrorWindow error = new ErrorWindow("Statistics Error", "There are no statistics for this user!");
+                error.ShowDialog();
+            }
+            else
+            {
+                personal_stat_txt.Text = stat.statistics;
+            }
+        }
+
+        private void highscore_stat_btn_Click(object sender, RoutedEventArgs e)
+        {
+            personal_stat_txt.Visibility = Visibility.Hidden;
+            high_score_players_list_view.Visibility = Visibility.Visible;
+            personal_stat_btn.IsEnabled = true;
+            highscore_stat_btn.IsEnabled = false;
+        }
+
+        private void high_score_players_list_view_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (high_score_players_list_view.Visibility == Visibility.Hidden)
+                return;
+
+            client.Send(RequestType.GET_HIGH_SCORES);
+
+            string response = client.Recieve();
+            HighScores highScores = JsonConvert.DeserializeObject<HighScores>(response);
+
+            if(highScores.status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("High Scores Error", "There are no high scores!");
+                window.ShowDialog();
+            }
+            else
+            {
+                high_score_players_list_view.DataContext = highScores.getPlayers();
             }
         }
     }

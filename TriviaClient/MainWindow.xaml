@@ -127,12 +127,12 @@
         <StackPanel Visibility="Hidden" Name="main_menu" IsVisibleChanged="main_menu_IsVisibleChanged" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
             <Button Name="create_room_menu_btn" Content="Create Room" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
             <Button Name="join_room_menu_btn" Content="Join Room" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
-            <Button Content="Statistics" Margin="0,0,0,20"/>
+            <Button Name="statistics_btn" Content="Statistics" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
             <Button Name="quit_user_btn" Content="Quit" Background="Red" Click="quit_user_btn_Click"/>
         </StackPanel>
 
         <!-- CREATE ROOM -->
-        <Grid Visibility="Hidden" Name="create_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Visibility="Hidden" IsVisibleChanged="create_room_menu_IsVisibleChanged" Name="create_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
@@ -199,6 +199,36 @@
 
             <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- STATISTICS -->
+        <Grid Visibility="Hidden" IsVisibleChanged="statistics_IsVisibleChanged" Name="statistics" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            
+            <!-- PERSONAL -->
+            <TextBlock Name="personal_stat_txt" Grid.Row="1" IsVisibleChanged="personal_stat_txt_IsVisibleChanged"/>
+
+            <!-- HIGH SCORE -->
+            <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" IsVisibleChanged="high_score_players_list_view_IsVisibleChanged" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Username" DisplayMemberBinding="{Binding username}" Width="1000"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="Personal statistics" Name="personal_stat_btn" IsEnabled="False" Margin="0,0,20,0" Click="personal_stat_btn_Click"/>
+                <Button Content="High Scores" Name="highscore_stat_btn" Margin="0,0,20,0" Click="highscore_stat_btn_Click"/>
                 <Button Content="Back" Click="Main_Menu_Back_Click"/>
             </StackPanel>
         </Grid>

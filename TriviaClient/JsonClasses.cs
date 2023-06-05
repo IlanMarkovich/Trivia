@@ -107,4 +107,54 @@ namespace TriviaClient
             this.roomId = roomId;
         }
     }
+
+    internal class PersonalStatistics
+    {
+        public int status { get; set; }
+        public string statistics { get; set; }
+
+        public PersonalStatistics(int status, string statistics)
+        {
+            this.status = status;
+            this.statistics = statistics;
+        }
+    }
+
+    internal class Player
+    {
+        public string username { get; set; }
+
+        public Player(string username)
+        {
+            this.username = username;
+        }
+    }
+
+    internal class HighScores
+    {
+        public int status { get; set; }
+        public string players { get; set; }
+
+        public HighScores(int status, string players)
+        {
+            this.status = status;
+            this.players = players;
+        }
+
+        public List<Player> getPlayers()
+        {
+            string[] arr = players.Split('\n');
+            List<Player> lst = new List<Player>();
+
+            foreach(string player in arr)
+            {
+                if(player != String.Empty)
+                {
+                    lst.Add(new Player(player));
+                }
+            }
+
+            return lst;
+        }
+    }
 }
