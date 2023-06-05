@@ -259,7 +259,7 @@ namespace TriviaClient
             int questionsCount = int.Parse(create_room_questions_count_cb.Text.Replace(" questions", ""));
             int answerTimeout = int.Parse(create_room_choose_time_cb.Text.Replace(" seconds", ""));
 
-            CreateRoom room = new CreateRoom(create_room_name_txt.Text, maxUsers, questionsCount, answerTimeout);
+            Room room = new Room(create_room_name_txt.Text, maxUsers, questionsCount, answerTimeout);
             client.Send(RequestType.CREATE_ROOM, JsonConvert.SerializeObject(room, Formatting.Indented));
 
             string response = client.Recieve();
@@ -269,6 +269,19 @@ namespace TriviaClient
             {
                 ErrorWindow window = new ErrorWindow("Create Room Error", "Something went wrong while creating this room.");
                 window.ShowDialog();
+            }
+        }
+
+        // JOIN ROOM FUNCTIONS
+
+        private void join_room_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(join_room_menu.Visibility == Visibility.Visible)
+            {
+                client.Send(RequestType.GET_ROOMS);
+
+                string response = client.Recieve();
+                room_list_view.DataContext = JsonConvert.DeserializeObject<RoomList>(response).getRooms();
             }
         }
     }

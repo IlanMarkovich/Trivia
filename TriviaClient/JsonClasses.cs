@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Management.Instrumentation;
+using System.Security.RightsManagement;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,19 +44,57 @@ namespace TriviaClient
         }
     }
 
-    internal class CreateRoom
+    internal class Room
     {
+        public int roomId { get; set; }
         public string roomName { get; set; }
         public int maxUsers { get; set; }
         public int questionsCount { get; set; }
         public int answerTimeout { get; set; }
 
-        public CreateRoom(string roomName, int maxUsers, int questionsCount, int answerTimeout)
+        public Room(string roomName, int maxUsers, int questionsCount, int answerTimeout)
         {
             this.roomName = roomName;
             this.maxUsers = maxUsers;
             this.questionsCount = questionsCount;
             this.answerTimeout = answerTimeout;
+        }
+
+        public Room(int roomId, string roomName, int maxUsers, int questionsCount, int answerTimeout)
+            : this(roomName, maxUsers, questionsCount, answerTimeout)
+        {
+            this.roomId = roomId;
+        }
+    }
+
+    internal class RoomList
+    {
+        public int status { get; set; }
+        public string rooms { get; set; }
+
+        public RoomList(int status, string rooms)
+        {
+            this.status = status;
+            this.rooms = rooms;
+        }
+
+        public List<Room> getRooms()
+        {
+            string[] rooms = this.rooms.Split('|');
+            List<Room> roomLst = new List<Room>();
+
+            foreach(string room in rooms)
+            {
+                string[] roomData = room.Split(',');
+                
+                if(roomData.Length == 5)
+                {
+                    roomLst.Add(new Room(int.Parse(roomData[0]), roomData[1], int.Parse(roomData[2]),
+                    int.Parse(roomData[3]), int.Parse(roomData[4])));
+                }
+            }
+
+            return roomLst;
         }
     }
 }

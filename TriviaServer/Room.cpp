@@ -49,9 +49,15 @@ string Room::roomDataVecToString(const vector<RoomData>& vec)
 
 	for (const RoomData& data : vec)
 	{
-		str += std::to_string(data.id) + ", ";
+		str += std::to_string(data.id) + "," + data.name + "," + std::to_string(data.maxPlayers) + ",";
+		str += std::to_string(data.numOfQuestionsInGame) + "," + std::to_string(data.timePerQuestion) + "|";
 	}
 
-	str.erase(str.end() - 2, str.end() - 1);
+	// If the string isn't empty, delete the last seperator
+	if (!str.empty())
+	{
+		str.erase(str.end() - 1);
+	}
+
 	return str;
 }

@@ -25,6 +25,10 @@ RequestResult MenuRequestHandler::handleRequest(RequestInfo info)
 			result = signout(info);
 			break;
 
+		case GET_ROOMS:
+			result = getRooms(info);
+			break;
+
 		case GET_PLAYRES_IN_ROOM:
 			result = getPlayersInRoom(info);
 			break;
@@ -70,7 +74,7 @@ RequestResult MenuRequestHandler::signout(RequestInfo info)
 
 RequestResult MenuRequestHandler::getRooms(RequestInfo info)
 {
-	GetRoomResponse response = { _handlerFactory.getRoomManager().getRooms().size() > 0, _handlerFactory.getRoomManager().getRooms()};
+	GetRoomResponse response = { !_handlerFactory.getRoomManager().getRooms().empty(), _handlerFactory.getRoomManager().getRooms()};
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }
 
@@ -79,7 +83,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(RequestInfo info)
 	GetPlayersInRoomRequest request = JsonRequestPacketDeserializer::deserializeGetPlayersRequest(info.buffer);
 	Room room = _handlerFactory.getRoomManager().getRoom(request.roomId);
 
-	GetPlayersInRoomResponse response = { room.getAllUsers().size() > 0, room.getAllUsers() };
+	GetPlayersInRoomResponse response = { !room.getAllUsers().empty(), room.getAllUsers()};
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }
 
