@@ -20,14 +20,15 @@ namespace TriviaClient
 
         private Client client;
         private UIElement currentMenu;
+        private bool isLoggedIn;
 
         public MainWindow()
         {
             InitializeComponent();
 
             rand = new Random();
-            client = new Client();
 
+            client = new Client();
             currentMenu = welcome_menu;
         }
 
@@ -377,7 +378,7 @@ namespace TriviaClient
 
         private void high_score_players_list_view_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (high_score_players_list_view.Visibility == Visibility.Hidden)
+            if (statistics.Visibility == Visibility.Hidden || high_score_players_list_view.Visibility == Visibility.Hidden)
                 return;
 
             client.Send(RequestType.GET_HIGH_SCORES);

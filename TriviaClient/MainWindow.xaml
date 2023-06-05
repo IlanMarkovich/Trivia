@@ -221,7 +221,7 @@
             <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" IsVisibleChanged="high_score_players_list_view_IsVisibleChanged" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Username" DisplayMemberBinding="{Binding username}" Width="1000"/>
+                        <GridViewColumn Header="High Score Players" DisplayMemberBinding="{Binding username}" Width="1000"/>
                     </GridView>
                 </ListView.View>
             </ListView>
