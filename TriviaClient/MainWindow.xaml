@@ -132,7 +132,7 @@
         </StackPanel>
 
         <!-- CREATE ROOM -->
-        <Grid Visibility="Hidden" Name="create_room_menu" IsVisibleChanged="create_room_menu_IsVisibleChanged" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid Visibility="Hidden" Name="create_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="100"/>
@@ -171,7 +171,7 @@
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="10">
                 <Button Name="create_room_btn" Content="Create Room" Click="create_room_btn_Click"/>
-                <Button Name="main_menu_back1" Content="Back"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
             </StackPanel>
         </Grid>
         
@@ -180,11 +180,13 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
-            <ListView Name="room_list_view" Grid.Row="1" PreviewMouseLeftButtonDown="room_list_view_PreviewMouseLeftButtonDown" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50">
+            <ListView Name="room_list_view" Grid.Row="1" SelectionChanged="room_list_view_SelectionChanged" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>
@@ -194,6 +196,11 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
+            </StackPanel>
         </Grid>
     </Grid>
 

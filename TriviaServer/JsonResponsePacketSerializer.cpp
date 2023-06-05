@@ -35,6 +35,8 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeStatusAndStrVecResp
     return createBuffer([status, vec, fieldName]() {
         json j;
 
+        j["status"] = status;
+
         std::stringstream strStream;
         std::ostream_iterator<string> iter(strStream, ",");
         std::copy(vec.begin(), vec.end(), iter);

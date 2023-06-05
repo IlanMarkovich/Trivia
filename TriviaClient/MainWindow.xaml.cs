@@ -51,6 +51,22 @@ namespace TriviaClient
             connecting_gif.Visibility = Visibility.Hidden;
             logo_image.Visibility = Visibility.Visible;
             welcome_menu.Visibility = Visibility.Visible;
+
+            // Setting value for comboboxes
+            for (int time = 30; time <= 180; time += 30)
+            {
+                create_room_choose_time_cb.Items.Add($"{time} seconds");
+            }
+
+            for (int players = 2; players <= 20; players++)
+            {
+                create_room_max_players_cb.Items.Add($"{players} players");
+            }
+
+            for (int questions = 5; questions <= 10; questions++)
+            {
+                create_room_questions_count_cb.Items.Add($"{questions} questions");
+            }
         }
 
         private async void AnimateBackgroundAsync()
@@ -93,6 +109,12 @@ namespace TriviaClient
         private void Cb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             (sender as ComboBox).Text = (string)(sender as ComboBox).SelectedItem;
+        }
+
+        private void Main_Menu_Back_Click(object sender, RoutedEventArgs e)
+        {
+            logo_image.Visibility = Visibility.Visible;
+            ChangeMenu("main_menu");
         }
 
         // WELCOME MENU FUNCTIONS
@@ -228,24 +250,6 @@ namespace TriviaClient
 
         // CREATE ROOM MENU FUNCTIONS
 
-        private void create_room_menu_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            for(int time = 30; time <= 180; time += 30)
-            {
-                create_room_choose_time_cb.Items.Add($"{time} seconds");
-            }
-
-            for(int players = 2; players <= 20; players++)
-            {
-                create_room_max_players_cb.Items.Add($"{players} players");
-            }
-
-            for(int questions = 5; questions <= 10; questions++)
-            {
-                create_room_questions_count_cb.Items.Add($"{questions} questions");
-            }
-        }
-
         private void create_room_btn_Click(object sender, RoutedEventArgs e)
         {
             if(create_room_name_txt.Text == String.Empty || create_room_choose_time_cb.Text == String.Empty || create_room_max_players_cb.Text == String.Empty || create_room_questions_count_cb.Text == String.Empty)
@@ -289,12 +293,17 @@ namespace TriviaClient
             }
         }
 
-        private void room_list_view_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void room_list_view_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if ((sender as ListView).SelectedItem == null)
+            join_room_btn.IsEnabled = room_list_view.SelectedIndex != -1;
+        }
+
+        private void join_room_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (room_list_view.SelectedItem == null)
                 return;
 
-            Room room = (sender as ListView).SelectedItem as Room;
+            Room room = room_list_view.SelectedItem as Room;
             client.Send(RequestType.JOIN_ROOM, JsonConvert.SerializeObject(new RoomId(room.roomId), Formatting.Indented));
 
             string response = client.Recieve();

@@ -133,11 +133,18 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	}
 
 	int requestLength = 0;
+	unsigned char lengthBuffer[LEN_SIZE];
+
+	// Convert the data recieved from a char array to an unsigned char array
+	for (int i = 0; i < LEN_SIZE; i++)
+	{
+		lengthBuffer[i] = static_cast<unsigned char>(recvData[i]);
+	}
 
 	// Convert requsetLength from bytes to int
 	for (int i = 0; i < LEN_SIZE; i++)
 	{
-		requestLength |= static_cast<int>(recvData[i]) << (8 * (LEN_SIZE - 1 - i));
+		requestLength |= static_cast<int>(lengthBuffer[i]) << (8 * (LEN_SIZE - 1 - i));
 	}
 
 	vector<unsigned char> buffer;
