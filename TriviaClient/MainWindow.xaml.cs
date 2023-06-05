@@ -263,12 +263,16 @@ namespace TriviaClient
             client.Send(RequestType.CREATE_ROOM, JsonConvert.SerializeObject(room, Formatting.Indented));
 
             string response = client.Recieve();
-            int status = ((Status)JsonConvert.DeserializeObject<Status>(response)).status;
+            int status = JsonConvert.DeserializeObject<Status>(response).status;
 
             if(status == 0)
             {
                 ErrorWindow window = new ErrorWindow("Create Room Error", "Something went wrong while creating this room.");
                 window.ShowDialog();
+            }
+            else
+            {
+                // Switch to the room
             }
         }
 
@@ -282,6 +286,28 @@ namespace TriviaClient
 
                 string response = client.Recieve();
                 room_list_view.DataContext = JsonConvert.DeserializeObject<RoomList>(response).getRooms();
+            }
+        }
+
+        private void room_list_view_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if ((sender as ListView).SelectedItem == null)
+                return;
+
+            Room room = (sender as ListView).SelectedItem as Room;
+            client.Send(RequestType.JOIN_ROOM, JsonConvert.SerializeObject(new RoomId(room.roomId), Formatting.Indented));
+
+            string response = client.Recieve();
+            int status = JsonConvert.DeserializeObject<Status>(response).status;
+
+            if (status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Join Room", "An error occurred while trying to join the room! Please try again");
+                window.ShowDialog();
+            }
+            else
+            {
+                // Switch to the room
             }
         }
     }

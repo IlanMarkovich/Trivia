@@ -18,6 +18,11 @@ Room::Room(RoomData metadata) : _metadata(metadata)
 
 void Room::addUser(const LoggedUser& user)
 {
+	if (std::count(_users.begin(), _users.end(), user) > 0)
+	{
+		throw std::exception("User already in room");
+	}
+
 	_users.push_back(user);
 }
 

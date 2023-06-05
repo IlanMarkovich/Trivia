@@ -184,7 +184,7 @@
 
             <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
-            <ListView Name="room_list_view" Grid.Row="1" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50">
+            <ListView Name="room_list_view" Grid.Row="1" PreviewMouseLeftButtonDown="room_list_view_PreviewMouseLeftButtonDown" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>

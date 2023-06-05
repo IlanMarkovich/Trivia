@@ -97,4 +97,14 @@ namespace TriviaClient
             return roomLst;
         }
     }
+
+    internal class RoomId
+    {
+        public int roomId { get; set; }
+
+        public RoomId(int roomId)
+        {
+            this.roomId = roomId;
+        }
+    }
 }

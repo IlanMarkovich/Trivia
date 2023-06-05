@@ -30,15 +30,15 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeOnlyStatusResponse(
         });
 }
 
-vector<unsigned char> JsonResponsePacketSerializer::serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec)
+vector<unsigned char> JsonResponsePacketSerializer::serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec, string fieldName)
 {
-    return createBuffer([status, vec]() {
+    return createBuffer([status, vec, fieldName]() {
         json j;
 
         std::stringstream strStream;
-        std::ostream_iterator<string> iter(strStream, ", ");
+        std::ostream_iterator<string> iter(strStream, ",");
         std::copy(vec.begin(), vec.end(), iter);
-        j["players"] = strStream.str();
+        j[fieldName] = strStream.str();
 
         return j;
         });
@@ -82,17 +82,17 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomRes
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResponse response)
 {
-    return serializeStatusAndStrVecResponse(response.status, response.players);
+    return serializeStatusAndStrVecResponse(response.status, response.players, "players");
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetHighScoresResponse response)
 {
-    return serializeStatusAndStrVecResponse(response.status, response.statistics);
+    return serializeStatusAndStrVecResponse(response.status, response.players, "players");
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPersonalStatResponse response)
 {
-    return serializeStatusAndStrVecResponse(response.status, response.statistics);
+    return serializeStatusAndStrVecResponse(response.status, response.statistics, "statistics");
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)

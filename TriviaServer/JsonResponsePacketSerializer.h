@@ -49,7 +49,7 @@ struct GetPlayersInRoomResponse
 struct GetHighScoresResponse
 {
 	unsigned int status;
-	vector<string> statistics;
+	vector<string> players;
 };
 
 struct GetPersonalStatResponse
@@ -73,7 +73,7 @@ class JsonResponsePacketSerializer
 private:
 	static vector<unsigned char> createBuffer(std::function<json()> serRes);
 	static vector<unsigned char> serializeOnlyStatusResponse(unsigned int status);
-	static vector<unsigned char> serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec);
+	static vector<unsigned char> serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec, string fieldName);
 
 public:
 	static vector<unsigned char> serializeResponse(ErrorResponse response);
