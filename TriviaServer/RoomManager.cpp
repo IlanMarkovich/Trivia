@@ -24,7 +24,11 @@ vector<RoomData> RoomManager::getRooms() const
 
 	for (auto i = _rooms.begin(); i != _rooms.end(); ++i)
 	{
-		roomsDataVec.push_back(i->second.getData());
+		// Only add the rooms which are avaliable (not active)
+		if (!i->second.getData().isActive)
+		{
+			roomsDataVec.push_back(i->second.getData());
+		}
 	}
 
 	return roomsDataVec;
