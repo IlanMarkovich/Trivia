@@ -68,6 +68,30 @@ struct CreateRoomResponse
 	unsigned int status;
 };
 
+struct CloseRoomResponse
+{
+	unsigned int status;
+};
+
+struct StartGameResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	vector<string> players;
+	unsigned int questionsCount;
+	unsigned int answerTimeout;
+};
+
+struct LeaveRoomResponse
+{
+	unsigned int status;
+};
+
 class JsonResponsePacketSerializer
 {
 private:
@@ -86,4 +110,8 @@ public:
 	static vector<unsigned char> serializeResponse(GetPersonalStatResponse response);
 	static vector<unsigned char> serializeResponse(JoinRoomResponse response);
 	static vector<unsigned char> serializeResponse(CreateRoomResponse response);
+	static vector<unsigned char> serializeResponse(CloseRoomResponse response);
+	static vector<unsigned char> serializeResponse(StartGameResponse response);
+	static vector<unsigned char> serializeResponse(GetRoomStateResponse response);
+	static vector<unsigned char> serializeResponse(LeaveRoomResponse response);
 };

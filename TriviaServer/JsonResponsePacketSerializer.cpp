@@ -106,3 +106,37 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoom
 {
     return serializeOnlyStatusResponse(response.status);
 }
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
+{
+    return serializeOnlyStatusResponse(response.status);
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
+{
+    return serializeOnlyStatusResponse(response.status);
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
+{
+    return createBuffer([response]() {
+        json j;
+        j["status"] = response.status;
+        j["hasGameBegun"] = response.hasGameBegun;
+
+        std::stringstream strStream;
+        std::ostream_iterator<string> iter(strStream, "\n");
+        std::copy(response.players.begin(), response.players.end(), iter);
+        j["players"] = strStream.str();
+
+        j["questionsCount"] = response.questionsCount;
+        j["answerTimeout"] = response.answerTimeout;
+
+        return j;
+        });
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
+{
+    return serializeOnlyStatusResponse(response.status);
+}
