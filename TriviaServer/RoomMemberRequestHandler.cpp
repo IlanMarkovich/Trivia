@@ -23,5 +23,29 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult RoomMemberRequestHandler::leaveRoom(RequestInfo info)
 {
-	
+	bool success = true;
+	IRequestHandler* newHandler = this;
+
+	try
+	{
+		_room.removeUser(_user);
+		newHandler = _handlerFactory.createMenuRequestHandler(_user.getUsername());
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	LeaveRoomResponse response = { success };
+	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler };
+}
+
+// PROTECTED METHODS
+
+RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
+{
+	RoomData data = _room.getData();
+	GetRoomStateResponse response = { true, data.isActive, _room.getAllUsers(), data.numOfQuestionsInGame, data.timePerQuestion };
+
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }
