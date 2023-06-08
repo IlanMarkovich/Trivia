@@ -1,0 +1,237 @@
+﻿<Window x:Class="TriviaClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TriviaClient"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanMinimize"
+        WindowStyle="None" WindowState="Maximized" Loaded="Window_Loaded">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+                <Setter Property="Width" Value="500"/>
+                <Setter Property="Height" Value="125"/>
+            </Style>
+
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}">
+                <Setter Property="Width" Value="1000"/>
+                <Setter Property="Height" Value="80"/>
+            </Style>
+
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="PasswordBox" BasedOn="{StaticResource PasswordboxStyle}"/>
+            <Style TargetType="ComboBox" BasedOn="{StaticResource ComboboxStyle}"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid Name="mainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="1.5*"/>
+        </Grid.RowDefinitions>
+
+        <Canvas Name="background_canvas" Grid.RowSpan="2">
+            <Image Name="background_image" Source="Assets/menu-background.png"/>
+        </Canvas>
+
+        <Image Name="connecting_gif" gif:AnimationBehavior.SourceUri="Assets/Connecting.gif" Grid.RowSpan="2" Width="500" Height="100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <!-- USERNAME AND LOGOUT STACK PANEL -->
+        <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+            <TextBlock Name="username_txt" Text="username"/>
+            <Button Name="logout_uibtn" Style="{StaticResource UI-ButtonStyle}" Click="logout_uibtn_Click">
+                <Button.Content>
+                    <Image Source="Assets/sign-out-fill.png"/>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+
+        <!-- WELCOME MENU -->
+        <StackPanel Visibility="Hidden" IsVisibleChanged="welcome_menu_IsVisibleChanged" Name="welcome_menu" Orientation="Vertical" Grid.Row="1" VerticalAlignment="Top">
+            <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
+            <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
+            <Button Name="quit_btn" Content="Quit" Background="Red" Click="quit_btn_Click"/>
+        </StackPanel>
+
+        <!-- LOGIN MENU -->
+        <Grid Visibility="Hidden" Name="login_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -40, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+           
+            <TextBlock Text="Username: " FontSize="50"/>
+            <TextBox Name="login_username" Grid.Row="1"/>
+
+            <TextBlock Text="Password: " Grid.Row="3" FontSize="50"/>
+            <PasswordBox Name="login_password"  Grid.Row="4"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="6">
+                <TextBlock Name="login_invalid_txt" Visibility="Hidden" Text="*One or more fields are invalid!" Foreground="red" FontSize="50" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="login_btn" Content="Log In" Click="login_btn_Click"/>
+                    <Button Name="welcome_menu_back1" Content="Back" Click="welcome_menu_back1_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+        
+        <!-- SIGN UP MENU -->
+        <Grid Visibility="Hidden" Name="signup_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -75, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Username: " FontSize="50"/>
+            <TextBox Name="signup_username" Grid.Row="1"/>
+
+            <TextBlock Text="Password: " Grid.Row="3" FontSize="50"/>
+            <PasswordBox Name="signup_password"  Grid.Row="4"/>
+
+            <TextBlock Text="Email: " Grid.Row="6" FontSize="50"/>
+            <TextBox Name="signup_email" Grid.Row="7"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="8">
+                <TextBlock Name="signup_invalid_txt" Visibility="Hidden" Text="*One or more fields are invalid!" Foreground="red" FontSize="50" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="signup_btn" Content="Sign up" Click="signup_btn_Click"/>
+                    <Button Name="welcome_menu_back2" Content="Back" Click="welcome_menu_back2_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+
+        <!-- MAIN MENU -->
+        <StackPanel Visibility="Hidden" Name="main_menu" IsVisibleChanged="main_menu_IsVisibleChanged" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
+            <Button Name="create_room_menu_btn" Content="Create Room" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
+            <Button Name="join_room_menu_btn" Content="Join Room" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
+            <Button Name="statistics_btn" Content="Statistics" Margin="0,0,0,20" Click="Main_menu_change_btn_Click"/>
+            <Button Name="quit_user_btn" Content="Quit" Background="Red" Click="quit_user_btn_Click"/>
+        </StackPanel>
+
+        <!-- CREATE ROOM -->
+        <Grid Visibility="Hidden" IsVisibleChanged="create_room_menu_IsVisibleChanged" Name="create_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Create Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="2">
+                <TextBlock Text="Room Name: "/>
+                <TextBox Name="create_room_name_txt" Height="80"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="4">
+                <TextBlock Text="Time For Question: " />
+                <ComboBox Name="create_room_choose_time_cb" Width="840" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="6">
+                <TextBlock Text="Number Of Players: "/>
+                <ComboBox Name="create_room_max_players_cb" Width="810" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="8">
+                <TextBlock Text="Number Of Questions: "/>
+                <ComboBox Name="create_room_questions_count_cb" Width="745" Height="80" Opacity="0.7" SelectionChanged="Cb_SelectionChanged"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="10">
+                <Button Name="create_room_btn" Content="Create Room" Click="create_room_btn_Click"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
+            </StackPanel>
+        </Grid>
+        
+        <!-- JOIN ROOM -->
+        <Grid Visibility="Hidden" IsVisibleChanged="join_room_menu_IsVisibleChanged" Name="join_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+
+            <ListView Name="room_list_view" Grid.Row="1" SelectionChanged="room_list_view_SelectionChanged" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>
+                        <GridViewColumn Header="Questions" DisplayMemberBinding="{Binding questionsCount}" Width="250"/>
+                        <GridViewColumn Header="Max Users" DisplayMemberBinding="{Binding maxUsers}" Width="250"/>
+                        <GridViewColumn Header="Time" DisplayMemberBinding="{Binding answerTimeout}" Width="250"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- STATISTICS -->
+        <Grid Visibility="Hidden" IsVisibleChanged="statistics_IsVisibleChanged" Name="statistics" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+            
+            <!-- PERSONAL -->
+            <TextBlock Name="personal_stat_txt" Grid.Row="1" IsVisibleChanged="personal_stat_txt_IsVisibleChanged"/>
+
+            <!-- HIGH SCORE -->
+            <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" IsVisibleChanged="high_score_players_list_view_IsVisibleChanged" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="High Score Players" DisplayMemberBinding="{Binding username}" Width="1000"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Content="Personal statistics" Name="personal_stat_btn" IsEnabled="False" Margin="0,0,20,0" Click="personal_stat_btn_Click"/>
+                <Button Content="High Scores" Name="highscore_stat_btn" Margin="0,0,20,0" Click="highscore_stat_btn_Click"/>
+                <Button Content="Back" Click="Main_Menu_Back_Click"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+
+</Window>
