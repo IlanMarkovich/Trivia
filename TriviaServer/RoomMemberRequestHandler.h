@@ -18,7 +18,7 @@ private:
 
 public:
 	// C'tor
-	RoomMemberRequestHandler(Room room, LoggedUser user);
+	RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, const Room& room);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;
