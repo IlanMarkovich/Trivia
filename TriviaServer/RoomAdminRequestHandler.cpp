@@ -73,5 +73,33 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 {
-	return RequestResult();
+	bool success = true;
+
+	try
+	{
+		// Create Requets info
+		RequestType id = START_GAME;
+		time_t receivalTime;
+		time(&receivalTime);
+		RequestInfo info = { id, receivalTime, vector<unsigned char>() };
+
+		Communicator::sendResponseToClients([this](IRequestHandler* handler) {
+			if (dynamic_cast<RoomMemberRequestHandler*>(handler) == nullptr)
+			{
+				return false;
+			}
+
+			RoomMemberRequestHandler roomHandler = *(dynamic_cast<RoomMemberRequestHandler*>(handler));
+			LoggedUser user = roomHandler.getUser();
+
+			return _room.hasUser(user) && !_room.isAdmin(user);
+			}, info);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	StartGameResponse response = { success };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }

@@ -31,7 +31,10 @@ public:
 
 	void addUser(const LoggedUser& user);
 	void removeUser(const LoggedUser& user);
+
 	bool hasUser(const LoggedUser& user) const;
+	bool isAdmin(const LoggedUser& user) const;
+
 	vector<string> getAllUsers() const;
 	RoomData getData() const;
 

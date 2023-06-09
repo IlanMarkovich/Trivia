@@ -11,10 +11,12 @@
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+
 class RequestHandlerFactory
 {
 private:
 	IDatabase* _database;
+
 	LoginManager _loginManager;
 	RoomManager _roomManager;
 	StatisticsManager _statisticsManager;
