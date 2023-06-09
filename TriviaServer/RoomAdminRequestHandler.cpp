@@ -35,3 +35,15 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 
 	return result;
 }
+
+// PRIVATE METHODS
+
+RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
+{
+	return RequestResult();
+}
+
+RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
+{
+	return RequestResult();
+}

@@ -1,5 +1,7 @@
 #include "RequestHandlerFactory.h"
 
+#include "RoomAdminRequestHandler.h"
+
 // C'tor
 
 RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : _loginManager(database), _statisticsManager(database), _database(database)
@@ -35,12 +37,12 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 	return new MenuRequestHandler(*this, _loginManager[username]);
 }
 
-RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser& user, const Room& room)
+IRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser& user, const Room& room)
 {
 	return new RoomMemberRequestHandler(*this, user, room);
 }
 
-RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser& user, const Room& room)
+IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser& user, const Room& room)
 {
 	return new RoomAdminRequestHandler(*this, user, room);
 }

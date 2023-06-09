@@ -3,8 +3,6 @@
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
 
-class RequestHandlerFactory;
-
 class RoomMemberRequestHandler : public IRequestHandler
 {
 private:

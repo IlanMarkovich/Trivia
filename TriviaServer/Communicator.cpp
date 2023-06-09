@@ -10,8 +10,8 @@
 using std::string;
 
 // STATIC FIELDS
-map<SOCKET, IRequestHandler*> _clients;
-std::mutex _responseMutex;
+map<SOCKET, IRequestHandler*> Communicator::_clients = {};
+std::mutex Communicator::_responseMutex;
 
 // C'tor
 

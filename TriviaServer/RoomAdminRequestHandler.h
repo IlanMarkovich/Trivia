@@ -2,8 +2,6 @@
 
 #include "RoomMemberRequestHandler.h"
 
-class RequestHandlerFactory;
-
 class RoomAdminRequestHandler : public RoomMemberRequestHandler
 {
 public:
