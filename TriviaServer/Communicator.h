@@ -5,6 +5,8 @@
 
 #include <Windows.h>
 #include <map>
+#include <mutex>
+#include <functional>
 
 #include "IRequestHandler.h"
 #include "RequestHandlerFactory.h"
@@ -22,12 +24,14 @@ public:
 	Communicator(RequestHandlerFactory& handlerFactory);
 
 	void startHandleRequests();
+	static void sendResponseToClients(vector<unsigned char> buffer, std::function<bool(IRequestHandler*)> clientCondition);
 
 private:
 	// FIELDS
 	SOCKET _serverSocket;
-	map<SOCKET, IRequestHandler*> _clients;
 	RequestHandlerFactory& _handlerFactory;
+	static map<SOCKET, IRequestHandler*> _clients;
+	static std::mutex _responseMutex;
 
 	// METHODS
 	void bindAndListen();

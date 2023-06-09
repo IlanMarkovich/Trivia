@@ -9,6 +9,10 @@
 
 using std::string;
 
+// STATIC FIELDS
+map<SOCKET, IRequestHandler*> _clients;
+std::mutex _responseMutex;
+
 // C'tor
 
 Communicator::Communicator(RequestHandlerFactory& handlerFactory) : _handlerFactory(handlerFactory)
@@ -28,6 +32,23 @@ void Communicator::startHandleRequests()
 	}
 
 	bindAndListen();
+}
+
+void Communicator::sendResponseToClients(vector<unsigned char> buffer, std::function<bool(IRequestHandler*)> clientCondition)
+{
+	for (auto i = _clients.begin(); i != _clients.end(); ++i)
+	{
+		if (clientCondition(i->second))
+		{
+			// CRITICAL SECTION ***********************************
+			std::unique_lock<std::mutex> responseLock(_responseMutex);
+
+			send(i->first, (const char *) &(*buffer.begin()), buffer.size(), 0);
+
+			responseLock.unlock();
+			// *****************************************************
+		}
+	}
 }
 
 // PRIVATE METHODS
@@ -172,6 +193,9 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 
 void Communicator::sendResponse(SOCKET client, RequestInfo info)
 {
+	// CRITICAL SECTION *********************************
+	std::unique_lock<std::mutex> responseLock(_responseMutex);
+
 	// If the request is not relevent, don't send a response
 	if (!_clients[client]->isRequestRelevant(info))
 	{
@@ -190,6 +214,8 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info)
 	string message(buffer.begin(), buffer.end());
 
 	int socketResult = send(client, message.c_str(), message.size(), 0);
+	responseLock.unlock();
+	// ************************************************
 
 	if (socketResult == INVALID_SOCKET)
 	{
