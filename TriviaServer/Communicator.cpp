@@ -34,19 +34,13 @@ void Communicator::startHandleRequests()
 	bindAndListen();
 }
 
-void Communicator::sendResponseToClients(vector<unsigned char> buffer, std::function<bool(IRequestHandler*)> clientCondition)
+void Communicator::sendResponseToClients(std::function<bool(IRequestHandler*)> clientCondition, RequestInfo info)
 {
 	for (auto i = _clients.begin(); i != _clients.end(); ++i)
 	{
 		if (clientCondition(i->second))
 		{
-			// CRITICAL SECTION ***********************************
-			std::unique_lock<std::mutex> responseLock(_responseMutex);
-
-			send(i->first, (const char *) &(*buffer.begin()), buffer.size(), 0);
-
-			responseLock.unlock();
-			// *****************************************************
+			sendResponse(i->first, info);
 		}
 	}
 }

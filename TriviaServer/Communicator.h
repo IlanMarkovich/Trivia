@@ -24,7 +24,7 @@ public:
 	Communicator(RequestHandlerFactory& handlerFactory);
 
 	void startHandleRequests();
-	static void sendResponseToClients(vector<unsigned char> buffer, std::function<bool(IRequestHandler*)> clientCondition);
+	static void sendResponseToClients(std::function<bool(IRequestHandler*)> clientCondition, RequestInfo info);
 
 private:
 	// FIELDS

@@ -46,19 +46,21 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 	try
 	{
-		LeaveRoomResponse leaveRoom = { true };
+		// Create Requets info
+		RequestType id = LEAVE_ROOM;
+		time_t receivalTime;
+		time(&receivalTime);
+		RequestInfo info = { id, receivalTime, vector<unsigned char>() };
 
-		Communicator::sendResponseToClients(JsonResponsePacketSerializer::serializeResponse(leaveRoom), [this](IRequestHandler* handler) {
-			// Part of the condition to send to a certain client the leave response, is only if he is in a room state
+		Communicator::sendResponseToClients([this](IRequestHandler* handler) {
 			if (dynamic_cast<RoomMemberRequestHandler*>(handler) == nullptr)
 			{
 				return false;
 			}
 
-			// The condition is that the client has to be in a room state, and in this room in particular
 			RoomMemberRequestHandler roomHandler = *(dynamic_cast<RoomMemberRequestHandler*>(handler));
 			return _room.hasUser(roomHandler.getUser());
-			});
+			}, info);
 	}
 	catch (std::exception& e)
 	{
