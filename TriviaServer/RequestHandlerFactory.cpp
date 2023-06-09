@@ -37,12 +37,12 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(string usern
 	return new MenuRequestHandler(*this, _loginManager[username]);
 }
 
-IRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser& user, const Room& room)
+IRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUser& user, Room& room)
 {
 	return new RoomMemberRequestHandler(*this, user, room);
 }
 
-IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser& user, const Room& room)
+IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser& user, Room& room)
 {
 	return new RoomAdminRequestHandler(*this, user, room);
 }

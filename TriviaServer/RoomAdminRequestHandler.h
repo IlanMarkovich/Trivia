@@ -6,7 +6,7 @@ class RoomAdminRequestHandler : public RoomMemberRequestHandler
 {
 public:
 	// C'tor
-	RoomAdminRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, const Room& room);
+	RoomAdminRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser& user, Room& room);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;

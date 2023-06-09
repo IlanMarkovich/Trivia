@@ -5,18 +5,21 @@
 
 class RoomMemberRequestHandler : public IRequestHandler
 {
-private:
-	Room _room;
-	LoggedUser _user;
+protected:
+	Room& _room;
+	LoggedUser& _user;
 	RequestHandlerFactory& _handlerFactory;
 
 public:
 	// C'tor
-	RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, const Room& room);
+	RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser& user, Room& room);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;
 	virtual RequestResult handleRequest(RequestInfo info) override;
+
+	// GETTER
+	LoggedUser getUser() const;
 
 private:
 	RequestResult leaveRoom(RequestInfo info);

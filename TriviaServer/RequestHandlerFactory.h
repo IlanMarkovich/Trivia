@@ -31,6 +31,6 @@ public:
 	// METHODS
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(string username);
-	IRequestHandler* createRoomMemberRequestHandler(const LoggedUser& user, const Room& room);
-	IRequestHandler* createRoomAdminRequestHandler(const LoggedUser& user, const Room& room);
+	IRequestHandler* createRoomMemberRequestHandler(LoggedUser& user, Room& room);
+	IRequestHandler* createRoomAdminRequestHandler(LoggedUser& user, Room& room);
 };

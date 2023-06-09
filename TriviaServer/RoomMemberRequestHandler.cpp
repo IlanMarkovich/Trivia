@@ -2,7 +2,7 @@
 
 // C'tor
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, const Room& room)
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser& user, Room& room)
 	: _handlerFactory(handlerFactory), _user(user), _room(room)
 {
 }
@@ -17,6 +17,13 @@ bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 {
 	return info.id == LEAVE_ROOM ? leaveRoom(info) : getRoomState(info);
+}
+
+// GETTERS
+
+LoggedUser RoomMemberRequestHandler::getUser() const
+{
+	return _user;
 }
 
 // PRIVATE METHODS

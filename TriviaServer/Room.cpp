@@ -18,7 +18,7 @@ Room::Room(RoomData metadata) : _metadata(metadata)
 
 void Room::addUser(const LoggedUser& user)
 {
-	if (std::count(_users.begin(), _users.end(), user) > 0)
+	if (hasUser(user))
 	{
 		throw std::exception("User already in room");
 	}
@@ -29,6 +29,11 @@ void Room::addUser(const LoggedUser& user)
 void Room::removeUser(const LoggedUser& user)
 {
 	_users.erase(std::find(_users.begin(), _users.end(), user));
+}
+
+bool Room::hasUser(const LoggedUser& user) const
+{
+	return std::count(_users.begin(), _users.end(), user) > 0;
 }
 
 vector<string> Room::getAllUsers() const
