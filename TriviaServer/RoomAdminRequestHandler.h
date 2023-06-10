@@ -1,7 +1,6 @@
 #pragma once
 
 #include "RoomMemberRequestHandler.h"
-
 class RoomAdminRequestHandler : public RoomMemberRequestHandler
 {
 public:
@@ -15,4 +14,5 @@ public:
 private:
 	RequestResult closeRoom(RequestInfo info);
 	RequestResult startGame(RequestInfo info);
+	bool sendToAllInRoom(RequestType id);
 };

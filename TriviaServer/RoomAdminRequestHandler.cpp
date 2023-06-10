@@ -42,47 +42,26 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 {
-	bool success = true;
-
-	try
-	{
-		// Create Requets info
-		RequestType id = LEAVE_ROOM;
-		time_t receivalTime;
-		time(&receivalTime);
-		RequestInfo info = { id, receivalTime, vector<unsigned char>() };
-
-		Communicator::sendResponseToClients([this](IRequestHandler* handler) {
-			if (dynamic_cast<RoomMemberRequestHandler*>(handler) == nullptr)
-			{
-				return false;
-			}
-
-			RoomMemberRequestHandler roomHandler = *(dynamic_cast<RoomMemberRequestHandler*>(handler));
-			return _room.hasUser(roomHandler.getUser());
-			}, info);
-	}
-	catch (std::exception& e)
-	{
-		success = false;
-	}
-
-	CloseRoomResponse response = { success };
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	CloseRoomResponse response = { sendToAllInRoom(LEAVE_ROOM)};
+	return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createMenuRequestHandler(_user.getUsername())};
 }
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 {
-	bool success = true;
+	StartGameResponse response = { sendToAllInRoom(START_GAME)};
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
 
+bool RoomAdminRequestHandler::sendToAllInRoom(RequestType id)
+{
 	try
 	{
-		// Create Requets info
-		RequestType id = START_GAME;
+		// Builds the request info, to send a response later on
 		time_t receivalTime;
 		time(&receivalTime);
 		RequestInfo info = { id, receivalTime, vector<unsigned char>() };
 
+		// Sends the resposne to all the clients which are in this room and not the admin
 		Communicator::sendResponseToClients([this](IRequestHandler* handler) {
 			if (dynamic_cast<RoomMemberRequestHandler*>(handler) == nullptr)
 			{
@@ -92,14 +71,13 @@ RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 			RoomMemberRequestHandler roomHandler = *(dynamic_cast<RoomMemberRequestHandler*>(handler));
 			LoggedUser user = roomHandler.getUser();
 
-			return _room.hasUser(user) && !_room.isAdmin(user);
+			return _room.hasUser(user) && !(user == _user);
 			}, info);
 	}
 	catch (std::exception& e)
 	{
-		success = false;
+		return false;
 	}
 
-	StartGameResponse response = { success };
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return true;
 }

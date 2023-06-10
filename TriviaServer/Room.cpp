@@ -33,12 +33,9 @@ void Room::removeUser(const LoggedUser& user)
 
 bool Room::hasUser(const LoggedUser& user) const
 {
-	return std::count(_users.begin(), _users.end(), user) > 0;
-}
-
-bool Room::isAdmin(const LoggedUser& user) const
-{
-	return hasUser(user) && _users[0] == user;
+	return std::count_if(_users.begin(), _users.end(), [user](LoggedUser item) {
+		return user.getUsername() == item.getUsername();
+		});
 }
 
 vector<string> Room::getAllUsers() const
