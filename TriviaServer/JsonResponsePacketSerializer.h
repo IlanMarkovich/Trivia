@@ -92,11 +92,18 @@ struct LeaveRoomResponse
 	unsigned int status;
 };
 
+enum ResponseType
+{
+	REGULAR, START_GAME, LEAVE_ROOM
+};
+
 class JsonResponsePacketSerializer
 {
 private:
 	static vector<unsigned char> createBuffer(std::function<json()> serRes);
+	static vector<unsigned char> createBuffer(std::function<json()> serRes, ResponseType type);
 	static vector<unsigned char> serializeOnlyStatusResponse(unsigned int status);
+	static vector<unsigned char> serializeOnlyStatusResponse(unsigned int status, ResponseType type);
 	static vector<unsigned char> serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec, string fieldName);
 
 public:

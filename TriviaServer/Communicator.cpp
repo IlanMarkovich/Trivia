@@ -163,11 +163,11 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	}
 
 	vector<unsigned char> buffer;
+	delete[] recvData;
 
 	// Get request content, if there is content to get
 	if (requestLength > 0)
 	{
-		delete[] recvData;
 		recvData = new char[requestLength];
 		socketResult = recv(client, recvData, requestLength, 0);
 
@@ -204,10 +204,7 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info)
 		_clients[client] = result.newHandler;
 	}
 
-	vector<unsigned char> buffer = result.response;
-	string message(buffer.begin(), buffer.end());
-
-	int socketResult = send(client, message.c_str(), message.size(), 0);
+	int socketResult = send(client, (const char*) &(*result.response.begin()), result.response.size(), 0);
 	responseLock.unlock();
 	// ************************************************
 

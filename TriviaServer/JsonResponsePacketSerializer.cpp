@@ -8,7 +8,12 @@
 
 vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<json()> serRes)
 {
-    vector<unsigned char> buffer = { '\0' };
+    return createBuffer(serRes, REGULAR);
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<json()> serRes, ResponseType type)
+{
+    vector<unsigned char> buffer = { (unsigned char)type };
     string data = serRes().dump();
 
     // Convert from int to bytes
@@ -23,12 +28,18 @@ vector<unsigned char> JsonResponsePacketSerializer::createBuffer(std::function<j
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeOnlyStatusResponse(unsigned int status)
 {
+    return serializeOnlyStatusResponse(status, REGULAR);
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeOnlyStatusResponse(unsigned int status, ResponseType type)
+{
     return createBuffer([status]() {
         json j;
         j["status"] = status;
         return j;
-        });
+        }, type);
 }
+
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeStatusAndStrVecResponse(unsigned int status, const vector<string>& vec, string fieldName)
 {
@@ -114,7 +125,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomR
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)
 {
-    return serializeOnlyStatusResponse(response.status);
+    return serializeOnlyStatusResponse(response.status, START_GAME);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse response)
@@ -138,5 +149,5 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetRoomSta
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse response)
 {
-    return serializeOnlyStatusResponse(response.status);
+    return serializeOnlyStatusResponse(response.status, LEAVE_ROOM);
 }
