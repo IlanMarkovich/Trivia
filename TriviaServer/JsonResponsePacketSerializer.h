@@ -94,7 +94,7 @@ struct LeaveRoomResponse
 
 enum ResponseType
 {
-	REGULAR, START_GAME, LEAVE_ROOM
+	REGULAR, START_GAME_RESPONSE, LEAVE_ROOM_RESPONSE
 };
 
 class JsonResponsePacketSerializer

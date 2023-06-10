@@ -13,6 +13,11 @@ namespace TriviaClient
         ERR = -1, LOGIN, SIGNUP, SIGNOUT, GET_ROOMS, GET_PLAYRES_IN_ROOM, GET_PERSONAL_STAT, GET_HIGH_SCORES, JOIN_ROOM, CREATE_ROOM, CLOSE_ROOM, START_GAME, GET_ROOM_STATE, LEAVE_ROOM
     }
 
+    public enum ResponseType
+    {
+        REGULAR, START_GAME, LEAVE_ROOM
+    }
+
     public class Client
     {
         private readonly int PORT = 7777;
@@ -85,10 +90,12 @@ namespace TriviaClient
             client.Write(buffer.ToArray(), 0, buffer.Count);
         }
 
-        public string Recieve()
+        public KeyValuePair<ResponseType, string> Recieve()
         {
             byte[] buffer = new byte[MAX_MESSAGE_SIZE];
             client.Read(buffer, 0, MAX_MESSAGE_SIZE);
+
+            ResponseType type = (ResponseType)buffer[0];
 
             byte[] lengthArr = new byte[4];
             Array.Copy(buffer, 1, lengthArr, 0, 4);
@@ -103,7 +110,7 @@ namespace TriviaClient
             byte[] data = new byte[length];
             Array.Copy(buffer, 5, data, 0, length);
 
-            return Encoding.ASCII.GetString(data);
+            return new KeyValuePair<ResponseType, string>(type, Encoding.ASCII.GetString(data));
         }
     }
 }

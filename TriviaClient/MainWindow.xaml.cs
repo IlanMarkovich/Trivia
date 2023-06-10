@@ -144,7 +144,7 @@ namespace TriviaClient
             LoginUser user = new LoginUser(login_username.Text, login_password.Password);
             client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
             if (status.status == 0)
@@ -183,7 +183,7 @@ namespace TriviaClient
             SignupUser user = new SignupUser(signup_username.Text, signup_password.Password, signup_email.Text);
             client.Send(RequestType.SIGNUP, JsonConvert.SerializeObject(user, Formatting.Indented));
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
             if(status.status == 0)
@@ -275,7 +275,7 @@ namespace TriviaClient
             Room room = new Room(create_room_name_txt.Text, maxUsers, questionsCount, answerTimeout);
             client.Send(RequestType.CREATE_ROOM, JsonConvert.SerializeObject(room, Formatting.Indented));
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             int status = JsonConvert.DeserializeObject<Status>(response).status;
 
             if(status == 0)
@@ -297,7 +297,7 @@ namespace TriviaClient
             {
                 client.Send(RequestType.GET_ROOMS);
 
-                string response = client.Recieve();
+                string response = client.Recieve().Value;
                 room_list_view.DataContext = JsonConvert.DeserializeObject<RoomList>(response).getRooms();
             }
         }
@@ -315,7 +315,7 @@ namespace TriviaClient
             Room room = room_list_view.SelectedItem as Room;
             client.Send(RequestType.JOIN_ROOM, JsonConvert.SerializeObject(new RoomId(room.roomId), Formatting.Indented));
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             int status = JsonConvert.DeserializeObject<Status>(response).status;
 
             if (status == 0)
@@ -354,7 +354,7 @@ namespace TriviaClient
 
             client.Send(RequestType.GET_PERSONAL_STAT);
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             PersonalStatistics stat = JsonConvert.DeserializeObject<PersonalStatistics>(response);
 
             if(stat.status == 0)
@@ -383,7 +383,7 @@ namespace TriviaClient
 
             client.Send(RequestType.GET_HIGH_SCORES);
 
-            string response = client.Recieve();
+            string response = client.Recieve().Value;
             HighScores highScores = JsonConvert.DeserializeObject<HighScores>(response);
 
             if(highScores.status == 0)
