@@ -38,6 +38,6 @@ private:
 	void handleNewClient(SOCKET client);
 
 	RequestInfo recieveRequest(SOCKET client);
-	static void sendResponse(SOCKET client, RequestInfo info);
+	static void sendResponse(SOCKET client, RequestInfo info, bool serverSend);
 };
 

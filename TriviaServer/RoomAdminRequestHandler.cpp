@@ -42,6 +42,8 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 {
+	_handlerFactory.getRoomManager().deleteRoom(_room.getData().id);
+
 	CloseRoomResponse response = { sendToAllInRoom(LEAVE_ROOM)};
 	return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createMenuRequestHandler(_user.getUsername())};
 }

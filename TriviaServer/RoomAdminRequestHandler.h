@@ -13,6 +13,6 @@ public:
 
 private:
 	RequestResult closeRoom(RequestInfo info);
-	RequestResult startGame(RequestInfo info);
+	virtual RequestResult startGame(RequestInfo info) override;
 	bool sendToAllInRoom(RequestType id);
 };

@@ -448,7 +448,7 @@ namespace TriviaClient
                                 });
                             }
 
-                            Thread.Sleep(300);
+                            Thread.Sleep(10000);
                         }
                         else
                         {

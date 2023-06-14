@@ -26,4 +26,5 @@ private:
 
 protected:
 	RequestResult getRoomState(RequestInfo info);
+	virtual RequestResult startGame(RequestInfo info);
 };

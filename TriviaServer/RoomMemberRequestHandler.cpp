@@ -11,12 +11,27 @@ RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handle
 
 bool RoomMemberRequestHandler::isRequestRelevant(RequestInfo info)
 {
-	return info.id == LEAVE_ROOM || info.id == GET_ROOM_STATE;
+	return info.id >= START_GAME && info.id <= LEAVE_ROOM;
 }
 
 RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 {
-	return info.id == LEAVE_ROOM ? leaveRoom(info) : getRoomState(info);
+	RequestResult result;
+
+	switch (info.id)
+	{
+		case START_GAME:
+			result = startGame(info);
+			break;
+
+		case GET_ROOM_STATE:
+			result = getRoomState(info);
+			break;
+
+		case LEAVE_ROOM:
+			result = leaveRoom(info);
+			break;
+	}
 }
 
 // GETTERS
@@ -54,5 +69,11 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 	RoomData data = _room.getData();
 	GetRoomStateResponse response = { true, data.isActive, _room.getAllUsers(), data.numOfQuestionsInGame, data.timePerQuestion };
 
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult RoomMemberRequestHandler::startGame(RequestInfo info)
+{
+	StartGameResponse response = { true };
 	return { JsonResponsePacketSerializer::serializeResponse(response), this };
 }

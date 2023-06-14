@@ -40,7 +40,7 @@ void Communicator::sendResponseToClients(std::function<bool(IRequestHandler*)> c
 	{
 		if (clientCondition(i->second))
 		{
-			sendResponse(i->first, info);
+			sendResponse(i->first, info, true);
 		}
 	}
 }
@@ -99,7 +99,7 @@ void Communicator::handleNewClient(SOCKET client)
 
 			if (info.id != ERR)
 			{
-				sendResponse(client, info);
+				sendResponse(client, info, false);
 			}
 			else
 			{
@@ -185,7 +185,7 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 	return { (RequestType)id, receivalTime, buffer };
 }
 
-void Communicator::sendResponse(SOCKET client, RequestInfo info)
+void Communicator::sendResponse(SOCKET client, RequestInfo info, bool serverSend)
 {
 	// If the request is not relevent, don't send a response
 	if (!_clients[client]->isRequestRelevant(info))
@@ -194,12 +194,12 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info)
 	}
 
 	// Try to enter the cirtical section
-	while (!_responseMutex.try_lock())
+	while (!_responseMutex.try_lock() && !serverSend)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
-	// CRITICAL SECTION *********************************
+	// CRITICAL SECTION (if not server send) *********
 	RequestResult result = _clients[client]->handleRequest(info);
 
 	if (_clients[client] != result.newHandler)
@@ -210,7 +210,10 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info)
 
 	int socketResult = send(client, (const char*)&(*result.response.begin()), result.response.size(), 0);
 
-	_responseMutex.unlock();
+	if (!serverSend)
+	{
+		_responseMutex.unlock();
+	}
 	// ************************************************
 
 	if (socketResult == INVALID_SOCKET)

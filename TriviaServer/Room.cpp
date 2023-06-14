@@ -33,9 +33,15 @@ void Room::removeUser(const LoggedUser& user)
 
 bool Room::hasUser(const LoggedUser& user) const
 {
-	return std::count_if(_users.begin(), _users.end(), [user](LoggedUser item) {
-		return user.getUsername() == item.getUsername();
-		});
+	for (LoggedUser iter : _users)
+	{
+		if (iter.getUsername() == user.getUsername())
+		{
+			return true;
+		}
+	}
+
+	return false;
 }
 
 vector<string> Room::getAllUsers() const
