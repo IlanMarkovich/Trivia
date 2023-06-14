@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 namespace TriviaClient
 {
@@ -21,6 +22,7 @@ namespace TriviaClient
         private Client client;
         private UIElement currentMenu;
         private bool isLoggedIn;
+        private bool isInRoom;
 
         public MainWindow()
         {
@@ -30,6 +32,8 @@ namespace TriviaClient
 
             client = new Client();
             currentMenu = welcome_menu;
+
+            isInRoom = false;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -285,7 +289,7 @@ namespace TriviaClient
             }
             else
             {
-                // Switch to the room
+                ChangeMenu("room_grid");
             }
         }
 
@@ -325,7 +329,7 @@ namespace TriviaClient
             }
             else
             {
-                // Switch to the room
+                ChangeMenu("room_grid");
             }
         }
 
@@ -384,7 +388,7 @@ namespace TriviaClient
             client.Send(RequestType.GET_HIGH_SCORES);
 
             string response = client.Recieve().Value;
-            HighScores highScores = JsonConvert.DeserializeObject<HighScores>(response);
+            Players highScores = JsonConvert.DeserializeObject<Players>(response);
 
             if(highScores.status == 0)
             {
@@ -394,6 +398,50 @@ namespace TriviaClient
             else
             {
                 high_score_players_list_view.DataContext = highScores.getPlayers();
+            }
+        }
+
+        // ROOM FUNCTIONS
+
+        private void room_grid_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if(room_grid.Visibility == Visibility.Visible)
+            {
+                isInRoom = true;
+                room_name_txt.Text = "Room";
+
+                Task.Run(() =>
+                {
+                    while (isInRoom)
+                    {
+                        client.Send(RequestType.GET_ROOM_STATE);
+                        var response = client.Recieve();
+
+                        if (response.Key == ResponseType.REGULAR)
+                        {
+                            RoomData roomData = JsonConvert.DeserializeObject<RoomData>(response.Value);
+
+                            if (roomData.players.status == 0)
+                            {
+                                ErrorWindow window = new ErrorWindow("Get Players Error", "There was an error while getting the players in this room!");
+                                window.ShowDialog();
+                            }
+                            else
+                            {
+                                Application.Current.Dispatcher.Invoke(() =>
+                                {
+                                    room_players_list_view.DataContext = roomData.players.getPlayers();
+                                });
+                            }
+
+                            Thread.Sleep(3000);
+                        }
+                    }
+                });
+            }
+            else
+            {
+                isInRoom = false;
             }
         }
     }

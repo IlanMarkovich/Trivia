@@ -130,12 +130,12 @@ namespace TriviaClient
         }
     }
 
-    internal class HighScores
+    internal class Players
     {
         public int status { get; set; }
         public string players { get; set; }
 
-        public HighScores(int status, string players)
+        public Players(int status, string players)
         {
             this.status = status;
             this.players = players;
@@ -155,6 +155,22 @@ namespace TriviaClient
             }
 
             return lst;
+        }
+    }
+
+    internal class RoomData
+    {
+        public Players players { get; set; }
+        public bool hasGameBegun { get; set; }
+        public int questions { get; set; }
+        public int timeout { get; set; }
+
+        public RoomData(int status, bool hasGameBegun, string players, int questions, int timeout)
+        {
+            this.players = new Players(status, players);
+            this.hasGameBegun = hasGameBegun;
+            this.questions = questions;
+            this.timeout = timeout;
         }
     }
 }

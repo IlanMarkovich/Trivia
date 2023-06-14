@@ -232,6 +232,26 @@
                 <Button Content="Back" Click="Main_Menu_Back_Click"/>
             </StackPanel>
         </Grid>
+
+        <!-- ROOM -->
+        <Grid Name="room_grid" Visibility="Hidden" IsVisibleChanged="room_grid_IsVisibleChanged" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Name="room_name_txt" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+
+            <ListView Name="room_players_list_view" ItemsSource="{Binding}" Grid.Row="2"  FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Players In This Room" DisplayMemberBinding="{Binding username}" Width="1000"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
     </Grid>
 
 </Window>

@@ -107,11 +107,14 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 {
 	JoinRoomRequset request = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
 	bool success = true;
+	IRequestHandler* newHandler = this;
 
 	try
 	{
 		Room& room = _handlerFactory.getRoomManager().getRoom(request.roomId);
 		room.addUser(_user);
+
+		newHandler = _handlerFactory.createRoomMemberRequestHandler(_user, room);
 	}
 	catch (std::exception& e)
 	{
@@ -120,13 +123,14 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 
 	JoinRoomResponse response = {success};
 
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }
 
 RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 {
 	CreateRoomRequest request = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	bool success = true;
+	IRequestHandler* newHandler = this;
 
 	try
 	{
@@ -135,6 +139,8 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 
 		RoomData data = { roomId, request.roomName, request.maxUsers, request.questionsCount, request.answerTimeout, false };
 		_handlerFactory.getRoomManager().createRoom(_user, data);
+
+		newHandler = _handlerFactory.createRoomAdminRequestHandler(_user, _handlerFactory.getRoomManager().getRoom(roomId));
 	}
 	catch (std::exception& e)
 	{
@@ -142,5 +148,5 @@ RequestResult MenuRequestHandler::createRoom(RequestInfo info)
 	}
 
 	CreateRoomResponse response = { success };
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }
