@@ -73,7 +73,7 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-           
+
             <TextBlock Text="Username: " FontSize="50"/>
             <TextBox Name="login_username" Grid.Row="1"/>
 
@@ -89,7 +89,7 @@
                 </StackPanel>
             </StackPanel>
         </Grid>
-        
+
         <!-- SIGN UP MENU -->
         <Grid Visibility="Hidden" Name="signup_menu" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -75, 0, 0">
             <Grid.RowDefinitions>
@@ -174,7 +174,7 @@
                 <Button Content="Back" Click="Main_Menu_Back_Click"/>
             </StackPanel>
         </Grid>
-        
+
         <!-- JOIN ROOM -->
         <Grid Visibility="Hidden" IsVisibleChanged="join_room_menu_IsVisibleChanged" Name="join_room_menu" Grid.RowSpan="2" HorizontalAlignment="Center" VerticalAlignment="Top">
             <Grid.RowDefinitions>
@@ -213,7 +213,7 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
-            
+
             <!-- PERSONAL -->
             <TextBlock Name="personal_stat_txt" Grid.Row="1" IsVisibleChanged="personal_stat_txt_IsVisibleChanged"/>
 
@@ -251,6 +251,15 @@
                     </GridView>
                 </ListView.View>
             </ListView>
+
+            <StackPanel Visibility="Hidden" Name="room_admin_sp" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="start_game_btn" Content="Start" Margin="0,0,20,0" Click="start_game_btn_Click"/>
+                <Button Name="close_room_btn" Content="Close" Margin="0,0,20,0" Click="close_room_btn_Click"/>
+            </StackPanel>
+
+            <StackPanel Visibility="Hidden" Name="room_user_sp" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button Name="leave_room_btn" Content="Leave" Margin="0,0,20,0" Click="leave_room_btn_Click"/>
+            </StackPanel>
         </Grid>
     </Grid>
 

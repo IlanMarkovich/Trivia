@@ -187,25 +187,30 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 
 void Communicator::sendResponse(SOCKET client, RequestInfo info)
 {
-	// CRITICAL SECTION *********************************
-	std::unique_lock<std::mutex> responseLock(_responseMutex);
-
 	// If the request is not relevent, don't send a response
 	if (!_clients[client]->isRequestRelevant(info))
 	{
 		return;
 	}
 
+	// Try to enter the cirtical section
+	while (!_responseMutex.try_lock())
+	{
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+
+	// CRITICAL SECTION *********************************
 	RequestResult result = _clients[client]->handleRequest(info);
-	
+
 	if (_clients[client] != result.newHandler)
 	{
 		delete _clients[client];
 		_clients[client] = result.newHandler;
 	}
 
-	int socketResult = send(client, (const char*) &(*result.response.begin()), result.response.size(), 0);
-	responseLock.unlock();
+	int socketResult = send(client, (const char*)&(*result.response.begin()), result.response.size(), 0);
+
+	_responseMutex.unlock();
 	// ************************************************
 
 	if (socketResult == INVALID_SOCKET)

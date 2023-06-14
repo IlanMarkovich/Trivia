@@ -7,12 +7,12 @@ class RoomMemberRequestHandler : public IRequestHandler
 {
 protected:
 	Room& _room;
-	LoggedUser& _user;
+	LoggedUser _user;
 	RequestHandlerFactory& _handlerFactory;
 
 public:
 	// C'tor
-	RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser& user, Room& room);
+	RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, Room& room);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;

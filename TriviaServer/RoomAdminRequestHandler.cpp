@@ -27,7 +27,7 @@ RequestResult RoomAdminRequestHandler::handleRequest(RequestInfo info)
 			break;
 
 		case START_GAME:
-			result = closeRoom(info);
+			result = startGame(info);
 			break;
 
 		case GET_ROOM_STATE:

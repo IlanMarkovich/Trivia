@@ -23,6 +23,7 @@ namespace TriviaClient
         private UIElement currentMenu;
         private bool isLoggedIn;
         private bool isInRoom;
+        private bool isAdmin;
 
         public MainWindow()
         {
@@ -33,7 +34,9 @@ namespace TriviaClient
             client = new Client();
             currentMenu = welcome_menu;
 
+            isLoggedIn = false;
             isInRoom = false;
+            isAdmin = false;
         }
 
         private async void Window_Loaded(object sender, RoutedEventArgs e)
@@ -289,6 +292,7 @@ namespace TriviaClient
             }
             else
             {
+                isAdmin = true;
                 ChangeMenu("room_grid");
             }
         }
@@ -329,6 +333,7 @@ namespace TriviaClient
             }
             else
             {
+                isAdmin = false;
                 ChangeMenu("room_grid");
             }
         }
@@ -410,6 +415,15 @@ namespace TriviaClient
                 isInRoom = true;
                 room_name_txt.Text = "Room";
 
+                if(isAdmin)
+                {
+                    room_admin_sp.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    room_user_sp.Visibility = Visibility.Visible;
+                }
+
                 Task.Run(() =>
                 {
                     while (isInRoom)
@@ -434,15 +448,50 @@ namespace TriviaClient
                                 });
                             }
 
-                            Thread.Sleep(3000);
+                            Thread.Sleep(300);
+                        }
+                        else
+                        {
+                            isInRoom = false;
+
+                            int status = JsonConvert.DeserializeObject<Status>(response.Value).status;
+
+                            if(status == 0)
+                            {
+                                ErrorWindow window = new ErrorWindow("Request Error", "Your request failed!");
+                                window.ShowDialog();
+                            }
+                            else
+                            {
+                                if (response.Key == ResponseType.START_GAME)
+                                {
+                                    MessageBox.Show("Game Started! " + (isAdmin ? "a" : "b"));
+                                }
+                                else if (response.Key == ResponseType.LEAVE_ROOM)
+                                {
+                                    MessageBox.Show("Left Room!");
+                                    ChangeMenu("main_menu");
+                                }
+                            }
                         }
                     }
                 });
             }
-            else
-            {
-                isInRoom = false;
-            }
+        }
+
+        private void start_game_btn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.START_GAME);
+        }
+
+        private void close_room_btn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.CLOSE_ROOM);
+        }
+
+        private void leave_room_btn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.LEAVE_ROOM);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 // C'tor
 
-RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, LoggedUser& user, Room& room)
+RoomMemberRequestHandler::RoomMemberRequestHandler(RequestHandlerFactory& handlerFactory, const LoggedUser& user, Room& room)
 	: _handlerFactory(handlerFactory), _user(user), _room(room)
 {
 }
