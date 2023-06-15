@@ -31,7 +31,7 @@ private:
 	SOCKET _serverSocket;
 	RequestHandlerFactory& _handlerFactory;
 	static map<SOCKET, IRequestHandler*> _clients;
-	static std::mutex _responseMutex;
+	static std::mutex _commMutex;
 
 	// METHODS
 	void bindAndListen();

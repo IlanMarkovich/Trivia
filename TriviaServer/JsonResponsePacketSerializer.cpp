@@ -120,7 +120,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoom
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse response)
 {
-    return serializeOnlyStatusResponse(response.status);
+    return serializeOnlyStatusResponse(response.status, CLOSE_ROOM_RESPONSE);
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(StartGameResponse response)

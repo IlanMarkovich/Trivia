@@ -15,7 +15,7 @@ namespace TriviaClient
 
     public enum ResponseType
     {
-        REGULAR, START_GAME, LEAVE_ROOM
+        REGULAR, START_GAME, LEAVE_ROOM, CLOSE_ROOM
     }
 
     public class Client

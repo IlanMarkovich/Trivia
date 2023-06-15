@@ -448,7 +448,7 @@ namespace TriviaClient
                                 });
                             }
 
-                            Thread.Sleep(10000);
+                            Thread.Sleep(300);
                         }
                         else
                         {
@@ -467,9 +467,9 @@ namespace TriviaClient
                                 {
                                     MessageBox.Show("Game Started! " + (isAdmin ? "a" : "b"));
                                 }
-                                else if (response.Key == ResponseType.LEAVE_ROOM)
+                                else
                                 {
-                                    MessageBox.Show("Left Room!");
+                                    MessageBox.Show("Left Room!" + (isAdmin ? "a" : "b"));
                                     ChangeMenu("main_menu");
                                 }
                             }

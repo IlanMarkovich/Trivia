@@ -11,7 +11,7 @@ using std::string;
 
 // STATIC FIELDS
 map<SOCKET, IRequestHandler*> Communicator::_clients = {};
-std::mutex Communicator::_responseMutex;
+std::mutex Communicator::_commMutex;
 
 // C'tor
 
@@ -187,32 +187,32 @@ RequestInfo Communicator::recieveRequest(SOCKET client)
 
 void Communicator::sendResponse(SOCKET client, RequestInfo info, bool serverSend)
 {
-	// If the request is not relevent, don't send a response
-	if (!_clients[client]->isRequestRelevant(info))
-	{
-		return;
-	}
+	int socketResult = 0;
 
 	// Try to enter the cirtical section
-	while (!_responseMutex.try_lock() && !serverSend)
+	while (!_commMutex.try_lock() && !serverSend)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(100));
 	}
 
 	// CRITICAL SECTION (if not server send) *********
-	RequestResult result = _clients[client]->handleRequest(info);
-
-	if (_clients[client] != result.newHandler)
+	// If the request is not relevent, don't send a response
+	if (_clients[client]->isRequestRelevant(info))
 	{
-		delete _clients[client];
-		_clients[client] = result.newHandler;
-	}
+		RequestResult result = _clients[client]->handleRequest(info);
 
-	int socketResult = send(client, (const char*)&(*result.response.begin()), result.response.size(), 0);
+		if (_clients[client] != result.newHandler)
+		{
+			delete _clients[client];
+			_clients[client] = result.newHandler;
+		}
+
+		socketResult = send(client, (const char*)&(*result.response.begin()), result.response.size(), 0);
+	}
 
 	if (!serverSend)
 	{
-		_responseMutex.unlock();
+		_commMutex.unlock();
 	}
 	// ************************************************
 

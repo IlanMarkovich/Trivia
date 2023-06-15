@@ -32,6 +32,8 @@ RequestResult RoomMemberRequestHandler::handleRequest(RequestInfo info)
 			result = leaveRoom(info);
 			break;
 	}
+
+	return result;
 }
 
 // GETTERS
