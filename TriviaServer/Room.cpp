@@ -18,7 +18,7 @@ Room::Room(RoomData metadata) : _metadata(metadata)
 
 void Room::addUser(const LoggedUser& user)
 {
-	if (hasUser(user))
+	if (hasUser(user) || _users.size() == _metadata.maxPlayers)
 	{
 		throw std::exception("User already in room");
 	}
