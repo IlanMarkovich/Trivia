@@ -36,7 +36,7 @@ namespace TriviaClient
 
         private void signup_page_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            window.ChangePage(new SignUpPage(ref window));
         }
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)

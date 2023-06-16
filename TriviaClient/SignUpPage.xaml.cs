@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -17,46 +18,41 @@ using System.Windows.Shapes;
 namespace TriviaClient
 {
     /// <summary>
-    /// Interaction logic for LoginPage.xaml
+    /// Interaction logic for SignUpPage.xaml
     /// </summary>
-    public partial class LoginPage : Page
+    public partial class SignUpPage : Page
     {
         private MainWindow window;
 
-        public LoginPage(ref MainWindow window)
+        public SignUpPage(ref MainWindow window)
         {
             InitializeComponent();
 
             this.window = window;
         }
 
-        private void login_btn_Click(object sender, RoutedEventArgs e)
+        private void signup_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (login_username.Text == String.Empty || login_password.Password == String.Empty)
+            if (signup_username.Text == String.Empty || signup_password.Password == String.Empty || signup_email.Text == String.Empty)
             {
-                login_invalid_txt.Visibility = Visibility.Visible;
+                signup_invalid_txt.Visibility = Visibility.Visible;
                 return;
             }
 
-            Login(ref window, login_username.Text, login_password.Password);
-        }
-
-        public static void Login(ref MainWindow window, string username, string password)
-        {
-            LoginUser user = new LoginUser(username, password);
-            window.client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
+            SignupUser user = new SignupUser(signup_username.Text, signup_password.Password, signup_email.Text);
+            window.client.Send(RequestType.SIGNUP, JsonConvert.SerializeObject(user, Formatting.Indented));
 
             string response = window.client.Recieve().Value;
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
             if (status.status == 0)
             {
-                ErrorWindow errWindow = new ErrorWindow("Login Error", "Login unsuccessful! (incorrect information or already logged in)");
-                errWindow.ShowDialog();
+                ErrorWindow window = new ErrorWindow("Signup Error", "User already exists!");
+                window.ShowDialog();
             }
             else
             {
-                window.SetUsername(username + " ");
+                LoginPage.Login(ref window, signup_username.Text, signup_password.Password);
                 window.ChangePage(new MainMenuPage(ref window));
             }
         }
