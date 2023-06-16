@@ -20,7 +20,7 @@ void Room::addUser(const LoggedUser& user)
 {
 	if (hasUser(user) || _users.size() == _metadata.maxPlayers)
 	{
-		throw std::exception("User already in room");
+		throw std::exception("User already in room or the room is full");
 	}
 
 	_users.push_back(user);
