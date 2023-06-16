@@ -27,17 +27,17 @@ namespace TriviaClient
 
         private void create_room_menu_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.mainFrame.Navigate(new CreateRoomPage());
         }
 
         private void join_room_menu_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.mainFrame.Navigate(new JoinRoomPage());
         }
 
         private void statistics_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow.mainFrame.Navigate(new StatisticsPage());
         }
 
         private void quit_user_btn_Click(object sender, RoutedEventArgs e)
