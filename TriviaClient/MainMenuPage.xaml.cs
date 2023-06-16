@@ -20,13 +20,9 @@ namespace TriviaClient
     /// </summary>
     public partial class MainMenuPage : Page
     {
-        private MainWindow window;
-        
-        public MainMenuPage(ref MainWindow window)
+        public MainMenuPage()
         {
             InitializeComponent();
-
-            this.window = window;
         }
 
         private void create_room_menu_btn_Click(object sender, RoutedEventArgs e)
@@ -46,8 +42,8 @@ namespace TriviaClient
 
         private void quit_user_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.client.Send(RequestType.SIGNOUT);
-            window.client.Disconnect();
+            MainWindow.client.Send(RequestType.SIGNOUT);
+            MainWindow.client.Disconnect();
             Application.Current.Shutdown();
         }
     }

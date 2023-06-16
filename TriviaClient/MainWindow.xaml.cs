@@ -10,12 +10,19 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Navigation;
 
 namespace TriviaClient
 {
     public partial class MainWindow : Window
     {
-        public Client client { get; }
+        public static Frame mainFrame { get; } = new Frame
+        {
+            NavigationUIVisibility = NavigationUIVisibility.Hidden,
+            Content = new ConnectingPage()
+        };
+        public static Client client { get; } = new Client();
+        public static MainWindow mainWindow { get; set; }
 
         private Random rand;
         private double velX, velY;
@@ -31,10 +38,9 @@ namespace TriviaClient
             InitializeComponent();
 
             rand = new Random();
-            client = new Client();
+            mainWindow = this;
 
-            var window = this;
-            mainFrame.Content = new ConnectingPage(ref window);
+            mainGrid.Children.Add(mainFrame);
             //currentMenu = welcome_menu;
 
             //isLoggedIn = false;
@@ -93,11 +99,6 @@ namespace TriviaClient
             }
         }
 
-        public void ChangePage(Page newPage)
-        {
-            mainFrame.Content = newPage;
-        }
-
         // UI FUNCTIONS
 
         public void SetUsername(string username)
@@ -112,8 +113,7 @@ namespace TriviaClient
             client.Recieve();
             username_sp.Visibility = Visibility.Hidden;
 
-            var window = this;
-            ChangePage(new WelcomePage(ref window));
+            mainFrame.Navigate(new WelcomePage());
         }
 
         //// GENERAL FUNCTIONS

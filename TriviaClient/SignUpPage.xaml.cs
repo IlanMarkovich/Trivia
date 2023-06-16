@@ -22,13 +22,9 @@ namespace TriviaClient
     /// </summary>
     public partial class SignUpPage : Page
     {
-        private MainWindow window;
-
-        public SignUpPage(ref MainWindow window)
+        public SignUpPage()
         {
             InitializeComponent();
-
-            this.window = window;
         }
 
         private void signup_btn_Click(object sender, RoutedEventArgs e)
@@ -40,9 +36,9 @@ namespace TriviaClient
             }
 
             SignupUser user = new SignupUser(signup_username.Text, signup_password.Password, signup_email.Text);
-            window.client.Send(RequestType.SIGNUP, JsonConvert.SerializeObject(user, Formatting.Indented));
+            MainWindow.client.Send(RequestType.SIGNUP, JsonConvert.SerializeObject(user, Formatting.Indented));
 
-            string response = window.client.Recieve().Value;
+            string response = MainWindow.client.Recieve().Value;
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
             if (status.status == 0)
@@ -52,14 +48,14 @@ namespace TriviaClient
             }
             else
             {
-                LoginPage.Login(ref window, signup_username.Text, signup_password.Password);
-                window.ChangePage(new MainMenuPage(ref window));
+                LoginPage.Login(signup_username.Text, signup_password.Password);
+                MainWindow.mainFrame.Navigate(new MainMenuPage());
             }
         }
 
         private void welcome_page_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.ChangePage(new WelcomePage(ref window));
+            MainWindow.mainFrame.Navigate(new WelcomePage());
         }
     }
 }

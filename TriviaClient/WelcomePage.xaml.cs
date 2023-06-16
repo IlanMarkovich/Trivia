@@ -20,28 +20,24 @@ namespace TriviaClient
     /// </summary>
     public partial class WelcomePage : Page
     {
-        private MainWindow window;
-
-        public WelcomePage(ref MainWindow window)
+        public WelcomePage()
         {
             InitializeComponent();
-
-            this.window = window;
         }
 
         private void login_page_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.ChangePage(new LoginPage(ref window));
+            MainWindow.mainFrame.Navigate(new LoginPage());
         }
 
         private void signup_page_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.ChangePage(new SignUpPage(ref window));
+            MainWindow.mainFrame.Navigate(new SignUpPage());
         }
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.client.Disconnect();
+            MainWindow.client.Disconnect();
             Application.Current.Shutdown();
         }
     }

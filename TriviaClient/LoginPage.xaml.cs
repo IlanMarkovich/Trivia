@@ -21,13 +21,9 @@ namespace TriviaClient
     /// </summary>
     public partial class LoginPage : Page
     {
-        private MainWindow window;
-
-        public LoginPage(ref MainWindow window)
+        public LoginPage()
         {
             InitializeComponent();
-
-            this.window = window;
         }
 
         private void login_btn_Click(object sender, RoutedEventArgs e)
@@ -38,15 +34,15 @@ namespace TriviaClient
                 return;
             }
 
-            Login(ref window, login_username.Text, login_password.Password);
+            Login(login_username.Text, login_password.Password);
         }
 
-        public static void Login(ref MainWindow window, string username, string password)
+        public static void Login(string username, string password)
         {
             LoginUser user = new LoginUser(username, password);
-            window.client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
+            MainWindow.client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
 
-            string response = window.client.Recieve().Value;
+            string response = MainWindow.client.Recieve().Value;
             Status status = JsonConvert.DeserializeObject<Status>(response);
 
             if (status.status == 0)
@@ -56,14 +52,14 @@ namespace TriviaClient
             }
             else
             {
-                window.SetUsername(username + " ");
-                window.ChangePage(new MainMenuPage(ref window));
+                MainWindow.mainWindow.SetUsername(username + " ");
+                MainWindow.mainFrame.Navigate(new MainMenuPage());
             }
         }
 
         private void welcome_page_btn_Click(object sender, RoutedEventArgs e)
         {
-            window.ChangePage(new WelcomePage(ref window));
+            MainWindow.mainFrame.Navigate(new WelcomePage());
         }
     }
 }

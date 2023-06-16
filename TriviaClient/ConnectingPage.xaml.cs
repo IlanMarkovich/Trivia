@@ -20,25 +20,21 @@ namespace TriviaClient
     /// </summary>
     public partial class ConnectingPage : Page
     {
-        private MainWindow window;
-
-        public ConnectingPage(ref MainWindow window)
+        public ConnectingPage()
         {
             InitializeComponent();
-
-            this.window = window;
         }
 
         private async void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            await window.client.ConnectAsync();
+            await MainWindow.client.ConnectAsync();
 
-            if (!window.client.IsConnected())
+            if (!MainWindow.client.IsConnected())
             {
                 Application.Current.Shutdown();
             }
 
-            window.ChangePage(new WelcomePage(ref window));
+            MainWindow.mainFrame.Navigate(new WelcomePage());
         }
     }
 }
