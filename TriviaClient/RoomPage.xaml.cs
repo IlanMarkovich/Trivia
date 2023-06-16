@@ -25,12 +25,17 @@ namespace TriviaClient
         public static bool inRoom = false;
         public readonly int ROOM_RESPONSE_WAIT_TIME = 2000;
 
+        private Page newPage;
+        private bool switchPage;
+
         public RoomPage(bool isAdmin)
         {
             InitializeComponent();
 
             room_name_txt.Text = "Room";
             inRoom = true;
+
+            switchPage = false;
 
             if (isAdmin)
             {
@@ -103,7 +108,12 @@ namespace TriviaClient
                 else
                 {
                     MessageBox.Show("Left Room!");
-                    MainWindow.mainFrame.Navigate(new MainMenuPage());
+
+                    // Need to change the page in the same thread which the UI is running on
+                    Application.Current.Dispatcher.InvokeAsync(() =>
+                    {
+                        MainWindow.mainFrame.Navigate(new MainMenuPage());
+                    });
                 }
             }
         }
