@@ -52,7 +52,7 @@ namespace TriviaClient
             }
             else
             {
-                MainWindow.mainWindow.SetUsername(username + " ");
+                MainWindow.current.SetUsername(username + " ");
                 MainWindow.mainFrame.Navigate(new MainMenuPage());
             }
         }
