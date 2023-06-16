@@ -16,29 +16,33 @@ using System.Windows.Shapes;
 namespace TriviaClient
 {
     /// <summary>
-    /// Interaction logic for ConnectingPage.xaml
+    /// Interaction logic for WelcomePage.xaml
     /// </summary>
-    public partial class ConnectingPage : Page
+    public partial class WelcomePage : Page
     {
         private MainWindow window;
 
-        public ConnectingPage(ref MainWindow window)
+        public WelcomePage(ref MainWindow window)
         {
             InitializeComponent();
 
             this.window = window;
         }
 
-        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        private void login_page_btn_Click(object sender, RoutedEventArgs e)
         {
-            await window.client.ConnectAsync();
+            window.ChangePage(new LoginPage(ref window));
+        }
 
-            if (!window.client.IsConnected())
-            {
-                Application.Current.Shutdown();
-            }
+        private void signup_page_btn_Click(object sender, RoutedEventArgs e)
+        {
 
-            window.ChangePage(new WelcomePage(ref window));
+        }
+
+        private void quit_btn_Click(object sender, RoutedEventArgs e)
+        {
+            window.client.Disconnect();
+            Application.Current.Shutdown();
         }
     }
 }

@@ -11,6 +11,8 @@
         <Setter Property="FontFamily" Value="Berlin Sans FB"/>
         <Setter Property="Opacity" Value="0.7"/>
         <Setter Property="FontSize" Value="70"/>
+        <Setter Property="Width" Value="500"/>
+        <Setter Property="Height" Value="125"/>
 
         <!-- DELETE MOUSE HOVER EFFECT -->
         <Setter Property="Template">

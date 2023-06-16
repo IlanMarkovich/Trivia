@@ -15,7 +15,7 @@ namespace TriviaClient
 {
     public partial class MainWindow : Window
     {
-        public static Client client;
+        public Client client { get; }
 
         private Random rand;
         private double velX, velY;
@@ -33,7 +33,8 @@ namespace TriviaClient
             rand = new Random();
             client = new Client();
 
-            mainFrame.Content = new ConnectingPage();
+            var window = this;
+            mainFrame.Content = new ConnectingPage(ref window);
             //currentMenu = welcome_menu;
 
             //isLoggedIn = false;
@@ -92,6 +93,29 @@ namespace TriviaClient
             }
         }
 
+        public void ChangePage(Page newPage)
+        {
+            mainFrame.Content = newPage;
+        }
+
+        // UI FUNCTIONS
+
+        public void SetUsername(string username)
+        {
+            username_sp.Visibility = Visibility.Visible;
+            username_txt.Text = username;
+        }
+
+        private void logout_uibtn_Click(object sender, RoutedEventArgs e)
+        {
+            client.Send(RequestType.SIGNOUT);
+            client.Recieve();
+            username_sp.Visibility = Visibility.Hidden;
+
+            var window = this;
+            ChangePage(new WelcomePage(ref window));
+        }
+
         //// GENERAL FUNCTIONS
 
         //private void ChangeMenu(string currentMenuName)
@@ -134,34 +158,6 @@ namespace TriviaClient
         //}
 
         //// LOGIN MENU FUNCTIONS
-
-        //private void login_btn_Click(object sender, RoutedEventArgs e)
-        //{
-        //    if(login_username.Text == String.Empty || login_password.Password == String.Empty)
-        //    {
-        //        login_invalid_txt.Visibility = Visibility.Visible;
-        //        return;
-        //    }
-
-        //    LoginUser user = new LoginUser(login_username.Text, login_password.Password);
-        //    client.Send(RequestType.LOGIN, JsonConvert.SerializeObject(user, Formatting.Indented));
-
-        //    string response = client.Recieve().Value;
-        //    Status status = JsonConvert.DeserializeObject<Status>(response);
-
-        //    if (status.status == 0)
-        //    {
-        //        ErrorWindow window = new ErrorWindow("Login Error", "Login unsuccessful! (incorrect information or already logged in)");
-        //        window.ShowDialog();
-        //    }
-        //    else
-        //    {
-        //        username_txt.Text = login_username.Text + " ";
-        //        username_sp.Visibility = Visibility.Visible;
-
-        //        ChangeMenu("main_menu");
-        //    }
-        //}
 
         //private void welcome_menu_back1_Click(object sender, RoutedEventArgs e)
         //{

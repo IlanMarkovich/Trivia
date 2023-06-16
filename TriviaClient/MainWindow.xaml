@@ -35,11 +35,12 @@
             <Image Name="background_image" Source="Assets/menu-background.png"/>
         </Canvas>
 
-        <Frame Name="mainFrame"/>
+        <Frame Name="mainFrame" NavigationUIVisibility="Hidden"/>
 
         <!--<Image Visibility="Hidden" Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        --><!-- USERNAME AND LOGOUT STACK PANEL --><!--
+        -->
+        <!-- USERNAME AND LOGOUT STACK PANEL -->
         <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
             <TextBlock Name="username_txt" Text="username"/>
             <Button Name="logout_uibtn" Style="{StaticResource UI-ButtonStyle}" Click="logout_uibtn_Click">
@@ -48,8 +49,8 @@
                 </Button.Content>
             </Button>
         </StackPanel>
-
-        --><!-- WELCOME MENU --><!--
+        
+        <!-- WELCOME MENU --><!--
         <StackPanel Visibility="Hidden" IsVisibleChanged="welcome_menu_IsVisibleChanged" Name="welcome_menu" Orientation="Vertical" Grid.Row="1" VerticalAlignment="Top">
             <Button Name="login_menu_btn" Content="Log In" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
             <Button Name="signup_menu_btn" Content="Sign Up" Margin="0, 0, 0, 20" Click="Menu_btn_Click"/>
