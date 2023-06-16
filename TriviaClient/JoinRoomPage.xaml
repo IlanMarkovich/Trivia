@@ -30,7 +30,7 @@
 
         <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
-        <ListView Name="room_list_view" Grid.Row="1" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListView Name="room_list_view" Grid.Row="1" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="room_list_view_SelectionChanged">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>
@@ -43,6 +43,7 @@
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
+            <Button Name="refresh_btn" Content="Refresh List" Click="refresh_btn_Click" Margin="0,0,20,0"/>
             <Button Name="main_menu_back_btn" Content="Back" Click="main_menu_back_btn_Click"/>
         </StackPanel>
     </Grid>

@@ -24,6 +24,8 @@ namespace TriviaClient
         public JoinRoomPage()
         {
             InitializeComponent();
+
+            refresh_btn_Click(null, null);
         }
 
         private void join_room_btn_Click(object sender, RoutedEventArgs e)
@@ -44,13 +46,26 @@ namespace TriviaClient
             }
             else
             {
-                
+                MainWindow.mainFrame.Navigate(new RoomPage(false));
             }
+        }
+
+        private void refresh_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.client.Send(RequestType.GET_ROOMS);
+
+            string response = MainWindow.client.Recieve().Value;
+            room_list_view.DataContext = JsonConvert.DeserializeObject<RoomList>(response).getRooms();
         }
 
         private void main_menu_back_btn_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.mainFrame.Navigate(new MainMenuPage());
+        }
+
+        private void room_list_view_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            join_room_btn.IsEnabled = room_list_view.SelectedIndex != -1;
         }
     }
 }

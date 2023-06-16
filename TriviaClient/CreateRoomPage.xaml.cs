@@ -73,7 +73,7 @@ namespace TriviaClient
             }
             else
             {
-                
+                MainWindow.mainFrame.Navigate(new RoomPage(true));
             }
         }
 
