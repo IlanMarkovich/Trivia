@@ -67,7 +67,7 @@ int questionCallback(void* data, int argc, char** argv, char** cols)
         }
     }
 
-    Question question = { text, answers};
+    Question question(text, answers);
     questionsVec->push_back(question);
 
     return 0;

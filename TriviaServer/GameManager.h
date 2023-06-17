@@ -13,7 +13,7 @@ private:
 
 public:
 	// C'tor
-	GameManager(IDatabase& database);
+	GameManager(IDatabase* database);
 
 	// METHODS
 	void createGame(const Room& room);

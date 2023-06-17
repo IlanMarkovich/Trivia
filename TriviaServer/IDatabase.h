@@ -3,14 +3,10 @@
 #include <string>
 #include <vector>
 
+#include "Question.h"
+
 using std::string;
 using std::vector;
-
-struct Question
-{
-	string text;
-	vector<string> answers;
-};
 
 class IDatabase
 {
