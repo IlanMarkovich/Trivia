@@ -151,3 +151,63 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveRoomR
 {
     return serializeOnlyStatusResponse(response.status, LEAVE_ROOM_RESPONSE);
 }
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetGameResultsResponse response)
+{
+    vector<string> playerResults;
+
+    for (PlayerResults results : response.results)
+    {
+        string str = results.username + "|";
+        str += results.correctAnswersCount + "|";
+        str += results.wrongAnswersCount + "|";
+        str += results.averageAnswerTime;
+
+        playerResults.push_back(str);
+    }
+
+    return serializeStatusAndStrVecResponse(response.status, playerResults, "results");
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnswerResponse response)
+{
+    return createBuffer([response]() {
+        json j;
+
+        j["status"] = response.status;
+        j["correctAnswerId"] = response.correctAnswerId;
+
+        return j;
+        });
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionsResponse response)
+{
+    string answers;
+
+    for (auto i = response.answers.begin(); i != response.answers.end(); ++i)
+    {
+        answers += std::to_string(i->first) + "-" + i->second + '\n';
+    }
+
+    // Delete last seperator
+    if (!answers.empty())
+    {
+        answers.erase(answers.end() - 1);
+    }
+
+    return createBuffer([response]() {
+        json j;
+
+        j["status"] = response.status;
+        j["questions"] = response.questions;
+        j["answers"] = answers;
+
+        return j;
+        });
+}
+
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(LeaveGameResponse response)
+{
+    return serializeOnlyStatusResponse(response.status);
+}

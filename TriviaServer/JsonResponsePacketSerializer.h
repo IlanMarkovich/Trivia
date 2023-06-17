@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <map>
 
 #include <nlohmann/json.hpp>
 using json = nlohmann::json;
@@ -13,6 +14,7 @@ using json = nlohmann::json;
 
 using std::string;
 using std::vector;
+using std::map;
 
 struct ErrorResponse
 {
@@ -92,6 +94,40 @@ struct LeaveRoomResponse
 	unsigned int status;
 };
 
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+struct GetQuestionsResponse
+{
+	unsigned int status;
+	string questions;
+	map<unsigned int, string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct PlayerResults
+{
+	string username;
+	unsigned int correctAnswersCount;
+	unsigned int wrongAnswersCount;
+	unsigned int averageAnswerTime;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	vector<PlayerResults> results;
+};
+
+// Response Type for the client to know if the request is for the request he automatically sent (for ex. GetRoomState)
+// or the response is to a request one of the users sent (for ex. CloseRoom)
 enum ResponseType
 {
 	REGULAR, START_GAME_RESPONSE, LEAVE_ROOM_RESPONSE, CLOSE_ROOM_RESPONSE
@@ -121,4 +157,8 @@ public:
 	static vector<unsigned char> serializeResponse(StartGameResponse response);
 	static vector<unsigned char> serializeResponse(GetRoomStateResponse response);
 	static vector<unsigned char> serializeResponse(LeaveRoomResponse response);
+	static vector<unsigned char> serializeResponse(GetGameResultsResponse response);
+	static vector<unsigned char> serializeResponse(SubmitAnswerResponse response);
+	static vector<unsigned char> serializeResponse(GetQuestionsResponse response);
+	static vector<unsigned char> serializeResponse(LeaveGameResponse response);
 };
