@@ -4,7 +4,7 @@
 
 // C'tor
 
-Question::Question(string question, vector<string> possibleAnswers)
+Question::Question(string question, const vector<string>& possibleAnswers)
 	: _question(question)
 {
 	// The first place is always the correct answer (before the shuffle)

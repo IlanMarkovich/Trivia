@@ -16,7 +16,7 @@ private:
 
 public:
 	// C'tor
-	Question(string question, vector<string> possibleAnswer);
+	Question(string question, const vector<string>& possibleAnswer);
 
 	// GETTERS
 	string getQuestion() const;
