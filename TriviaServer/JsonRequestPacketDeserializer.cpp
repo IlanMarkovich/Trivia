@@ -34,3 +34,9 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(ve
 	json j = json::parse(buffer);
 	return { j["roomName"].get<string>(), j["maxUsers"].get<unsigned int>(), j["questionsCount"].get<unsigned int>(), j["answerTimeout"].get<unsigned int>()};
 }
+
+SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(vector<unsigned char> buffer)
+{
+	json j = json::parse(buffer);
+	return { j["answerId"].get<unsigned int>() };
+}
