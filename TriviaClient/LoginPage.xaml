@@ -1,0 +1,59 @@
+﻿<Page x:Class="TriviaClient.LoginPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TriviaClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="LoginPage">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}"/>
+            <Style TargetType="PasswordBox" BasedOn="{StaticResource PasswordboxStyle}"/>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <Grid Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0, -40, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Username: " FontSize="50"/>
+            <TextBox Name="login_username" Grid.Row="1"/>
+
+            <TextBlock Text="Password: " Grid.Row="3" FontSize="50"/>
+            <PasswordBox Name="login_password"  Grid.Row="4"/>
+
+            <StackPanel Orientation="Vertical" Grid.Row="6">
+                <TextBlock Name="login_invalid_txt" Visibility="Hidden" Text="*One or more fields are invalid!" Foreground="red" FontSize="50" FontWeight="DemiBold" HorizontalAlignment="Center"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="login_btn" Content="Log In" Click="login_btn_Click"/>
+                    <Button Name="welcome_page_btn" Content="Back" Click="welcome_page_btn_Click"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
