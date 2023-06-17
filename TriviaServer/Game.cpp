@@ -41,5 +41,11 @@ void Game::submitAnswer(const LoggedUser& user, unsigned int answerId, float ans
 
 void Game::removePlayer(const LoggedUser& user)
 {
+	// Check if player is in the map
+	if (!_players.count(user))
+	{
+		return;
+	}
+
 	_players.erase(_players.find(user));
 }
