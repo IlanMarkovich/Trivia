@@ -18,3 +18,20 @@ Question::Question(string question, vector<string> possibleAnswers)
 	// Gets the new position of the correct answer in the vector after the shuffle
 	_correctAnswerId = std::find(_possibleAnswers.begin(), _possibleAnswers.end(), correctAnswer) - _possibleAnswers.begin();
 }
+
+// GETTERS
+
+string Question::getQuestion() const
+{
+	return _question;
+}
+
+vector<string> Question::getPossibleAnswers() const
+{
+	return _possibleAnswers;
+}
+
+int Question::getCorrectAnswerId() const
+{
+	return _correctAnswerId;
+}
