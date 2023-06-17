@@ -38,5 +38,5 @@ CreateRoomRequest JsonRequestPacketDeserializer::deserializeCreateRoomRequest(ve
 SubmitAnswerRequest JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(vector<unsigned char> buffer)
 {
 	json j = json::parse(buffer);
-	return { j["answerId"].get<unsigned int>() };
+	return { j["answerId"].get<unsigned int>(), j["answerTime"].get<float>() };
 }

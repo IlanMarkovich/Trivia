@@ -29,6 +29,6 @@ public:
 
 	// METHODS
 	Question getQuestionForUser(const LoggedUser& user) const;
-	void submitAnswer(const LoggedUser& user, unsigned int answerId);
+	void submitAnswer(const LoggedUser& user, unsigned int answerId, float answerTime);
 	void removePlayer(const LoggedUser& user);
 };

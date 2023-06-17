@@ -15,7 +15,8 @@ private:
 	int _correctAnswerId;
 
 public:
-	// C'tor
+	// C'tors
+	Question();
 	Question(string question, const vector<string>& possibleAnswer);
 
 	// GETTERS

@@ -40,6 +40,7 @@ struct CreateRoomRequest
 struct SubmitAnswerRequest
 {
 	unsigned int answerId;
+	float answerTime;
 };
 
 class JsonRequestPacketDeserializer

@@ -2,7 +2,11 @@
 
 #include <algorithm>
 
-// C'tor
+// C'tors
+
+Question::Question() : Question("", vector<string>())
+{
+}
 
 Question::Question(string question, const vector<string>& possibleAnswers)
 	: _question(question)
