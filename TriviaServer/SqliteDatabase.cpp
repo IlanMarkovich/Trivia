@@ -201,7 +201,7 @@ vector<string> SqliteDatabase::getHighScores()
     return players;
 }
 
-void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames)
+void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers)
 {
     string query = "select count(*) from statistics where username=\"" + username + "\";";
     int isUserInTable = 0;
@@ -216,7 +216,7 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
         totalAnswers += getNumOfTotalAnswers(username);
         correctAnswers += getNumOfCorrectAnswers(username);
         totalAnswers += getNumOfTotalAnswers(username);
-        playerGames += getNumOfPlayerGames(username);
+        int playerGames = getNumOfPlayerGames(username);
         
         // score formula
         int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
@@ -228,6 +228,9 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
     // If the user doesn't have statistics, insert those values to a new record in the database table
     else
     {
+        // If the code reaches here it means the this is the first game of the user
+        int playerGames = 1;
+
         // score formula
         int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
 

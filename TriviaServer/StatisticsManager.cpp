@@ -31,8 +31,3 @@ vector<string> StatisticsManager::getUserStatistics(string username) const
 
     return statistics;
 }
-
-void StatisticsManager::updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames)
-{
-    _database->updateUserStatistics(username, avgAnswerTime, correctAnswers, totalAnswers, playerGames);
-}

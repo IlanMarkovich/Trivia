@@ -21,7 +21,7 @@ public:
 	virtual int getNumOfPlayerGames(string username) override;
 	virtual int getPlayerScore(string username) override;
 	virtual vector<string> getHighScores() override;
-	virtual void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames) override;
+	virtual void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers) override;
 
 private:
 	sqlite3* _db;

@@ -23,5 +23,5 @@ public:
 	virtual int getNumOfPlayerGames(string username) = 0;
 	virtual int getPlayerScore(string username) = 0;
 	virtual vector<string> getHighScores() = 0;
-	virtual void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers, int playerGames) = 0;
+	virtual void updateUserStatistics(string username, float avgAnswerTime, int correctAnswers, int totalAnswers) = 0;
 };
