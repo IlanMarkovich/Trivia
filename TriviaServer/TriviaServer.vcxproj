@@ -130,6 +130,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="IDatabase.cpp" />
     <ClCompile Include="IRequestHandler.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
@@ -152,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="IDatabase.h" />
     <ClInclude Include="IRequestHandler.h" />
     <ClInclude Include="JsonRequestPacketDeserializer.h" />

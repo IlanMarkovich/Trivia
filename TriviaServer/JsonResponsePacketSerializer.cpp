@@ -196,7 +196,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestio
         answers.erase(answers.end() - 1);
     }
 
-    return createBuffer([response]() {
+    return createBuffer([response, answers]() {
         json j;
 
         j["status"] = response.status;
