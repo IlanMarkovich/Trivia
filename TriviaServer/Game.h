@@ -27,8 +27,13 @@ public:
 	// C'tor
 	Game(const vector<Question>& questions, const map<LoggedUser, GameData>& players, unsigned int gameId);
 
+	// GETTERS
+	map<LoggedUser, GameData> getPlayers() const;
+	unsigned int getId() const;
+
 	// METHODS
 	Question getQuestionForUser(const LoggedUser& user) const;
 	void submitAnswer(const LoggedUser& user, unsigned int answerId, float answerTime);
 	void removePlayer(const LoggedUser& user);
+	bool hasGameFinished() const;
 };

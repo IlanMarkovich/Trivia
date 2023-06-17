@@ -7,6 +7,18 @@ Game::Game(const vector<Question>& questions, const map<LoggedUser, GameData>& p
 {
 }
 
+// GETTERS
+
+map<LoggedUser, GameData> Game::getPlayers() const
+{
+	return _players;
+}
+
+unsigned int Game::getId() const
+{
+	return _gameId;
+}
+
 // METHODS
 
 Question Game::getQuestionForUser(const LoggedUser& user) const
@@ -48,4 +60,18 @@ void Game::removePlayer(const LoggedUser& user)
 	}
 
 	_players.erase(_players.find(user));
+}
+
+bool Game::hasGameFinished() const
+{
+	for (auto i = _players.begin(); i != _players.end(); ++i)
+	{
+		// If the question isn't empty, it means that this player have not finished the game
+		if (i->second.currentQuestion.getQuestion() != "")
+		{
+			return false;
+		}
+	}
+
+	return true;
 }

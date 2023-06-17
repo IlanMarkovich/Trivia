@@ -10,6 +10,7 @@ private:
 	// FIELDS
 	IDatabase* _database;
 	vector<Game> _games;
+	static unsigned int _lastGameId;
 
 public:
 	// C'tor
@@ -17,5 +18,5 @@ public:
 
 	// METHODS
 	void createGame(const Room& room);
-	void deleteGame(unsigned int gameId);
+	void finishGame(unsigned int gameId);
 };

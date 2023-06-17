@@ -1,5 +1,8 @@
 #include "GameManager.h"
 
+// Static variable
+unsigned int GameManager::_lastGameId = 0;
+
 // C'tor
 
 GameManager::GameManager(IDatabase* database) : _database(database)
@@ -21,11 +24,25 @@ void GameManager::createGame(const Room& room)
 	}
 
 	// Create the game and add it to the list of the games
-	Game game(questions, players, _games.size());
+	Game game(questions, players, _lastGameId++);
 	_games.push_back(game);
 }
 
-void GameManager::deleteGame(unsigned int gameId)
+void GameManager::finishGame(unsigned int gameId)
 {
-	_games.erase(_games.begin() + gameId);
+	Game game = _games[gameId];
+	auto players = game.getPlayers();
+
+	for (auto i = players.begin(); i != players.end(); ++i)
+	{
+		string username = i->first.getUsername();
+		GameData gameData = i->second;
+
+		_database->updateUserStatistics(username, gameData.averageAnswerTime, gameData.correctAnswerCount, gameData.correctAnswerCount + gameData.wrongAnswerCount);
+	}
+
+	// Deletes the game with this game id from the list of games
+	_games.erase(std::find_if(_games.begin(), _games.end(), [gameId](const Game& game) {
+		return game.getId() == gameId;
+		}));
 }
