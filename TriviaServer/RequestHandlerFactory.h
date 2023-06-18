@@ -4,7 +4,7 @@
 
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
-#include "GameRequestHandler.h"
+
 
 #include "LoginManager.h"
 #include "RoomManager.h"
@@ -39,5 +39,5 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(string username);
 	IRequestHandler* createRoomMemberRequestHandler(LoggedUser& user, Room& room);
 	IRequestHandler* createRoomAdminRequestHandler(LoggedUser& user, Room& room);
-	GameRequestHandler* createGameRequestHandler(Game& game, Room& room, const LoggedUser& user);
+	IRequestHandler* createGameRequestHandler(Game& game, Room& room, const LoggedUser& user);
 };

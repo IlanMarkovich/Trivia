@@ -181,13 +181,13 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(SubmitAnsw
         });
 }
 
-vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionsResponse response)
+vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestionResponse response)
 {
     string answers;
 
-    for (auto i = response.answers.begin(); i != response.answers.end(); ++i)
+    for (string answer : response.answers)
     {
-        answers += std::to_string(i->first) + "-" + i->second + '\n';
+        answers += answer + '\n';
     }
 
     // Delete last seperator
@@ -200,7 +200,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestio
         json j;
 
         j["status"] = response.status;
-        j["questions"] = response.questions;
+        j["questions"] = response.question;
         j["answers"] = answers;
 
         return j;

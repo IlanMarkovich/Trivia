@@ -159,6 +159,6 @@ public:
 	static vector<unsigned char> serializeResponse(LeaveRoomResponse response);
 	static vector<unsigned char> serializeResponse(GetGameResultsResponse response);
 	static vector<unsigned char> serializeResponse(SubmitAnswerResponse response);
-	static vector<unsigned char> serializeResponse(GetQuestionsResponse response);
+	static vector<unsigned char> serializeResponse(GetQuestionResponse response);
 	static vector<unsigned char> serializeResponse(LeaveGameResponse response);
 };

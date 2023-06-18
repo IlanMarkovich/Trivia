@@ -106,7 +106,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 		}
 
 		// Decide what is the new request handler based on if the user is the room admin or not
-		newHandler = _room.isAdmin(_user) ? _handlerFactory.createRoomAdminRequestHandler(_user, _room) ? _handlerFactory.createRoomMemberRequestHandler(_user, _room);
+		newHandler = _room.isAdmin(_user) ? _handlerFactory.createRoomAdminRequestHandler(_user, _room) : _handlerFactory.createRoomMemberRequestHandler(_user, _room);
 	}
 	catch (std::exception& e)
 	{

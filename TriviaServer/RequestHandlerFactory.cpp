@@ -1,6 +1,7 @@
 #include "RequestHandlerFactory.h"
 
 #include "RoomAdminRequestHandler.h"
+#include "GameRequestHandler.h"
 
 // C'tor
 
@@ -53,7 +54,7 @@ IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser
 	return new RoomAdminRequestHandler(*this, user, room);
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(Game& game, Room& room, const LoggedUser& user)
+IRequestHandler* RequestHandlerFactory::createGameRequestHandler(Game& game, Room& room, const LoggedUser& user)
 {
 	return new GameRequestHandler(*this, game, room, user);
 }

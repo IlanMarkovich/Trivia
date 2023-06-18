@@ -50,8 +50,10 @@ RequestResult RoomAdminRequestHandler::closeRoom(RequestInfo info)
 
 RequestResult RoomAdminRequestHandler::startGame(RequestInfo info)
 {
+	_handlerFactory.getGameManager().createGame(_room);
+
 	StartGameResponse response = { sendToAllInRoom(START_GAME)};
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createGameRequestHandler()};
 }
 
 bool RoomAdminRequestHandler::sendToAllInRoom(RequestType id)

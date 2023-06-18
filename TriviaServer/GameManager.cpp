@@ -30,7 +30,9 @@ void GameManager::createGame(const Room& room)
 
 void GameManager::finishGame(unsigned int gameId)
 {
-	Game game = _games[gameId];
+	Game game = *(std::find_if(_games.begin(), _games.end(), [gameId](const Game& game) {
+		return game.getId() == gameId;
+		}));
 	auto players = game.getPlayers();
 
 	for (auto i = players.begin(); i != players.end(); ++i)
