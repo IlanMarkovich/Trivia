@@ -11,7 +11,7 @@ GameManager::GameManager(IDatabase* database) : _database(database)
 
 // METHODS
 
-void GameManager::createGame(const Room& room)
+Game& GameManager::createGame(const Room& room)
 {
 	vector<Question> questions = _database->getQuestions(room.getData().numOfQuestionsInGame);
 	map<LoggedUser, GameData> players;
@@ -25,14 +25,16 @@ void GameManager::createGame(const Room& room)
 
 	// Create the game and add it to the list of the games
 	Game game(questions, players, _lastGameId++);
-	_games.push_back(game);
+	_games[room.getData().id] = game;
+
+	return game;
 }
 
 void GameManager::finishGame(unsigned int gameId)
 {
-	Game game = *(std::find_if(_games.begin(), _games.end(), [gameId](const Game& game) {
-		return game.getId() == gameId;
-		}));
+	Game game = std::find_if(_games.begin(), _games.end(), [gameId](const std::pair<unsigned int, Game>& item) {
+		return item.second.getId() == gameId;
+		})->second;
 	auto players = game.getPlayers();
 
 	for (auto i = players.begin(); i != players.end(); ++i)
@@ -44,7 +46,12 @@ void GameManager::finishGame(unsigned int gameId)
 	}
 
 	// Deletes the game with this game id from the list of games
-	_games.erase(std::find_if(_games.begin(), _games.end(), [gameId](const Game& game) {
-		return game.getId() == gameId;
+	_games.erase(std::find_if(_games.begin(), _games.end(), [gameId](const std::pair<unsigned int, Game>& item) {
+		return item.second.getId() == gameId;
 		}));
+}
+
+Game& GameManager::getGame(unsigned int roomId)
+{
+	return _games[roomId];
 }

@@ -9,7 +9,7 @@ class GameManager
 private:
 	// FIELDS
 	IDatabase* _database;
-	vector<Game> _games;
+	map<unsigned int, Game> _games;
 	static unsigned int _lastGameId;
 
 public:
@@ -17,6 +17,7 @@ public:
 	GameManager(IDatabase* database);
 
 	// METHODS
-	void createGame(const Room& room);
+	Game& createGame(const Room& room);
 	void finishGame(unsigned int gameId);
+	Game& getGame(unsigned int roomId);
 };

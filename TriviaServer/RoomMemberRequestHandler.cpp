@@ -76,6 +76,8 @@ RequestResult RoomMemberRequestHandler::getRoomState(RequestInfo info)
 
 RequestResult RoomMemberRequestHandler::startGame(RequestInfo info)
 {
+	Game& game = _handlerFactory.getGameManager().getGame(_room.getData().id);
+
 	StartGameResponse response = { true };
-	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+	return { JsonResponsePacketSerializer::serializeResponse(response), _handlerFactory.createGameRequestHandler(game, _room, _user)};
 }

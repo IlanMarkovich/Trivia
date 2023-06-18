@@ -24,7 +24,8 @@ private:
 	unsigned int _gameId;
 
 public:
-	// C'tor
+	// C'tors
+	Game();
 	Game(const vector<Question>& questions, const map<LoggedUser, GameData>& players, unsigned int gameId);
 
 	// GETTERS

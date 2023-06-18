@@ -1,6 +1,13 @@
 #include "Game.h"
 
-// C'tor
+// C'tors
+
+Game::Game()
+{
+	_questions = vector<Question>();
+	_players = map<LoggedUser, GameData>();
+	_gameId = 0;
+}
 
 Game::Game(const vector<Question>& questions, const map<LoggedUser, GameData>& players, unsigned int gameId)
 	: _questions(questions), _players(players), _gameId(gameId)
