@@ -23,4 +23,7 @@ public:
 	string getQuestion() const;
 	vector<string> getPossibleAnswers() const;
 	int getCorrectAnswerId() const;
+
+	// METHODS
+	bool operator==(const Question& other) const;
 };

@@ -9,15 +9,13 @@ Question::Question() : Question("", vector<string>())
 }
 
 Question::Question(string question, const vector<string>& possibleAnswers)
-	: _question(question)
+	: _question(question), _possibleAnswers(possibleAnswers)
 {
 	// The first place is always the correct answer (before the shuffle)
-	string correctAnswer = possibleAnswers[0];
+	string correctAnswer = _possibleAnswers[0];
 	
 	// Shuffle the answers randomly
-	std::random_shuffle(possibleAnswers.begin(), possibleAnswers.end());
-
-	_possibleAnswers = possibleAnswers;
+	std::random_shuffle(_possibleAnswers.begin(), _possibleAnswers.end());
 
 	// Gets the new position of the correct answer in the vector after the shuffle
 	_correctAnswerId = std::find(_possibleAnswers.begin(), _possibleAnswers.end(), correctAnswer) - _possibleAnswers.begin();
@@ -38,4 +36,11 @@ vector<string> Question::getPossibleAnswers() const
 int Question::getCorrectAnswerId() const
 {
 	return _correctAnswerId;
+}
+
+// METHODS
+
+bool Question::operator==(const Question& other) const
+{
+	return _question == other._question && _possibleAnswers == other._possibleAnswers && _correctAnswerId == other._correctAnswerId;
 }
