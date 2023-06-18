@@ -39,5 +39,5 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(string username);
 	IRequestHandler* createRoomMemberRequestHandler(LoggedUser& user, Room& room);
 	IRequestHandler* createRoomAdminRequestHandler(LoggedUser& user, Room& room);
-	GameRequestHandler* createGameRequestHandler(Game& game, const LoggedUser& user);
+	GameRequestHandler* createGameRequestHandler(Game& game, Room& room, const LoggedUser& user);
 };

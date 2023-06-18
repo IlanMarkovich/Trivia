@@ -9,6 +9,7 @@ class GameRequestHandler : public IRequestHandler
 private:
 	// FIELDS
 	Game& _game;
+	Room& _room;
 	LoggedUser _user;
 	RequestHandlerFactory& _handlerFactory;
 
@@ -19,7 +20,7 @@ private:
 	RequestResult leaveGame(RequestInfo info);
 public:
 	// C'tor
-	GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, const LoggedUser& user);
+	GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, Room& room, const LoggedUser& user);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;

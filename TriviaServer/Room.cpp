@@ -44,6 +44,11 @@ bool Room::hasUser(const LoggedUser& user) const
 	return false;
 }
 
+bool Room::isAdmin(const LoggedUser& user) const
+{
+	return user == _users[0];
+}
+
 vector<string> Room::getAllUsers() const
 {
 	vector<string> allUsers;

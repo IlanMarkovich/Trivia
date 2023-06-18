@@ -53,7 +53,7 @@ IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser
 	return new RoomAdminRequestHandler(*this, user, room);
 }
 
-GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(Game& game, const LoggedUser& user)
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(Game& game, Room& room, const LoggedUser& user)
 {
-	return new GameRequestHandler(*this, game, user);
+	return new GameRequestHandler(*this, game, room, user);
 }

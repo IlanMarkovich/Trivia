@@ -2,8 +2,8 @@
 
 // C'tor
 
-GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, const LoggedUser& user)
-	: _handlerFactory(handlerFactory), _game(game), _user(user)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, Room& room, const LoggedUser& user)
+	: _handlerFactory(handlerFactory), _game(game), _room(room), _user(user)
 {
 }
 
@@ -88,5 +88,52 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
-	return RequestResult();
+	bool success = true;
+	vector<PlayerResults> gameResults;
+	IRequestHandler* newHandler = this;
+
+	try
+	{
+		map<LoggedUser, GameData> players = _game.getPlayers();
+
+		for (auto i = players.begin(); i != players.end(); ++i)
+		{
+			string username = i->first.getUsername();
+			GameData gameData = i->second;
+
+			PlayerResults results = { username, gameData.correctAnswerCount, gameData.wrongAnswerCount, gameData.averageAnswerTime };
+			gameResults.push_back(results);
+		}
+
+		// Decide what is the new request handler based on if the user is the room admin or not
+		newHandler = _room.isAdmin(_user) ? _handlerFactory.createRoomAdminRequestHandler(_user, _room) ? _handlerFactory.createRoomMemberRequestHandler(_user, _room);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	GetGameResultsResponse response = { success, gameResults };
+	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
+}
+
+RequestResult GameRequestHandler::leaveGame(RequestInfo info)
+{
+	bool success = true;
+	IRequestHandler* newHandler = this;
+
+	try
+	{
+		_game.removePlayer(_user);
+		_room.removeUser(_user);
+
+		newHandler = _handlerFactory.createMenuRequestHandler(_user.getUsername());
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	LeaveGameResponse response = { success };
+	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler };
 }
