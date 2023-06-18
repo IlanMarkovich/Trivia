@@ -13,7 +13,7 @@ private:
 	RequestHandlerFactory& _handlerFactory;
 
 	// METHODS
-	RequestResult getQuestion(RequestInfo info);
+	RequestResult getQuestions(RequestInfo info);
 	RequestResult submitAnswer(RequestInfo info);
 	RequestResult getGameResults(RequestInfo info);
 	RequestResult leaveGame(RequestInfo info);
