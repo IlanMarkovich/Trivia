@@ -24,8 +24,8 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo info)
 			result = leaveGame(info);
 			break;
 
-		case GET_QUESTIONS:
-			result = getQuestions(info);
+		case GET_QUESTION:
+			result = getQuestion(info);
 			break;
 
 		case SUBMIT_ANSWER:
@@ -38,4 +38,30 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo info)
 	}
 
 	return result;
+}
+
+// PRIVATE METHODS
+
+RequestResult GameRequestHandler::getQuestion(RequestInfo info)
+{
+	bool success = true;
+	Question question;
+
+	try
+	{
+		question = _game.getQuestionForUser(_user);
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	GetQuestionResponse response = { success, question.getQuestion(), question.getPossibleAnswers() };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
+{
+	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
+	bool success = true;
 }

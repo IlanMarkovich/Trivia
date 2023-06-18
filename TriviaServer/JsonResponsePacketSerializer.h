@@ -99,11 +99,11 @@ struct LeaveGameResponse
 	unsigned int status;
 };
 
-struct GetQuestionsResponse
+struct GetQuestionResponse
 {
 	unsigned int status;
-	string questions;
-	map<unsigned int, string> answers;
+	string question;
+	vector<string> answers;
 };
 
 struct SubmitAnswerResponse
