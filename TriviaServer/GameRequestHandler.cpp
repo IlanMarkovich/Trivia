@@ -64,4 +64,29 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 {
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
 	bool success = true;
+	int correctAnswerId = _game.getQuestionForUser(_user).getCorrectAnswerId();
+
+	try
+	{
+		_game.submitAnswer(_user, request.answerId, request.answerTime);
+
+		// After the player's submition, check if the game has finished
+		// If it did, finish the game in the game manager
+		if (_game.hasGameFinished())
+		{
+			_handlerFactory.getGameManager().finishGame(_game.getId());
+		}
+	}
+	catch (std::exception& e)
+	{
+		success = false;
+	}
+
+	SubmitAnswerResponse response = { success, correctAnswerId };
+	return { JsonResponsePacketSerializer::serializeResponse(response), this };
+}
+
+RequestResult GameRequestHandler::getGameResults(RequestInfo info)
+{
+	return RequestResult();
 }
