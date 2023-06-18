@@ -4,10 +4,12 @@
 
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "GameRequestHandler.h"
 
 #include "LoginManager.h"
 #include "RoomManager.h"
 #include "StatisticsManager.h"
+#include "GameManager.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
@@ -20,6 +22,7 @@ private:
 	LoginManager _loginManager;
 	RoomManager _roomManager;
 	StatisticsManager _statisticsManager;
+	GameManager _gameManager;
 
 public:
 	// C'tor
@@ -29,10 +32,12 @@ public:
 	LoginManager& getLoginManager();
 	RoomManager& getRoomManager();
 	StatisticsManager& getStatisticsManager();
+	GameManager& getGameManager();
 
 	// METHODS
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(string username);
 	IRequestHandler* createRoomMemberRequestHandler(LoggedUser& user, Room& room);
 	IRequestHandler* createRoomAdminRequestHandler(LoggedUser& user, Room& room);
+	GameRequestHandler* createGameRequestHandler(Game& game, const LoggedUser& user);
 };

@@ -19,7 +19,7 @@ private:
 	RequestResult leaveGame(RequestInfo info);
 public:
 	// C'tor
-	GameRequestHandler(Game& game, const LoggedUser& user, RequestHandlerFactory& handlerFactory);
+	GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, const LoggedUser& user);
 
 	// METHODS
 	virtual bool isRequestRelevant(RequestInfo info) override;

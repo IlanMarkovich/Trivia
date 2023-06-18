@@ -2,8 +2,8 @@
 
 // C'tor
 
-GameRequestHandler::GameRequestHandler(Game& game, const LoggedUser& user, RequestHandlerFactory& handlerFactory)
-	: _game(game), _user(user), _handlerFactory(handlerFactory)
+GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, const LoggedUser& user)
+	: _handlerFactory(handlerFactory), _game(game), _user(user)
 {
 }
 

@@ -4,7 +4,8 @@
 
 // C'tor
 
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* database) : _loginManager(database), _statisticsManager(database), _database(database)
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* database)
+	: _loginManager(database), _statisticsManager(database), _gameManager(database), _database(database)
 {
 }
 
@@ -23,6 +24,11 @@ RoomManager& RequestHandlerFactory::getRoomManager()
 StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
 	return _statisticsManager;
+}
+
+GameManager& RequestHandlerFactory::getGameManager()
+{
+	return _gameManager;
 }
 
 // METHODS
@@ -45,4 +51,9 @@ IRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(LoggedUse
 IRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser& user, Room& room)
 {
 	return new RoomAdminRequestHandler(*this, user, room);
+}
+
+GameRequestHandler* RequestHandlerFactory::createGameRequestHandler(Game& game, const LoggedUser& user)
+{
+	return new GameRequestHandler(*this, game, user);
 }
