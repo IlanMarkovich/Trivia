@@ -37,7 +37,7 @@ void Game::submitAnswer(const LoggedUser& user, unsigned int answerId, float ans
 {
 	GameData& data = _players[user];
 	
-	if (answerId = data.currentQuestion.getCorrectAnswerId())
+	if (answerId == data.currentQuestion.getCorrectAnswerId())
 	{
 		data.correctAnswerCount++;
 	}

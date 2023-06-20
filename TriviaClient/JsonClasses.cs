@@ -185,4 +185,33 @@ namespace TriviaClient
             this.timeout = timeout;
         }
     }
+
+    internal class SubmitAnswer
+    {
+        public int answerId { get; set; }
+        public double answerTime { get; set; }
+
+        public SubmitAnswer(int answerId, double answerTime)
+        {
+            this.answerId = answerId;
+            this.answerTime = answerTime;
+        }
+    }
+
+    internal class Question
+    {
+        public string question { get; set; }
+        private string answers;
+
+        public Question(string question, string answers)
+        {
+            this.question = question;
+            this.answers = answers;
+        }
+
+        public List<string> getAnswers()
+        {
+            return answers.Split('\n').ToList();
+        }
+    }
 }
