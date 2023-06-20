@@ -4,8 +4,9 @@
 
 // C'tors
 
-Question::Question() : Question("", vector<string>())
+Question::Question()
 {
+	_correctAnswerId = 0;
 }
 
 Question::Question(string question, const vector<string>& possibleAnswers)
