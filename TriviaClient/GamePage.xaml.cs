@@ -25,16 +25,16 @@ namespace TriviaClient
         private readonly int DID_NOT_ANSWER = -1;
 
         private DispatcherTimer timer;
-        private int startTime;
+        private int maxTime;
         private int time;
 
-        public GamePage(int startTime)
+        public GamePage(int maxTime)
         {
             InitializeComponent();
-            getQuestion();
+            GetQuestion();
 
-            this.startTime = startTime;
-            time = startTime;
+            this.maxTime = maxTime;
+            time = 0;
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -42,14 +42,21 @@ namespace TriviaClient
             timer.Start();
         }
 
-        private void getQuestion()
+        private void GetQuestion()
         {
             // Gets the question
             MainWindow.client.Send(RequestType.GET_QUESTION);
             string response = MainWindow.client.Recieve().Value;
 
-            // Sets the current question
             Question question = JsonConvert.DeserializeObject<Question>(response);
+
+            if(question.question == String.Empty)
+            {
+                FinishGame();
+                return;
+            }
+
+            // Sets the current question
             question_txt.Text = question.question;
 
             List<Button> buttons = new List<Button>{ ans_1_btn, ans_2_btn, ans_3_btn, ans_4_btn };
@@ -62,23 +69,64 @@ namespace TriviaClient
             }
         }
 
+        private void FinishGame()
+        {
+            MessageBox.Show("Game has finished!");
+            // TODO: get game results
+        }
+
         private void Timer_Tick(object sender, EventArgs e)
         {
             // If the time ran out
-            if(time == 0)
+            if(time == maxTime)
             {
-                string sendData = JsonConvert.SerializeObject(new SubmitAnswer(DID_NOT_ANSWER, startTime - time));
+                string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(DID_NOT_ANSWER, time));
                 MainWindow.client.Send(RequestType.SUBMIT_ANSWER, sendData);
 
                 // Because the client already knows that the answer id (DID_NOT_ANSWER) isn't correct
                 // the client just recieves the server's response and doesn't do anything with it
                 MainWindow.client.Recieve();
 
-                getQuestion();
+                MessageBox.Show("Time ran out!");
+
+                time = 0;
+                GetQuestion();
                 return;
             }
 
-            time--;
+            time++;
+        }
+
+        private void ans_btn_Click(object sender, RoutedEventArgs e)
+        {
+            // Gets the answer id by the name of the button
+            int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", ""));
+
+            string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(answerId, time));
+            MainWindow.client.Send(RequestType.SUBMIT_ANSWER, sendData);
+
+            string response = MainWindow.client.Recieve().Value;
+            SubmitAnswerResponse saResponse = JsonConvert.DeserializeObject<SubmitAnswerResponse>(response);
+
+            if(saResponse.status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Answer Error", "An error occurred while submiting the answer");
+                window.ShowDialog();
+
+                return;
+            }
+
+            if(saResponse.correctAnswerId == answerId)
+            {
+                MessageBox.Show("correct!");
+            }
+            else
+            {
+                MessageBox.Show("wrong!");
+            }
+
+            time = 0;
+            GetQuestion();
         }
     }
 }

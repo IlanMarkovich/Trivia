@@ -44,10 +44,10 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button Name="ans_1_btn"/>
-            <Button Name="ans_2_btn" Grid.Row="1"/>
-            <Button Name="ans_3_btn" Grid.Column="1"/>
-            <Button Name="ans_4_btn" Grid.Row="1" Grid.Column="1"/>
+            <Button Name="ans_1_btn" Click="ans_btn_Click"/>
+            <Button Name="ans_2_btn" Grid.Row="1" Click="ans_btn_Click"/>
+            <Button Name="ans_3_btn" Grid.Column="1" Click="ans_btn_Click"/>
+            <Button Name="ans_4_btn" Grid.Row="1" Grid.Column="1" Click="ans_btn_Click"/>
         </Grid>
     </Grid>
 </Page>

@@ -186,15 +186,27 @@ namespace TriviaClient
         }
     }
 
-    internal class SubmitAnswer
+    internal class SubmitAnswerRequest
     {
         public int answerId { get; set; }
         public double answerTime { get; set; }
 
-        public SubmitAnswer(int answerId, double answerTime)
+        public SubmitAnswerRequest(int answerId, double answerTime)
         {
             this.answerId = answerId;
             this.answerTime = answerTime;
+        }
+    }
+
+    internal class SubmitAnswerResponse
+    {
+        public int status { get; set; }
+        public int correctAnswerId { get; set; }
+
+        public SubmitAnswerResponse(int status, int correctAnswerId)
+        {
+            this.status = status;
+            this.correctAnswerId = correctAnswerId;
         }
     }
 
