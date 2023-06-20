@@ -61,7 +61,7 @@ int questionCallback(void* data, int argc, char** argv, char** cols)
             int index = col[col.size() - 1] - '0' - 1;
             answers[index] = argv[i];
         }
-        else if (cols[i] == "question")
+        else if (string(cols[i]) == "question")
         {
             text = argv[i];
         }

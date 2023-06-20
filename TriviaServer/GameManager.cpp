@@ -14,13 +14,15 @@ GameManager::GameManager(IDatabase* database) : _database(database)
 Game& GameManager::createGame(const Room& room)
 {
 	vector<Question> questions = _database->getQuestions(room.getData().numOfQuestionsInGame);
+	Question firstQuestion = questions[0];
 	map<LoggedUser, GameData> players;
 
 	// Add all users to the 'players' map and set to each one
 	// an empty game data with the first question as the current question
 	for (const LoggedUser& user : room.getAllUsers())
 	{
-		players[user] = { questions[0], 0, 0, 0 };
+		players.insert(std::pair<LoggedUser, GameData>(user, GameData()));
+		players[user].currentQuestion = firstQuestion;
 	}
 
 	// Create the game and add it to the list of the games
