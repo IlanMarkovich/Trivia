@@ -108,6 +108,18 @@ namespace TriviaClient
         }
     }
 
+    internal class RoomName
+    {
+        public int status { get; set; }
+        public string roomName { get; set; }
+
+        public RoomName(int status, string roomName)
+        {
+            this.status = status;
+            this.roomName = roomName;
+        }
+    }
+
     internal class PersonalStatistics
     {
         public int status { get; set; }

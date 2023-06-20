@@ -28,11 +28,11 @@ namespace TriviaClient
         private Page newPage;
         private bool switchPage;
 
-        public RoomPage(bool isAdmin)
+        public RoomPage(string roomName, bool isAdmin)
         {
             InitializeComponent();
 
-            room_name_txt.Text = "Room";
+            room_name_txt.Text = roomName;
             inRoom = true;
 
             switchPage = false;
@@ -81,6 +81,7 @@ namespace TriviaClient
             }
             else
             {
+                // Update the players list
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     room_players_list_view.DataContext = roomData.players.getPlayers();

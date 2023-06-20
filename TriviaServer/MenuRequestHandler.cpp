@@ -108,20 +108,21 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 	JoinRoomRequset request = JsonRequestPacketDeserializer::deserializeJoinRoomRequest(info.buffer);
 	bool success = true;
 	IRequestHandler* newHandler = this;
+	Room* room = nullptr;
 
 	try
 	{
-		Room& room = _handlerFactory.getRoomManager().getRoom(request.roomId);
-		room.addUser(_user);
+		room = &(_handlerFactory.getRoomManager().getRoom(request.roomId));
+		room->addUser(_user);
 
-		newHandler = _handlerFactory.createRoomMemberRequestHandler(_user, room);
+		newHandler = _handlerFactory.createRoomMemberRequestHandler(_user, *room);
 	}
 	catch (std::exception& e)
 	{
 		success = false;
 	}
 
-	JoinRoomResponse response = {success};
+	JoinRoomResponse response = {success, room->getData().name};
 
 	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }

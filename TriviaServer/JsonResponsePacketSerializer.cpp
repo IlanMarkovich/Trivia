@@ -110,7 +110,12 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetPersona
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse response)
 {
-    return serializeOnlyStatusResponse(response.status);
+    return createBuffer([response]() {
+        json j;
+        j["status"] = response.status;
+        j["roomName"] = response.roomName;
+        return j;
+        });
 }
 
 vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(CreateRoomResponse response)

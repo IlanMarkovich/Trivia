@@ -63,6 +63,7 @@ struct GetPersonalStatResponse
 struct JoinRoomResponse
 {
 	unsigned int status;
+	string roomName;
 };
 
 struct CreateRoomResponse
