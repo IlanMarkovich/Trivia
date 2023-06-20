@@ -29,7 +29,7 @@ Game& GameManager::createGame(const Room& room)
 	Game game(questions, players, _lastGameId++);
 	_games[room.getData().id] = game;
 
-	return game;
+	return _games[room.getData().id];
 }
 
 void GameManager::finishGame(unsigned int gameId)

@@ -104,13 +104,14 @@ namespace TriviaClient
             {
                 if (response.Key == ResponseType.START_GAME)
                 {
-                    MessageBox.Show("Game Started!");
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        const int DEMO_VALUE = 90;
+                        MainWindow.mainFrame.Navigate(new GamePage(DEMO_VALUE));
+                    });
                 }
                 else
                 {
-                    MessageBox.Show("Left Room!");
-
-                    // Need to change the page in the same thread which the UI is running on
                     Application.Current.Dispatcher.InvokeAsync(() =>
                     {
                         MainWindow.mainFrame.Navigate(new MainMenuPage());

@@ -95,6 +95,7 @@ namespace TriviaClient
             }
 
             time++;
+            time_txt.Text = TimeSpan.FromSeconds(time).ToString("mm\\:ss");
         }
 
         private void ans_btn_Click(object sender, RoutedEventArgs e)

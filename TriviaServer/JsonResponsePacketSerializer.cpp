@@ -205,7 +205,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetQuestio
         json j;
 
         j["status"] = response.status;
-        j["questions"] = response.question;
+        j["question"] = response.question;
         j["answers"] = answers;
 
         return j;
