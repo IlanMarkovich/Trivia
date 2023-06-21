@@ -37,16 +37,16 @@ namespace TriviaClient
             MainWindow.client.Send(RequestType.JOIN_ROOM, JsonConvert.SerializeObject(new RoomId(room.roomId), Formatting.Indented));
 
             string response = MainWindow.client.Recieve().Value;
-            RoomName roomName = JsonConvert.DeserializeObject<RoomName>(response);
+            RoomDataForJoin roomData = JsonConvert.DeserializeObject<RoomDataForJoin>(response);
 
-            if (roomName.status == 0)
+            if (roomData.status == 0)
             {
                 ErrorWindow window = new ErrorWindow("Join Room", "An error occurred while trying to join the room! Please try again");
                 window.ShowDialog();
             }
             else
             {
-                MainWindow.mainFrame.Navigate(new RoomPage(roomName.roomName, false));
+                MainWindow.mainFrame.Navigate(new RoomPage(roomData.roomName, roomData.answerTimeout, false));
             }
         }
 

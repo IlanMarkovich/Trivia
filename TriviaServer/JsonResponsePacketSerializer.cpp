@@ -114,6 +114,7 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(JoinRoomRe
         json j;
         j["status"] = response.status;
         j["roomName"] = response.roomName;
+        j["answerTimeout"] = std::to_string(response.answerTimeout);
         return j;
         });
 }

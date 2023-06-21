@@ -35,9 +35,6 @@ namespace TriviaClient
             personal_stat_btn.IsEnabled = false;
             highscore_stat_btn.IsEnabled = true;
 
-            if (personal_stat_txt.Visibility == Visibility.Hidden)
-                return;
-
             MainWindow.client.Send(RequestType.GET_PERSONAL_STAT);
 
             string response = MainWindow.client.Recieve().Value;
@@ -60,9 +57,6 @@ namespace TriviaClient
             high_score_players_list_view.Visibility = Visibility.Visible;
             personal_stat_btn.IsEnabled = true;
             highscore_stat_btn.IsEnabled = false;
-
-            if (high_score_players_list_view.Visibility == Visibility.Hidden)
-                return;
 
             MainWindow.client.Send(RequestType.GET_HIGH_SCORES);
 
