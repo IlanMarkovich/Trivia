@@ -22,11 +22,9 @@ namespace TriviaClient
     /// </summary>
     public partial class RoomPage : Page
     {
-        public static bool inRoom = false;
         public readonly int ROOM_RESPONSE_WAIT_TIME = 2000;
 
-        private Page newPage;
-        private bool switchPage;
+        private bool inRoom;
 
         public RoomPage(string roomName, bool isAdmin)
         {
@@ -34,8 +32,6 @@ namespace TriviaClient
 
             room_name_txt.Text = roomName;
             inRoom = true;
-
-            switchPage = false;
 
             if (isAdmin)
             {
@@ -64,7 +60,10 @@ namespace TriviaClient
                     }
                     else
                     {
-                        RecieveOperation(response);
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            RecieveOperation(response);
+                        });
                     }
                 }
             });
@@ -74,19 +73,18 @@ namespace TriviaClient
         {
             RoomData roomData = JsonConvert.DeserializeObject<RoomData>(response.Value);
 
-            if (roomData.players.status == 0)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                ErrorWindow window = new ErrorWindow("Get Players Error", "There was an error while getting the players in this room!");
-                window.ShowDialog();
-            }
-            else
-            {
-                // Update the players list
-                Application.Current.Dispatcher.Invoke(() =>
+                if (roomData.players.status == 0)
+                {
+                    ErrorWindow window = new ErrorWindow("Get Players Error", "There was an error while getting the players in this room!");
+                    window.ShowDialog();
+                }
+                else
                 {
                     room_players_list_view.DataContext = roomData.players.getPlayers();
-                });
-            }
+                }
+            });
 
             Thread.Sleep(ROOM_RESPONSE_WAIT_TIME);
         }
@@ -94,6 +92,7 @@ namespace TriviaClient
         private void RecieveOperation(KeyValuePair<ResponseType, string> response)
         {
             int status = JsonConvert.DeserializeObject<Status>(response.Value).status;
+            inRoom = false;
 
             if (status == 0)
             {
@@ -104,18 +103,12 @@ namespace TriviaClient
             {
                 if (response.Key == ResponseType.START_GAME)
                 {
-                    Application.Current.Dispatcher.Invoke(() =>
-                    {
-                        const int DEMO_VALUE = 90;
-                        MainWindow.mainFrame.Navigate(new GamePage(DEMO_VALUE));
-                    });
+                    const int DEMO_VALUE = 30;
+                    MainWindow.mainFrame.Navigate(new GamePage(DEMO_VALUE));
                 }
                 else
                 {
-                    Application.Current.Dispatcher.InvokeAsync(() =>
-                    {
-                        MainWindow.mainFrame.Navigate(new MainMenuPage());
-                    });
+                    MainWindow.mainFrame.Navigate(new MainMenuPage());
                 }
             }
         }

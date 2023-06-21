@@ -35,6 +35,7 @@ namespace TriviaClient
 
             this.maxTime = maxTime;
             time = 0;
+            time_txt.Text = TimeSpan.FromSeconds(maxTime).ToString("mm\\:ss");
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -80,6 +81,8 @@ namespace TriviaClient
             // If the time ran out
             if(time == maxTime)
             {
+                MessageBox.Show("Time ran out!");
+
                 string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(DID_NOT_ANSWER, time));
                 MainWindow.client.Send(RequestType.SUBMIT_ANSWER, sendData);
 
@@ -87,29 +90,27 @@ namespace TriviaClient
                 // the client just recieves the server's response and doesn't do anything with it
                 MainWindow.client.Recieve();
 
-                MessageBox.Show("Time ran out!");
-
                 time = 0;
                 GetQuestion();
                 return;
             }
 
             time++;
-            time_txt.Text = TimeSpan.FromSeconds(time).ToString("mm\\:ss");
+            time_txt.Text = TimeSpan.FromSeconds(maxTime - time).ToString("mm\\:ss");
         }
 
         private void ans_btn_Click(object sender, RoutedEventArgs e)
         {
             // Gets the answer id by the name of the button
-            int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", ""));
+            int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", "")) - 1;
 
-            string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(answerId, time));
+            string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(1, time));
             MainWindow.client.Send(RequestType.SUBMIT_ANSWER, sendData);
 
             string response = MainWindow.client.Recieve().Value;
             SubmitAnswerResponse saResponse = JsonConvert.DeserializeObject<SubmitAnswerResponse>(response);
 
-            if(saResponse.status == 0)
+            if (saResponse.status == 0)
             {
                 ErrorWindow window = new ErrorWindow("Answer Error", "An error occurred while submiting the answer");
                 window.ShowDialog();
@@ -117,7 +118,7 @@ namespace TriviaClient
                 return;
             }
 
-            if(saResponse.correctAnswerId == answerId)
+            if (saResponse.correctAnswerId == answerId)
             {
                 MessageBox.Show("correct!");
             }

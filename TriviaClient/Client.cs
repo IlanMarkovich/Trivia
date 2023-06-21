@@ -27,12 +27,11 @@ namespace TriviaClient
         private readonly int MAX_MESSAGE_SIZE = 4096;
         private readonly int MAX_TRIES = 5;
 
-        private TcpClient connection;
-        private NetworkStream client;
+        private TcpClient client;
 
         public Client()
         {
-            connection = new TcpClient();
+            client = new TcpClient();
         }
 
         public async Task ConnectAsync()
@@ -43,7 +42,7 @@ namespace TriviaClient
             {
                 try
                 {
-                    await connection.ConnectAsync(IPAddress.Parse("127.0.0.1"), PORT);
+                    await client.ConnectAsync(IPAddress.Parse("127.0.0.1"), PORT);
                     break;
                 }
                 catch (Exception)
@@ -51,22 +50,17 @@ namespace TriviaClient
                     tries--;
                 }
             }
-
-            if(tries > 0)
-            {
-                client = connection.GetStream();
-            }
         }
 
         public bool IsConnected()
         {
-            return connection.Connected;
+            return client.Connected;
         }
 
         public void Disconnect()
         {
-            if (connection.Connected)
-                connection.Close();
+            if (client.Connected)
+                client.Close();
         }
 
         public void Send(RequestType type)
@@ -90,13 +84,14 @@ namespace TriviaClient
 
             buffer.AddRange(Encoding.ASCII.GetBytes(data));
 
-            client.Write(buffer.ToArray(), 0, buffer.Count);
+            client.GetStream().Write(buffer.ToArray(), 0, buffer.Count);
+            client.GetStream().Flush();
         }
 
         public KeyValuePair<ResponseType, string> Recieve()
         {
             byte[] buffer = new byte[MAX_MESSAGE_SIZE];
-            client.Read(buffer, 0, MAX_MESSAGE_SIZE);
+            client.GetStream().Read(buffer, 0, MAX_MESSAGE_SIZE);
 
             ResponseType type = (ResponseType)buffer[0];
 
