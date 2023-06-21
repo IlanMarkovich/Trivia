@@ -28,8 +28,13 @@ namespace TriviaClient
             personal_stat_btn_Click(null, null);
         }
 
-        private void personal_stat_txt_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void personal_stat_btn_Click(object sender, RoutedEventArgs e)
         {
+            personal_stat_txt.Visibility = Visibility.Visible;
+            high_score_players_list_view.Visibility = Visibility.Hidden;
+            personal_stat_btn.IsEnabled = false;
+            highscore_stat_btn.IsEnabled = true;
+
             if (personal_stat_txt.Visibility == Visibility.Hidden)
                 return;
 
@@ -49,8 +54,13 @@ namespace TriviaClient
             }
         }
 
-        private void high_score_players_list_view_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private void highscore_stat_btn_Click(object sender, RoutedEventArgs e)
         {
+            personal_stat_txt.Visibility = Visibility.Hidden;
+            high_score_players_list_view.Visibility = Visibility.Visible;
+            personal_stat_btn.IsEnabled = true;
+            highscore_stat_btn.IsEnabled = false;
+
             if (high_score_players_list_view.Visibility == Visibility.Hidden)
                 return;
 
@@ -68,22 +78,6 @@ namespace TriviaClient
             {
                 high_score_players_list_view.DataContext = highScores.getPlayers();
             }
-        }
-
-        private void personal_stat_btn_Click(object sender, RoutedEventArgs e)
-        {
-            personal_stat_txt.Visibility = Visibility.Visible;
-            high_score_players_list_view.Visibility = Visibility.Hidden;
-            personal_stat_btn.IsEnabled = false;
-            highscore_stat_btn.IsEnabled = true;
-        }
-
-        private void highscore_stat_btn_Click(object sender, RoutedEventArgs e)
-        {
-            personal_stat_txt.Visibility = Visibility.Hidden;
-            high_score_players_list_view.Visibility = Visibility.Visible;
-            personal_stat_btn.IsEnabled = true;
-            highscore_stat_btn.IsEnabled = false;
         }
 
         private void main_menu_back_btn_Click(object sender, RoutedEventArgs e)

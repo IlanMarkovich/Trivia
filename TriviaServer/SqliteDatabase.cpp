@@ -221,7 +221,7 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
         int playerGames = getNumOfPlayerGames(username);
         
         // score formula
-        int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
+        int score = (int)((100 * playerGames * ((correctAnswers + 1) / (totalAnswers + 1))) / avgAnswerTime);
 
         query = "update statistics set avgAnswerTime=" + std::to_string(avgAnswerTime) + ", correctAnswers=" + std::to_string(correctAnswers);
         query += ", totalAnswers=" + std::to_string(totalAnswers) + ", playerGames=" + std::to_string(playerGames);
@@ -234,7 +234,7 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
         int playerGames = 1;
 
         // score formula
-        int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
+        int score = (int)((100 * playerGames * ((float)(correctAnswers + 1) / (float)(totalAnswers + 1))) / avgAnswerTime);
 
         query = "insert into statistics (username, avgAnswerTime, correctAnswers, totalAnswers, playerGames, score) ";
         query += "values (\"" + username + "\", " + std::to_string(avgAnswerTime) + ", " + std::to_string(correctAnswers) + ", ";

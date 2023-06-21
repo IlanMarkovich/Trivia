@@ -31,10 +31,10 @@
         <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
 
         <!-- PERSONAL -->
-        <TextBlock HorizontalAlignment="Center" Name="personal_stat_txt" Grid.Row="1" IsVisibleChanged="personal_stat_txt_IsVisibleChanged"/>
+        <TextBlock HorizontalAlignment="Center" Name="personal_stat_txt" Grid.Row="1"/>
 
         <!-- HIGH SCORE -->
-        <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" IsVisibleChanged="high_score_players_list_view_IsVisibleChanged" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="High Score Players" DisplayMemberBinding="{Binding username}" Width="1000"/>
