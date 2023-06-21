@@ -3,7 +3,7 @@
 // C'tor
 
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, Room& room, const LoggedUser& user)
-	: _handlerFactory(handlerFactory), _game(game), _room(room), _user(user)
+	: _handlerFactory(handlerFactory), _game(&game), _room(room), _user(user)
 {
 }
 
@@ -44,16 +44,13 @@ RequestResult GameRequestHandler::handleRequest(RequestInfo info)
 
 RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 {
-	bool success = true;
 	Question question;
+	bool success = false;
 
-	try
+	if (_game != nullptr)
 	{
-		question = _game.getQuestionForUser(_user);
-	}
-	catch (std::exception& e)
-	{
-		success = false;
+		question = _game->getQuestionForUser(_user);
+		success = true;
 	}
 
 	GetQuestionResponse response = { success, question.getQuestion(), question.getPossibleAnswers() };
@@ -64,17 +61,18 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 {
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
 	bool success = true;
-	int correctAnswerId = _game.getQuestionForUser(_user).getCorrectAnswerId();
+	int correctAnswerId = _game->getQuestionForUser(_user).getCorrectAnswerId();
 
 	try
 	{
-		_game.submitAnswer(_user, request.answerId, request.answerTime);
+		_game->submitAnswer(_user, request.answerId, request.answerTime);
 
 		// After the player's submition, check if the game has finished
 		// If it did, finish the game in the game manager
-		if (_game.hasGameFinished())
+		if (_game->hasGameFinished())
 		{
-			_handlerFactory.getGameManager().finishGame(_game.getId());
+			_handlerFactory.getGameManager().finishGame(_game->getId());
+			_game = nullptr;
 		}
 	}
 	catch (std::exception& e)
@@ -94,7 +92,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 
 	try
 	{
-		map<LoggedUser, GameData> players = _game.getPlayers();
+		map<LoggedUser, GameData> players = _game->getPlayers();
 
 		for (auto i = players.begin(); i != players.end(); ++i)
 		{
@@ -124,7 +122,7 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 
 	try
 	{
-		_game.removePlayer(_user);
+		_game->removePlayer(_user);
 		_room.removeUser(_user);
 
 		newHandler = _handlerFactory.createMenuRequestHandler(_user.getUsername());

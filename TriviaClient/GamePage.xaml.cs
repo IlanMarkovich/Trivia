@@ -104,7 +104,7 @@ namespace TriviaClient
             // Gets the answer id by the name of the button
             int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", "")) - 1;
 
-            string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(1, time));
+            string sendData = JsonConvert.SerializeObject(new SubmitAnswerRequest(answerId, time));
             MainWindow.client.Send(RequestType.SUBMIT_ANSWER, sendData);
 
             string response = MainWindow.client.Recieve().Value;

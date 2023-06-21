@@ -156,8 +156,10 @@ vector<Question> SqliteDatabase::getQuestions(int numOfQuestions)
 
     if (numOfQuestions < questions.size())
     {
+        int totalQuestions = questions.size();
+
         // Removes questions from the vector to much the number of questions required
-        for (int i = 0; i < questions.capacity() - numOfQuestions; i++)
+        for (int i = 0; i < totalQuestions - numOfQuestions; i++)
         {
             int randIndex = rand() % questions.size();
             questions.erase(questions.begin() + randIndex);
@@ -222,7 +224,7 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
         int score = (int)((100 * playerGames * (correctAnswers / totalAnswers)) / avgAnswerTime);
 
         query = "update statistics set avgAnswerTime=" + std::to_string(avgAnswerTime) + ", correctAnswers=" + std::to_string(correctAnswers);
-        query += ", totalAnswers=" + std::to_string(totalAnswers) + ", playerGames" + std::to_string(playerGames);
+        query += ", totalAnswers=" + std::to_string(totalAnswers) + ", playerGames=" + std::to_string(playerGames);
         query += ", score=" + std::to_string(score) + " where username=\"" + username + "\";";
     }
     // If the user doesn't have statistics, insert those values to a new record in the database table
