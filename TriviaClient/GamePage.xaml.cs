@@ -28,6 +28,7 @@ namespace TriviaClient
         private int maxTime;
         private int time;
         private int questionsCount;
+        private int correctAnswers;
 
         public GamePage(int maxTime, int questionsCount)
         {
@@ -37,7 +38,10 @@ namespace TriviaClient
             this.maxTime = maxTime;
             time = 0;
             time_txt.Text = TimeSpan.FromSeconds(maxTime).ToString("mm\\:ss");
+
             this.questionsCount = questionsCount;
+            questions_left_txt.Text = "Questions Left: " + questionsCount;
+            questions_correct_txt.Text = "Correct Answers: 0";
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -122,14 +126,16 @@ namespace TriviaClient
 
             if (saResponse.correctAnswerId == answerId)
             {
-                MessageBox.Show("correct!");
-            }
-            else
-            {
-                MessageBox.Show("wrong!");
+                correctAnswers++;
             }
 
+            // Update variable according to the answer
             time = 0;
+            questionsCount--;
+            questions_left_txt.Text = "Questions Left: " + questionsCount;
+            questions_correct_txt.Text = "Correct Answers: " + correctAnswers;
+
+            // Get the next question
             GetQuestion();
         }
     }

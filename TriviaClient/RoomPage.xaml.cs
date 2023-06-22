@@ -26,13 +26,16 @@ namespace TriviaClient
 
         private bool inRoom;
         private int answerTimeout;
+        private int questionsCount;
 
-        public RoomPage(string roomName, int answerTimeout, bool isAdmin)
+        public RoomPage(string roomName, int answerTimeout, int questionsCount, bool isAdmin)
         {
             InitializeComponent();
 
             room_name_txt.Text = roomName;
             this.answerTimeout = answerTimeout;
+            this.questionsCount = questionsCount;
+
             inRoom = true;
 
             if (isAdmin)
@@ -105,7 +108,7 @@ namespace TriviaClient
             {
                 if (response.Key == ResponseType.START_GAME)
                 {
-                    MainWindow.mainFrame.Navigate(new GamePage(answerTimeout));
+                    MainWindow.mainFrame.Navigate(new GamePage(answerTimeout, questionsCount));
                 }
                 else
                 {

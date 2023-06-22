@@ -73,7 +73,7 @@ namespace TriviaClient
             }
             else
             {
-                MainWindow.mainFrame.Navigate(new RoomPage(create_room_name_txt.Text, answerTimeout, true));
+                MainWindow.mainFrame.Navigate(new RoomPage(create_room_name_txt.Text, answerTimeout, questionsCount, true));
             }
         }
 

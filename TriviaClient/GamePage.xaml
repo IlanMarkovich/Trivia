@@ -33,7 +33,9 @@
         </Grid.RowDefinitions>
 
         <TextBlock Name="time_txt" HorizontalAlignment="Center"/>
-        
+        <TextBlock Name="questions_left_txt" Text="Questions Left: " HorizontalAlignment="Left"/>
+        <TextBlock Name="questions_correct_txt" Text="Correct Answers: " HorizontalAlignment="Right"/>
+
         <TextBlock Name="question_txt" FontSize="75" Grid.Row="2" HorizontalAlignment="Center"/>
 
         <Grid Grid.Row="4" HorizontalAlignment="Center">
