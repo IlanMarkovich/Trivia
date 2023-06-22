@@ -32,9 +32,11 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="time_txt" HorizontalAlignment="Center"/>
-        <TextBlock Name="questions_left_txt" Text="Questions Left: " HorizontalAlignment="Left"/>
-        <TextBlock Name="questions_correct_txt" Text="Correct Answers: " HorizontalAlignment="Right"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+            <TextBlock Name="time_txt" Margin="0,0,50,0"/>
+            <TextBlock Name="questions_left_txt" Text="Questions Left: " Margin="0,0,50,0"/>
+            <TextBlock Name="questions_correct_txt" Text="Correct Answers: "/>
+        </StackPanel>
 
         <TextBlock Name="question_txt" FontSize="75" Grid.Row="2" HorizontalAlignment="Center"/>
 

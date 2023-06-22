@@ -215,13 +215,12 @@ void SqliteDatabase::updateUserStatistics(string username, float avgAnswerTime, 
         // Calculates the new average answer time
         avgAnswerTime = (avgAnswerTime * totalAnswers + getPlayerAverageAnswerTime(username) * getNumOfTotalAnswers(username)) / (totalAnswers + getNumOfTotalAnswers(username));
 
-        totalAnswers += getNumOfTotalAnswers(username);
         correctAnswers += getNumOfCorrectAnswers(username);
         totalAnswers += getNumOfTotalAnswers(username);
-        int playerGames = getNumOfPlayerGames(username);
+        int playerGames = getNumOfPlayerGames(username) + 1;
         
         // score formula
-        int score = (int)((100 * playerGames * ((correctAnswers + 1) / (totalAnswers + 1))) / avgAnswerTime);
+        int score = (int)((100 * playerGames * ((float)(correctAnswers + 1) / (float)(totalAnswers + 1))) / avgAnswerTime);
 
         query = "update statistics set avgAnswerTime=" + std::to_string(avgAnswerTime) + ", correctAnswers=" + std::to_string(correctAnswers);
         query += ", totalAnswers=" + std::to_string(totalAnswers) + ", playerGames=" + std::to_string(playerGames);
