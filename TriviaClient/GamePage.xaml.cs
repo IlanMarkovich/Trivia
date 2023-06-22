@@ -27,8 +27,9 @@ namespace TriviaClient
         private DispatcherTimer timer;
         private int maxTime;
         private int time;
+        private int questionsCount;
 
-        public GamePage(int maxTime)
+        public GamePage(int maxTime, int questionsCount)
         {
             InitializeComponent();
             GetQuestion();
@@ -36,6 +37,7 @@ namespace TriviaClient
             this.maxTime = maxTime;
             time = 0;
             time_txt.Text = TimeSpan.FromSeconds(maxTime).ToString("mm\\:ss");
+            this.questionsCount = questionsCount;
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);

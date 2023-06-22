@@ -122,7 +122,7 @@ RequestResult MenuRequestHandler::joinRoom(RequestInfo info)
 		success = false;
 	}
 
-	JoinRoomResponse response = {success, room->getData().name, room->getData().timePerQuestion};
+	JoinRoomResponse response = {success};
 
 	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }

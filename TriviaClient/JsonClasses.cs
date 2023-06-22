@@ -108,20 +108,6 @@ namespace TriviaClient
         }
     }
 
-    internal class RoomDataForJoin
-    {
-        public int status { get; set; }
-        public string roomName;
-        public int answerTimeout;
-
-        public RoomDataForJoin(int status, string roomName, int answerTimeout)
-        {
-            this.status = status;
-            this.roomName = roomName;
-            this.answerTimeout = answerTimeout;
-        }
-    }
-
     internal class PersonalStatistics
     {
         public int status { get; set; }
