@@ -3,6 +3,7 @@
 #include <iostream>
 #include <io.h>
 #include <stdlib.h>
+#include <algorithm>
 
 // Callback functions
 
@@ -158,13 +159,16 @@ vector<Question> SqliteDatabase::getQuestions(int numOfQuestions)
     {
         int totalQuestions = questions.size();
 
-        // Removes questions from the vector to much the number of questions required
+        // Removes questions from the vector to match the number of questions required
         for (int i = 0; i < totalQuestions - numOfQuestions; i++)
         {
             int randIndex = rand() % questions.size();
             questions.erase(questions.begin() + randIndex);
         }
     }
+
+    // Randomly shuffle the vector
+    std::random_shuffle(questions.begin(), questions.end());
 
     return questions;
 }
