@@ -44,7 +44,7 @@ namespace TriviaClient
         }
     }
 
-    internal class Room
+    public class Room
     {
         public int roomId { get; set; }
         public string roomName { get; set; }
@@ -212,6 +212,59 @@ namespace TriviaClient
         public List<string> getAnswers()
         {
             return answers.Split('\n').ToList();
+        }
+    }
+
+    internal class PlayerResults
+    {
+        public string username { get; set; }
+        public int correctAnswersCount { get; set; }
+        public int wrongAnswersCount { get; set; }
+        public int averageAnswerTime { get; set; }
+
+        public PlayerResults(string username, int correctAnswersCount, int wrongAnswersCount, int averageAnswerTime)
+        {
+            this.username = username;
+            this.correctAnswersCount = correctAnswersCount;
+            this.wrongAnswersCount = wrongAnswersCount;
+            this.averageAnswerTime = averageAnswerTime;
+        }
+    }
+
+    internal class PlayersResults
+    {
+        public int status { get; set; }
+        private string playersResults;
+
+        public PlayersResults()
+        {
+            status = 0;
+            playersResults = "";
+        }
+
+        public PlayersResults(int status, string playersResults)
+        {
+            this.status = status;
+            this.playersResults = playersResults;
+        }
+
+        public List<PlayerResults> GetPlayersResults()
+        {
+            List<PlayerResults> lst = new List<PlayerResults>();
+
+            foreach(string playerResults in playersResults.Split('\n'))
+            {
+                string[] results = playerResults.Split('|');
+
+                string username = results[0];
+                int correctAnswersCount = int.Parse(results[1]);
+                int wrongAnswersCount = int.Parse(results[2]);
+                int averageAnswerTime = int.Parse(results[3]);
+
+                lst.Add(new PlayerResults(username, correctAnswersCount, wrongAnswersCount, averageAnswerTime));
+            }
+
+            return lst;
         }
     }
 }

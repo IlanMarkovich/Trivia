@@ -46,7 +46,7 @@ namespace TriviaClient
             }
             else
             {
-                MainWindow.mainFrame.Navigate(new RoomPage(room.roomName, room.answerTimeout, room.questionsCount, false));
+                MainWindow.mainFrame.Navigate(new RoomPage(false, room));
             }
         }
 

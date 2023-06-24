@@ -25,21 +25,23 @@ namespace TriviaClient
         private readonly int DID_NOT_ANSWER = -1;
 
         private DispatcherTimer timer;
-        private int maxTime;
         private int time;
         private int questionsCount;
         private int correctAnswers;
+        private Room room;
+        private bool isAdmin;
 
-        public GamePage(int maxTime, int questionsCount)
+        public GamePage(bool isAdmin, Room room)
         {
             InitializeComponent();
             GetQuestion();
 
-            this.maxTime = maxTime;
+            this.isAdmin = isAdmin;
+            this.room = room;
             time = 0;
-            time_txt.Text = TimeSpan.FromSeconds(maxTime).ToString("mm\\:ss");
+            time_txt.Text = TimeSpan.FromSeconds(room.answerTimeout).ToString("mm\\:ss");
 
-            this.questionsCount = questionsCount;
+            questionsCount = room.questionsCount;
             questions_left_txt.Text = "Questions Left: " + questionsCount;
             questions_correct_txt.Text = "Correct Answers: 0";
 
@@ -59,7 +61,7 @@ namespace TriviaClient
 
             if(question.question == String.Empty)
             {
-                MainWindow.mainFrame.Navigate(new GameResultsPage());
+                MainWindow.mainFrame.Navigate(new GameResultsPage(isAdmin, room));
                 return;
             }
 
@@ -79,7 +81,7 @@ namespace TriviaClient
         private void Timer_Tick(object sender, EventArgs e)
         {
             // If the time ran out
-            if(time == maxTime)
+            if(time == room.answerTimeout)
             {
                 MessageBox.Show("Time ran out!");
 
@@ -96,7 +98,7 @@ namespace TriviaClient
             }
 
             time++;
-            time_txt.Text = TimeSpan.FromSeconds(maxTime - time).ToString("mm\\:ss");
+            time_txt.Text = TimeSpan.FromSeconds( - time).ToString("mm\\:ss");
         }
 
         private void ans_btn_Click(object sender, RoutedEventArgs e)

@@ -25,16 +25,16 @@ namespace TriviaClient
         public readonly int ROOM_RESPONSE_WAIT_TIME = 2000;
 
         private bool inRoom;
-        private int answerTimeout;
-        private int questionsCount;
+        private Room room;
+        private bool isAdmin;
 
-        public RoomPage(string roomName, int answerTimeout, int questionsCount, bool isAdmin)
+        public RoomPage(bool isAdmin, Room room)
         {
             InitializeComponent();
 
-            room_name_txt.Text = roomName;
-            this.answerTimeout = answerTimeout;
-            this.questionsCount = questionsCount;
+            this.isAdmin = isAdmin;
+            this.room = room;
+            room_name_txt.Text = room.roomName;
 
             inRoom = true;
 
@@ -108,7 +108,7 @@ namespace TriviaClient
             {
                 if (response.Key == ResponseType.START_GAME)
                 {
-                    MainWindow.mainFrame.Navigate(new GamePage(answerTimeout, questionsCount));
+                    MainWindow.mainFrame.Navigate(new GamePage(isAdmin, room));
                 }
                 else
                 {
