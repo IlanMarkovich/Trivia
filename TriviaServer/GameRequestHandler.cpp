@@ -71,6 +71,7 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 		// If it did, finish the game in the game manager
 		if (_game->hasGameFinished())
 		{
+			_gameCopy = *_game;
 			_handlerFactory.getGameManager().finishGame(_game->getId());
 			_game = nullptr;
 		}
@@ -86,13 +87,13 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 
 RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
-	bool success = true;
 	vector<PlayerResults> gameResults;
 	IRequestHandler* newHandler = this;
 
-	try
+	// Only if the game is finished, give the game results
+	if(_game == nullptr)
 	{
-		map<LoggedUser, GameData> players = _game->getPlayers();
+		map<LoggedUser, GameData> players = _gameCopy.getPlayers();
 
 		for (auto i = players.begin(); i != players.end(); ++i)
 		{
@@ -106,12 +107,8 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 		// Decide what is the new request handler based on if the user is the room admin or not
 		newHandler = _room.isAdmin(_user) ? _handlerFactory.createRoomAdminRequestHandler(_user, _room) : _handlerFactory.createRoomMemberRequestHandler(_user, _room);
 	}
-	catch (std::exception& e)
-	{
-		success = false;
-	}
 
-	GetGameResultsResponse response = { success, gameResults };
+	GetGameResultsResponse response = { _game == nullptr , gameResults };
 	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }
 

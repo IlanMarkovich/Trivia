@@ -9,6 +9,7 @@ class GameRequestHandler : public IRequestHandler
 private:
 	// FIELDS
 	Game* _game;
+	Game _gameCopy;
 	Room& _room;
 	LoggedUser _user;
 	RequestHandlerFactory& _handlerFactory;

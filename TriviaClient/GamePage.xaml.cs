@@ -59,7 +59,7 @@ namespace TriviaClient
 
             if(question.question == String.Empty)
             {
-                FinishGame();
+                MainWindow.mainFrame.Navigate(new GameResultsPage());
                 return;
             }
 
@@ -74,12 +74,6 @@ namespace TriviaClient
             {
                 buttons[i].Content = answers[i];
             }
-        }
-
-        private void FinishGame()
-        {
-            MessageBox.Show("Game has finished!");
-            // TODO: get game results
         }
 
         private void Timer_Tick(object sender, EventArgs e)
