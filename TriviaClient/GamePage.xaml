@@ -30,6 +30,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
@@ -56,5 +58,7 @@
             <Button Name="ans_3_btn" Grid.Column="1" Click="ans_btn_Click"/>
             <Button Name="ans_4_btn" Grid.Row="1" Grid.Column="1" Click="ans_btn_Click"/>
         </Grid>
+
+        <Button Grid.Row="6" Content="Leave Game" Name="leave_game_btn" Click="leave_game_btn_Click"/>
     </Grid>
 </Page>

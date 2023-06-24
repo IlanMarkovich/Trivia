@@ -134,5 +134,21 @@ namespace TriviaClient
             // Get the next question
             GetQuestion();
         }
+
+        private void leave_game_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow.client.Send(RequestType.LEAVE_GAME);
+            string response = MainWindow.client.Recieve().Value;
+            int status = JsonConvert.DeserializeObject<Status>(response).status;
+
+            if(status == 0)
+            {
+                ErrorWindow window = new ErrorWindow("Leave Game Error", "An error occurred while trying to leave the game!");
+                window.ShowDialog();
+                return;
+            }
+
+            MainWindow.mainFrame.Navigate(new MainMenuPage());
+        }
     }
 }

@@ -123,6 +123,16 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 		_room.removeUser(_user);
 
 		newHandler = _handlerFactory.createMenuRequestHandler(_user.getUsername());
+
+		// If the user that just left is the last one, delete the game and the room
+		if (_game->getPlayers().empty())
+		{
+			// Finish the game
+			_handlerFactory.getGameManager().finishGame(_game->getId());
+			
+			// Delete the room because no one is there
+			_handlerFactory.getRoomManager().deleteRoom(_room.getData().id);
+		}
 	}
 	catch (std::exception& e)
 	{
