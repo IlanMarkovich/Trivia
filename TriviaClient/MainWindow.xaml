@@ -39,7 +39,7 @@
         <!-- USERNAME AND LOGOUT STACK PANEL -->
         <StackPanel Visibility="Hidden" Name="username_sp" HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
             <TextBlock Name="username_txt" Text="username"/>
-            <Button Name="logout_uibtn" Style="{StaticResource UI-ButtonStyle}" Click="logout_uibtn_Click">
+            <Button Name="logout_btn" Style="{StaticResource UI-ButtonStyle}" Click="logout_btn_Click">
                 <Button.Content>
                     <Image Source="Assets/sign-out-fill.png"/>
                 </Button.Content>

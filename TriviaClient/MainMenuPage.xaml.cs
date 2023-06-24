@@ -23,6 +23,8 @@ namespace TriviaClient
         public MainMenuPage()
         {
             InitializeComponent();
+
+            MainWindow.current.UpdateLogoutIsEnable(true);
         }
 
         private void create_room_menu_btn_Click(object sender, RoutedEventArgs e)

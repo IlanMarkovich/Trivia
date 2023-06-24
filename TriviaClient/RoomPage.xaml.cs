@@ -32,6 +32,8 @@ namespace TriviaClient
         {
             InitializeComponent();
 
+            MainWindow.current.UpdateLogoutIsEnable(false);
+
             this.isAdmin = isAdmin;
             this.room = room;
             room_name_txt.Text = room.roomName;

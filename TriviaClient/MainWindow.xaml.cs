@@ -79,7 +79,12 @@ namespace TriviaClient
             username_txt.Text = username;
         }
 
-        private void logout_uibtn_Click(object sender, RoutedEventArgs e)
+        public void UpdateLogoutIsEnable(bool isEnabled)
+        {
+            logout_btn.IsEnabled = isEnabled;
+        }
+
+        private void logout_btn_Click(object sender, RoutedEventArgs e)
         {
             client.Send(RequestType.SIGNOUT);
             client.Recieve();
