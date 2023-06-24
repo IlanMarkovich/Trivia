@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -31,20 +32,35 @@ namespace TriviaClient
             this.isAdmin = isAdmin;
             this.room = room;
 
-            PlayersResults results = new PlayersResults();
+            // Wait for the game to finish in a seperate thread, so tha the UI thread won't be interrupted
+            Task.Run(waitForGameFinish);
+        }
+
+        private void waitForGameFinish()
+        {
+            int status;
+            PlayersResults results;
 
             // While the status is zero (meaning the game isn't finished yet)
-            while (results.status == 0)
+            do
             {
                 MainWindow.client.Send(RequestType.GET_GAME_RESULTS);
                 string response = MainWindow.client.Recieve().Value;
                 results = JsonConvert.DeserializeObject<PlayersResults>(response);
-            }
+                status = results.status;
 
-            waiting_txt.Visibility = Visibility.Hidden;
-            player_results_list_view.Visibility = Visibility.Visible;
+                // Wait for a second before the next request
+                Thread.Sleep(1000);
+            } while (status == 0);
 
-            player_results_list_view.DataContext = results.GetPlayersResults();
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                waiting_txt.Visibility = Visibility.Hidden;
+                player_results_list_view.Visibility = Visibility.Visible;
+                back_btn.Visibility = Visibility.Visible;
+
+                player_results_list_view.DataContext = results.GetPlayersResults();
+            });
         }
 
         private void back_btn_Click(object sender, RoutedEventArgs e)

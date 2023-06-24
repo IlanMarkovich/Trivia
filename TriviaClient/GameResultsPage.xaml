@@ -31,17 +31,17 @@
         
         <TextBlock Name="waiting_txt" FontSize="150" Text="Waiting for the game to finish" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.RowSpan="2"/>
 
-        <ListView Name="player_results_list_view" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden">
+        <ListView Name="player_results_list_view" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Hidden" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding username}"/>
-                    <GridViewColumn Header="Correct Answers" DisplayMemberBinding="{Binding correctAnswersCount}"/>
-                    <GridViewColumn Header="Wrong Answers" DisplayMemberBinding="{Binding wrongAnswersCount}"/>
-                    <GridViewColumn Header="Average Answer Time" DisplayMemberBinding="{Binding averageAnswerTime}"/>
+                    <GridViewColumn Header="Username" DisplayMemberBinding="{Binding username}" Width="500"/>
+                    <GridViewColumn Header="Correct Answers" DisplayMemberBinding="{Binding correctAnswersCount}" Width="500"/>
+                    <GridViewColumn Header="Wrong Answers" DisplayMemberBinding="{Binding wrongAnswersCount}" Width="500"/>
+                    <GridViewColumn Header="Average Answer Time" DisplayMemberBinding="{Binding averageAnswerTime}" Width="500"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button Name="back_btn" Content="Back" Click="back_btn_Click" Grid.Row="1"/>
+        <Button Name="back_btn" Visibility="Hidden" Content="Back" Click="back_btn_Click" Grid.Row="1"/>
     </Grid>
 </Page>

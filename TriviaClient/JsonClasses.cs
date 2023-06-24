@@ -234,32 +234,31 @@ namespace TriviaClient
     internal class PlayersResults
     {
         public int status { get; set; }
-        private string playersResults;
+        public string results { get; set; }
 
-        public PlayersResults()
-        {
-            status = 0;
-            playersResults = "";
-        }
-
-        public PlayersResults(int status, string playersResults)
+        public PlayersResults(int status, string results)
         {
             this.status = status;
-            this.playersResults = playersResults;
+            this.results = results;
         }
 
         public List<PlayerResults> GetPlayersResults()
         {
             List<PlayerResults> lst = new List<PlayerResults>();
 
-            foreach(string playerResults in playersResults.Split('\n'))
+            foreach(string playerResults in results.Split('\n'))
             {
-                string[] results = playerResults.Split('|');
+                if(playerResults == String.Empty)
+                {
+                    continue;
+                }
 
-                string username = results[0];
-                int correctAnswersCount = int.Parse(results[1]);
-                int wrongAnswersCount = int.Parse(results[2]);
-                int averageAnswerTime = int.Parse(results[3]);
+                string[] playerResultsArr = playerResults.Split('|');
+
+                string username = playerResultsArr[0];
+                int correctAnswersCount = int.Parse(playerResultsArr[1]);
+                int wrongAnswersCount = int.Parse(playerResultsArr[2]);
+                int averageAnswerTime = int.Parse(playerResultsArr[3]);
 
                 lst.Add(new PlayerResults(username, correctAnswersCount, wrongAnswersCount, averageAnswerTime));
             }

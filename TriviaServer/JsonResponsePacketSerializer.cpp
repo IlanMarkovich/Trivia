@@ -163,9 +163,9 @@ vector<unsigned char> JsonResponsePacketSerializer::serializeResponse(GetGameRes
     for (PlayerResults results : response.results)
     {
         string str = results.username + "|";
-        str += results.correctAnswersCount + "|";
-        str += results.wrongAnswersCount + "|";
-        str += results.averageAnswerTime;
+        str += std::to_string(results.correctAnswersCount) + "|";
+        str += std::to_string(results.wrongAnswersCount) + "|";
+        str += std::to_string(results.averageAnswerTime);
 
         playerResults.push_back(str);
     }
