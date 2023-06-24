@@ -46,11 +46,6 @@ void GameManager::finishGame(unsigned int gameId)
 
 		_database->updateUserStatistics(username, gameData.averageAnswerTime, gameData.correctAnswerCount, gameData.correctAnswerCount + gameData.wrongAnswerCount);
 	}
-
-	// Deletes the game with this game id from the list of games
-	_games.erase(std::find_if(_games.begin(), _games.end(), [gameId](const std::pair<unsigned int, Game>& item) {
-		return item.second.getId() == gameId;
-		}));
 }
 
 Game& GameManager::getGame(unsigned int roomId)

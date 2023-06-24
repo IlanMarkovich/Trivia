@@ -3,7 +3,7 @@
 // C'tor
 
 GameRequestHandler::GameRequestHandler(RequestHandlerFactory& handlerFactory, Game& game, Room& room, const LoggedUser& user)
-	: _handlerFactory(handlerFactory), _game(&game), _room(room), _user(user)
+	: _handlerFactory(handlerFactory), _game(game), _room(room), _user(user)
 {
 }
 
@@ -47,9 +47,9 @@ RequestResult GameRequestHandler::getQuestion(RequestInfo info)
 	Question question;
 	bool success = false;
 
-	if (_game != nullptr)
+	if (!_game.hasGameFinished())
 	{
-		question = _game->getQuestionForUser(_user);
+		question = _game.getQuestionForUser(_user);
 		success = true;
 	}
 
@@ -61,19 +61,17 @@ RequestResult GameRequestHandler::submitAnswer(RequestInfo info)
 {
 	SubmitAnswerRequest request = JsonRequestPacketDeserializer::deserializeSubmitAnswerRequest(info.buffer);
 	bool success = true;
-	int correctAnswerId = _game->getQuestionForUser(_user).getCorrectAnswerId();
+	int correctAnswerId = _game.getQuestionForUser(_user).getCorrectAnswerId();
 
 	try
 	{
-		_game->submitAnswer(_user, request.answerId, request.answerTime);
+		_game.submitAnswer(_user, request.answerId, request.answerTime);
 
 		// After the player's submition, check if the game has finished
 		// If it did, finish the game in the game manager
-		if (_game->hasGameFinished())
+		if (_game.hasGameFinished())
 		{
-			_gameCopy = *_game;
-			_handlerFactory.getGameManager().finishGame(_game->getId());
-			_game = nullptr;
+			_handlerFactory.getGameManager().finishGame(_game.getId());
 		}
 	}
 	catch (std::exception& e)
@@ -89,11 +87,12 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 {
 	vector<PlayerResults> gameResults;
 	IRequestHandler* newHandler = this;
+	bool hasGameFinished = _game.hasGameFinished();
 
 	// Only if the game is finished, give the game results
-	if(_game == nullptr)
+	if(hasGameFinished)
 	{
-		map<LoggedUser, GameData> players = _gameCopy.getPlayers();
+		map<LoggedUser, GameData> players = _game.getPlayers();
 
 		for (auto i = players.begin(); i != players.end(); ++i)
 		{
@@ -108,7 +107,7 @@ RequestResult GameRequestHandler::getGameResults(RequestInfo info)
 		newHandler = _room.isAdmin(_user) ? _handlerFactory.createRoomAdminRequestHandler(_user, _room) : _handlerFactory.createRoomMemberRequestHandler(_user, _room);
 	}
 
-	GetGameResultsResponse response = { _game == nullptr , gameResults };
+	GetGameResultsResponse response = { hasGameFinished , gameResults };
 	return { JsonResponsePacketSerializer::serializeResponse(response), newHandler};
 }
 
@@ -119,16 +118,16 @@ RequestResult GameRequestHandler::leaveGame(RequestInfo info)
 
 	try
 	{
-		_game->removePlayer(_user);
+		_game.removePlayer(_user);
 		_room.removeUser(_user);
 
 		newHandler = _handlerFactory.createMenuRequestHandler(_user.getUsername());
 
 		// If the user that just left is the last one, delete the game and the room
-		if (_game->getPlayers().empty())
+		if (_game.getPlayers().empty())
 		{
 			// Finish the game
-			_handlerFactory.getGameManager().finishGame(_game->getId());
+			_handlerFactory.getGameManager().finishGame(_game.getId());
 			
 			// Delete the room because no one is there
 			_handlerFactory.getRoomManager().deleteRoom(_room.getData().id);
