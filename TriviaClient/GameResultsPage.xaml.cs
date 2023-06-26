@@ -65,6 +65,7 @@ namespace TriviaClient
 
         private void back_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new RoomPage(isAdmin, room));
         }
     }

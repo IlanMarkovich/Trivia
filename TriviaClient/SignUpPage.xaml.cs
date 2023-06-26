@@ -29,6 +29,8 @@ namespace TriviaClient
 
         private void signup_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             if (signup_username.Text == String.Empty || signup_password.Password == String.Empty || signup_email.Text == String.Empty)
             {
                 signup_invalid_txt.Visibility = Visibility.Visible;
@@ -55,6 +57,7 @@ namespace TriviaClient
 
         private void welcome_page_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new WelcomePage());
         }
     }

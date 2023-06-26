@@ -220,5 +220,10 @@
   <ItemGroup>
     <Resource Include="Assets\sign-out-fill.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\ButtonSelect.wav" />
+    <Content Include="Assets\CorrectAnswer.wav" />
+    <Content Include="Assets\WrongAnswer.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

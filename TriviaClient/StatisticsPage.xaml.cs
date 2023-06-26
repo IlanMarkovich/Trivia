@@ -30,6 +30,8 @@ namespace TriviaClient
 
         private void personal_stat_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             personal_stat_txt.Visibility = Visibility.Visible;
             high_score_players_list_view.Visibility = Visibility.Hidden;
             personal_stat_btn.IsEnabled = false;
@@ -53,6 +55,8 @@ namespace TriviaClient
 
         private void highscore_stat_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             personal_stat_txt.Visibility = Visibility.Hidden;
             high_score_players_list_view.Visibility = Visibility.Visible;
             personal_stat_btn.IsEnabled = true;
@@ -76,6 +80,7 @@ namespace TriviaClient
 
         private void main_menu_back_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new MainMenuPage());
         }
     }

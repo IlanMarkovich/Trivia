@@ -105,6 +105,8 @@ namespace TriviaClient
 
         private void ans_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             // Gets the answer id by the name of the button
             int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", "")) - 1;
 
@@ -141,6 +143,8 @@ namespace TriviaClient
 
         private void leave_game_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             MainWindow.client.Send(RequestType.LEAVE_GAME);
             string response = MainWindow.client.Recieve().Value;
             int status = JsonConvert.DeserializeObject<Status>(response).status;

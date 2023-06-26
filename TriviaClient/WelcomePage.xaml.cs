@@ -27,16 +27,19 @@ namespace TriviaClient
 
         private void login_page_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new LoginPage());
         }
 
         private void signup_page_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new SignUpPage());
         }
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.client.Disconnect();
             Application.Current.Shutdown();
         }

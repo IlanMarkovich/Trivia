@@ -121,16 +121,19 @@ namespace TriviaClient
 
         private void start_game_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.client.Send(RequestType.START_GAME);
         }
 
         private void close_room_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.client.Send(RequestType.CLOSE_ROOM);
         }
 
         private void leave_room_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.client.Send(RequestType.LEAVE_ROOM);
         }
     }

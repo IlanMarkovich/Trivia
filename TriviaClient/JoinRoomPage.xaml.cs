@@ -30,6 +30,8 @@ namespace TriviaClient
 
         private void join_room_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             if (room_list_view.SelectedItem == null)
                 return;
 
@@ -52,6 +54,7 @@ namespace TriviaClient
 
         private void refresh_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.client.Send(RequestType.GET_ROOMS);
 
             string response = MainWindow.client.Recieve().Value;
@@ -60,6 +63,7 @@ namespace TriviaClient
 
         private void main_menu_back_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new MainMenuPage());
         }
 

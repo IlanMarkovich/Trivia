@@ -49,6 +49,8 @@ namespace TriviaClient
 
         private void create_room_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
+
             if (AreRoomDetailsInvalid())
             {
                 ErrorWindow window = new ErrorWindow("Create Room Error", "One or more of the fields are invalid!");
@@ -84,6 +86,7 @@ namespace TriviaClient
 
         private void main_menu_back_btn_Click(object sender, RoutedEventArgs e)
         {
+            MainWindow.buttonSound.Play();
             MainWindow.mainFrame.Navigate(new MainMenuPage());
         }
     }

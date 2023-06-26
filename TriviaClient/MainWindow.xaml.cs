@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Navigation;
+using System.Media;
+using System.IO;
 
 namespace TriviaClient
 {
@@ -24,6 +26,7 @@ namespace TriviaClient
         };
         public static Client client { get; } = new Client();
         public static MainWindow current { get; set; }
+        public static SoundPlayer buttonSound { get; } = new SoundPlayer("..\\..\\Assets\\ButtonSelect.wav");
 
         // Variables for the moving background
         private Random rand;
@@ -33,6 +36,7 @@ namespace TriviaClient
         public MainWindow()
         {
             InitializeComponent();
+            buttonSound.LoadAsync();
 
             rand = new Random();
             current = this;
@@ -86,6 +90,7 @@ namespace TriviaClient
 
         private void logout_btn_Click(object sender, RoutedEventArgs e)
         {
+            buttonSound.Play();
             client.Send(RequestType.SIGNOUT);
             client.Recieve();
             username_sp.Visibility = Visibility.Hidden;
