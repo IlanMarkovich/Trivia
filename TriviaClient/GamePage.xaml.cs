@@ -59,8 +59,10 @@ namespace TriviaClient
 
             Question question = JsonConvert.DeserializeObject<Question>(response);
 
+            // When the question is empty, it means that the game is over for this player
             if(question.question == String.Empty)
             {
+                timer.Stop();
                 MainWindow.mainFrame.Navigate(new GameResultsPage(isAdmin, room));
                 return;
             }
@@ -127,6 +129,8 @@ namespace TriviaClient
 
             // Update variable according to the answer
             time = 0;
+            time_txt.Text = TimeSpan.FromSeconds(room.answerTimeout).ToString("mm\\:ss");
+
             questionsCount--;
             questions_left_txt.Text = "Questions Left: " + questionsCount;
             questions_correct_txt.Text = "Correct Answers: " + correctAnswers;
@@ -148,6 +152,7 @@ namespace TriviaClient
                 return;
             }
 
+            timer.Stop();
             MainWindow.mainFrame.Navigate(new MainMenuPage());
         }
     }
