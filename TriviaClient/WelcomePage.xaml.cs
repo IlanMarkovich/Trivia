@@ -39,7 +39,7 @@ namespace TriviaClient
 
         private void quit_btn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.buttonSound.Play();
+            MainWindow.buttonSound.PlaySync();
             MainWindow.client.Disconnect();
             Application.Current.Shutdown();
         }

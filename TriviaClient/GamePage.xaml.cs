@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -31,6 +32,9 @@ namespace TriviaClient
         private Room room;
         private bool isAdmin;
 
+        private SoundPlayer correctSoundPlayer;
+        private SoundPlayer wrongSoundPlayer;
+
         public GamePage(bool isAdmin, Room room)
         {
             InitializeComponent();
@@ -44,6 +48,12 @@ namespace TriviaClient
             questionsCount = room.questionsCount;
             questions_left_txt.Text = "Questions Left: " + questionsCount;
             questions_correct_txt.Text = "Correct Answers: 0";
+
+            correctSoundPlayer = new SoundPlayer("..\\..\\Assets\\CorrectAnswer.wav");
+            correctSoundPlayer.Load();
+
+            wrongSoundPlayer = new SoundPlayer("..\\..\\Assets\\WrongAnswer.wav");
+            wrongSoundPlayer.Load();
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
@@ -105,8 +115,6 @@ namespace TriviaClient
 
         private void ans_btn_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow.buttonSound.Play();
-
             // Gets the answer id by the name of the button
             int answerId = int.Parse((sender as Button).Name.Replace("ans_", "").Replace("_btn", "")) - 1;
 
@@ -127,6 +135,11 @@ namespace TriviaClient
             if (saResponse.correctAnswerId == answerId)
             {
                 correctAnswers++;
+                correctSoundPlayer.Play();
+            }
+            else
+            {
+                wrongSoundPlayer.Play();
             }
 
             // Update variable according to the answer
