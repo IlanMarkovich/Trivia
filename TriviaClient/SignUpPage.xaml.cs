@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using EmailValidation;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace TriviaClient
         {
             MainWindow.buttonSound.Play();
 
-            if (signup_username.Text == String.Empty || signup_password.Password == String.Empty || signup_email.Text == String.Empty)
+            if (signup_username.Text == String.Empty || signup_password.Password == String.Empty || !EmailValidator.Validate(signup_email.Text))
             {
                 signup_invalid_txt.Visibility = Visibility.Visible;
                 return;
