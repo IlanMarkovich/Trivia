@@ -122,6 +122,16 @@ namespace TriviaClient
         private void start_game_btn_Click(object sender, RoutedEventArgs e)
         {
             MainWindow.buttonSound.Play();
+
+            // Make sure that there are more players in this room, other then this one
+            if (room_players_list_view.Items.Count == 1)
+            {
+                ErrorWindow window = new ErrorWindow("Start Game Error", "To start a game you need at least one other player in the room!");
+                window.ShowDialog();
+
+                return;
+            }
+
             MainWindow.client.Send(RequestType.START_GAME);
         }
 

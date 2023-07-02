@@ -14,6 +14,7 @@
 #define PORT 7777
 #define CODE_SIZE 1
 #define LEN_SIZE 4
+#define MUTEX_WAIT_TIME_MS 100
 
 using std::map;
 

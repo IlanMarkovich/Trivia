@@ -192,7 +192,7 @@ void Communicator::sendResponse(SOCKET client, RequestInfo info, bool serverSend
 	// Try to enter the cirtical section
 	while (!_commMutex.try_lock() && !serverSend)
 	{
-		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+		std::this_thread::sleep_for(std::chrono::milliseconds(MUTEX_WAIT_TIME_MS));
 	}
 
 	// CRITICAL SECTION (if not server send) *********
