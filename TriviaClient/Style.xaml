@@ -247,6 +247,26 @@
         <Setter Property="Background" Value="Black"/>
         <Setter Property="Opacity" Value="0.8"/>
 
+        <!-- This is the styling for a single list view item -->
+        <Setter Property="ItemContainerStyle">
+            <Setter.Value>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="MouseOverBackground" Color="Gray" />
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Background" Value="{StaticResource MouseOverBackground}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- This is to make the foreground of the text white and visible -->
         <Style.Resources>
             <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
                 <Setter Property="Foreground" Value="White"/>

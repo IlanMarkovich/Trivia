@@ -34,23 +34,6 @@
         <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TextblockStrokeStyle}"/>
 
         <ListView Name="room_list_view" Grid.Row="2" HorizontalAlignment="Center" SelectionChanged="room_list_view_SelectionChanged">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="Background" Value="Transparent" />
-                    <Setter Property="Foreground" Value="White" />
-                    <Style.Resources>
-                        <SolidColorBrush x:Key="MouseOverBackground" Color="Gray" />
-                    </Style.Resources>
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="Black" />
-                            <Setter Property="Background" Value="{StaticResource MouseOverBackground}" />
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </ListView.ItemContainerStyle>
-
-
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>
