@@ -26,11 +26,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -40,7 +40,7 @@
             <TextBlock Name="questions_correct_txt" Text="Correct Answers: "/>
         </StackPanel>
 
-        <TextBlock Name="question_txt" FontSize="75" Grid.Row="2" HorizontalAlignment="Center"/>
+        <TextBlock Name="question_txt" FontSize="75" Grid.Row="2" HorizontalAlignment="Center" TextWrapping="WrapWithOverflow"/>
 
         <Grid Grid.Row="4" HorizontalAlignment="Center">
             <Grid.RowDefinitions>

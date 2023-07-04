@@ -17,6 +17,8 @@
             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
             <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}"/>
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="ListView" BasedOn="{StaticResource ListViewStyle}"/>
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource ListViewHeaderStyle}"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -24,17 +26,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock Text="Statistics" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TextblockStrokeStyle}"/>
 
         <!-- PERSONAL -->
-        <TextBlock HorizontalAlignment="Center" Name="personal_stat_txt" Grid.Row="1"/>
+        <TextBlock HorizontalAlignment="Center" Name="personal_stat_txt" Grid.Row="2"/>
 
         <!-- HIGH SCORE -->
-        <ListView Name="high_score_players_list_view" ItemsSource="{Binding}" Visibility="Hidden" Grid.Row="1" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListView Name="high_score_players_list_view" Visibility="Hidden" Grid.Row="2" HorizontalAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="High Score Players" DisplayMemberBinding="{Binding username}" Width="1000"/>
@@ -42,7 +45,7 @@
             </ListView.View>
         </ListView>
 
-        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Content="Personal statistics" Name="personal_stat_btn" IsEnabled="False" Margin="0,0,20,0" Click="personal_stat_btn_Click"/>
             <Button Content="High Scores" Name="highscore_stat_btn" Margin="0,0,20,0" Click="highscore_stat_btn_Click"/>
             <Button Name="main_menu_back_btn" Content="Back" Click="main_menu_back_btn_Click"/>

@@ -17,20 +17,23 @@
             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
             <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}"/>
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="ListView" BasedOn="{StaticResource ListViewStyle}"/>
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource ListViewHeaderStyle}"/>
         </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Name="room_name_txt" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock Name="room_name_txt" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource TextblockStrokeStyle}"/>
 
-        <ListView Name="room_players_list_view" ItemsSource="{Binding}" Grid.Row="2"  FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <ListView Name="room_players_list_view" ItemsSource="{Binding}" Grid.Row="2"  FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Players In This Room" DisplayMemberBinding="{Binding username}" Width="1000"/>
@@ -38,12 +41,12 @@
             </ListView.View>
         </ListView>
 
-        <StackPanel Visibility="Hidden" Name="admin_sp" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Visibility="Hidden" Name="admin_sp" Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center">
             <Button Name="start_game_btn" Content="Start" Margin="0,0,20,0" Click="start_game_btn_Click"/>
             <Button Name="close_room_btn" Content="Close" Margin="0,0,20,0" Click="close_room_btn_Click"/>
         </StackPanel>
 
-        <StackPanel Visibility="Hidden" Name="user_sp" Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Visibility="Hidden" Name="user_sp" Orientation="Horizontal" Grid.Row="4" HorizontalAlignment="Center">
             <Button Name="leave_room_btn" Content="Leave" Margin="0,0,20,0" Click="leave_room_btn_Click"/>
         </StackPanel>
     </Grid>
