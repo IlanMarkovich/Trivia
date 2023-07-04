@@ -17,20 +17,40 @@
             <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
             <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}"/>
             <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="ListView" BasedOn="{StaticResource ListViewStyle}"/>
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource ListViewHeaderStyle}"/>
         </ResourceDictionary>
     </Page.Resources>
     
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock Text="Join Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TextblockStrokeStyle}"/>
 
-        <ListView Name="room_list_view" Grid.Row="1" ItemsSource="{Binding}" FontFamily="Berlin Sans FB" FontSize="50" HorizontalAlignment="Center" VerticalAlignment="Center" SelectionChanged="room_list_view_SelectionChanged">
+        <ListView Name="room_list_view" Grid.Row="2" HorizontalAlignment="Center" SelectionChanged="room_list_view_SelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Background" Value="Transparent" />
+                    <Setter Property="Foreground" Value="White" />
+                    <Style.Resources>
+                        <SolidColorBrush x:Key="MouseOverBackground" Color="Gray" />
+                    </Style.Resources>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Black" />
+                            <Setter Property="Background" Value="{StaticResource MouseOverBackground}" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.ItemContainerStyle>
+
+
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding roomName}" Width="500"/>
@@ -41,7 +61,7 @@
             </ListView.View>
         </ListView>
 
-        <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
             <Button Name="refresh_btn" Content="Refresh List" Click="refresh_btn_Click" Margin="0,0,20,0"/>
             <Button Name="main_menu_back_btn" Content="Back" Click="main_menu_back_btn_Click"/>

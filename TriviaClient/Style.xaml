@@ -124,6 +124,19 @@
         <Setter Property="FontFamily" Value="Berlin Sans FB"/>
         <Setter Property="FontSize" Value="70"/>
     </Style>
+
+    <Style TargetType="TextBlock" x:Key="TextblockStrokeStyle" BasedOn="{StaticResource TextblockStyle}">
+        <Setter Property="Foreground" Value="White"/>
+
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect ShadowDepth="0"
+                    Color="Black"
+                    Opacity="1"
+                    BlurRadius="20"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
     <!-- Combobox Background Setter -->
 
@@ -227,5 +240,32 @@
         <Setter Property="FontSize" Value="70"/>
     </Style>
 
+    <Style TargetType="ListView" x:Key="ListViewStyle">
+        <Setter Property="ItemsSource" Value="{Binding}"/>
+        <Setter Property="FontFamily" Value="Berlin Sans FB"/>
+        <Setter Property="FontSize" Value="50"/>
+        <Setter Property="Background" Value="Black"/>
+        <Setter Property="Opacity" Value="0.8"/>
+
+        <Style.Resources>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+                <Setter Property="Foreground" Value="White"/>
+            </Style>
+        </Style.Resources>
+    </Style>
+
+    <Style TargetType="{x:Type GridViewColumnHeader}" x:Key="ListViewHeaderStyle">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                    <Border BorderThickness="0,0,0,1" BorderBrush="White" Background="Transparent">
+                        <TextBlock x:Name="ContentHeader" Text="{TemplateBinding Content}" Padding="5,5,5,0" Width="{TemplateBinding Width}" TextAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
 
 </ResourceDictionary>

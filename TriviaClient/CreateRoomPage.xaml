@@ -36,15 +36,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
-            <TextBlock.Effect>
-                <DropShadowEffect ShadowDepth="0"
-                    Color="Black"
-                    Opacity="1"
-                    BlurRadius="20"/>
-            </TextBlock.Effect>
-    Create Room
-        </TextBlock>
+        <TextBlock FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Text="Create Room" Style="{StaticResource TextblockStrokeStyle}"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
             <TextBlock Text="Room Name: "/>
