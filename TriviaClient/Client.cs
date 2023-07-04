@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace TriviaClient
 {
@@ -84,8 +85,18 @@ namespace TriviaClient
 
             buffer.AddRange(Encoding.ASCII.GetBytes(data));
 
-            client.GetStream().Write(buffer.ToArray(), 0, buffer.Count);
-            client.GetStream().Flush();
+            // Try to send the request to the server
+            try
+            {
+                client.GetStream().Write(buffer.ToArray(), 0, buffer.Count);
+                client.GetStream().Flush();
+            }
+            // If an exception was thrown, it means the communication in the socket is lost
+            catch
+            {
+                MessageBox.Show("The client tried to communicate with the server, but the server didn't respnd", "Communication error with server", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
+            }
         }
 
         public KeyValuePair<ResponseType, string> Recieve()
