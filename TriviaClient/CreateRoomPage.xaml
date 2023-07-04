@@ -23,8 +23,8 @@
     
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="100"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="Auto"/>
@@ -32,11 +32,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="30"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Create Room" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White"/>
+        <TextBlock FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="0"
+                    Color="Black"
+                    Opacity="1"
+                    BlurRadius="20"/>
+            </TextBlock.Effect>
+    Create Room
+        </TextBlock>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center">
             <TextBlock Text="Room Name: "/>
