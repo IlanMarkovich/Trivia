@@ -24,9 +24,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Vertical" Margin="0, -40, 0, 0">
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="0, -40, 0, 0">
             <Button Name="create_room_menu_btn" Content="Create Room" Margin="0,0,0,20" Click="create_room_menu_btn_Click"/>
             <Button Name="join_room_menu_btn" Content="Join Room" Margin="0,0,0,20" Click="join_room_menu_btn_Click"/>
             <Button Name="statistics_btn" Content="Statistics" Margin="0,0,0,20" Click="statistics_btn_Click"/>

@@ -46,8 +46,8 @@
         </ListView>
 
         <StackPanel Orientation="Horizontal" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Content="Personal statistics" Name="personal_stat_btn" IsEnabled="False" Margin="0,0,20,0" Click="personal_stat_btn_Click"/>
-            <Button Content="High Scores" Name="highscore_stat_btn" Margin="0,0,20,0" Click="highscore_stat_btn_Click"/>
+            <Button Content="Personal statistics" Name="personal_stat_btn" IsEnabled="False" Margin="0,0,15,0" Click="personal_stat_btn_Click"/>
+            <Button Content="High Scores" Name="highscore_stat_btn" Margin="0,0,15,0" Click="highscore_stat_btn_Click"/>
             <Button Name="main_menu_back_btn" Content="Back" Click="main_menu_back_btn_Click"/>
         </StackPanel>
     </Grid>

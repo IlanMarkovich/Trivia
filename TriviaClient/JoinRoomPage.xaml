@@ -45,8 +45,8 @@
         </ListView>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,20,0"/>
-            <Button Name="refresh_btn" Content="Refresh List" Click="refresh_btn_Click" Margin="0,0,20,0"/>
+            <Button Name="join_room_btn" Content="Join" IsEnabled="False" Click="join_room_btn_Click" Margin="0,0,15,0"/>
+            <Button Name="refresh_btn" Content="Refresh List" Click="refresh_btn_Click" Margin="0,0,15,0"/>
             <Button Name="main_menu_back_btn" Content="Back" Click="main_menu_back_btn_Click"/>
         </StackPanel>
     </Grid>

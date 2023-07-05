@@ -22,11 +22,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         
-        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="500" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="300" HorizontalAlignment="Center"/>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <StackPanel Grid.Row="2" Orientation="Vertical" HorizontalAlignment="Center">
             <Button Name="login_page_btn" Content="Log In" Click="login_page_btn_Click" Margin="0,0,0,20"/>
             <Button Name="signup_page_btn" Content="Sign Up" Click="signup_page_btn_Click" Margin="0,0,0,20"/>
             <Button Name="quit_btn" Content="Quit" Click="quit_btn_Click" Background="Red"/>
