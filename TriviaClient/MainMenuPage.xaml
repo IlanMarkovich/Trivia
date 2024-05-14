@@ -1,0 +1,36 @@
+﻿<Page x:Class="TriviaClient.MainMenuPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TriviaClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="MainMenuPage">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+        </ResourceDictionary>
+    </Page.Resources>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Name="logo_image" Source="Assets/GEO_trivia_logo.png" Width="1000" Height="300" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Vertical" Margin="0, -40, 0, 0">
+            <Button Name="create_room_menu_btn" Content="Create Room" Margin="0,0,0,20" Click="create_room_menu_btn_Click"/>
+            <Button Name="join_room_menu_btn" Content="Join Room" Margin="0,0,0,20" Click="join_room_menu_btn_Click"/>
+            <Button Name="statistics_btn" Content="Statistics" Margin="0,0,0,20" Click="statistics_btn_Click"/>
+            <Button Name="quit_user_btn" Content="Quit" Background="Red" Click="quit_user_btn_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>

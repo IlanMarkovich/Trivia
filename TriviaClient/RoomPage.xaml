@@ -1,0 +1,52 @@
+﻿<Page x:Class="TriviaClient.RoomPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TriviaClient"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RoomPage">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Style.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+            <Style TargetType="TextBox" BasedOn="{StaticResource TextboxStyle}"/>
+            <Style TargetType="TextBlock" BasedOn="{StaticResource TextblockStyle}"/>
+            <Style TargetType="ListView" BasedOn="{StaticResource ListViewStyle}"/>
+            <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource ListViewHeaderStyle}"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Name="room_name_txt" FontSize="200" FontWeight="Bold" HorizontalAlignment="Center" Style="{StaticResource TextblockStrokeStyle}"/>
+
+        <ListView Name="room_players_list_view" Grid.Row="1" HorizontalAlignment="Center">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Players In This Room" DisplayMemberBinding="{Binding username}" Width="1000"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <StackPanel Visibility="Hidden" Name="admin_sp" Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
+            <Button Name="start_game_btn" Content="Start" Margin="0,0,20,0" Click="start_game_btn_Click"/>
+            <Button Name="close_room_btn" Content="Close" Margin="0,0,20,0" Click="close_room_btn_Click"/>
+        </StackPanel>
+
+        <StackPanel Visibility="Hidden" Name="user_sp" Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center">
+            <Button Name="leave_room_btn" Content="Leave" Margin="0,0,20,0" Click="leave_room_btn_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
